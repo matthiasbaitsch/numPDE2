@@ -1,0 +1,9 @@
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+DotMaps = "98454f44-f182-4945-8d34-ddde53e72162"
+MMJMesh = "010ee2c9-7ff8-468a-b3f6-2ff8c4732c90"
+Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+
+[sources]
+MMJMesh = {rev = "main", url = "https://github.com/matthiasbaitsch/mmjmesh.git"}

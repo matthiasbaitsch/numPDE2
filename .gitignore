@@ -8,6 +8,7 @@ c
 *old
 *Attic
 *_files
+Manifest.toml
 
 # Erzeugt von skripte/notizen-zu-folien.jl
 bausteine/*/folien/folien.qmd

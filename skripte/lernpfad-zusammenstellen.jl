@@ -27,15 +27,17 @@ function BuildingBlock(path::String)
 	)
 end
 
+# Nummer, Teil und Titel, z.B. "09-waermeleitung-instationaere-probleme"
 function slug(bb::BuildingBlock)
-	return lpad(bb.number, 2, '0') * "-" * replace(lowercase(bb.title), " " => "-")
+	s = lowercase(bb.part * " " * bb.title)
+	s = replace(s, "ä" => "ae", "ö" => "oe", "ü" => "ue", "ß" => "ss")
+	return lpad(bb.number, 2, '0') * "-" * strip(replace(s, r"[^a-z0-9]+" => "-"), '-')
 end
 
 function make_dict(bb::BuildingBlock)
 	return Dict(
 		"title" => bb.title,
 		"slug" => slug(bb),
-		"slug-nn" => slug(bb)[4:end],
 	)
 end
 
@@ -175,16 +177,20 @@ end
 
 function make_slides(bb::BuildingBlock, path_input, path_output)
 	zipname = slug(bb) * "-folien.zip"
+	zipname_done = slug(bb) * "-folien-fertig.zip"
 	project_folder = joinpath(path_input, "projekt")
+	project_done_folder = joinpath(path_input, "projekt-fertig")
 	h = """
 	---
-	title: \${title}
-	subtitle: Numerik partieller Differentialgleichungen
+	title: "$(bb.part): \${title}"
 	---
 	"""
 	h *= "\n[]{.down150}\n"
 	if isdir(project_folder)
 		h *= "[⬇ Projekt zu den Folien herunterladen]($(zipname)){target=\"_blank\"}\n\n"
+	end
+	if isdir(project_done_folder)
+		h *= "[⬇ Fertiges Projekt zu den Folien herunterladen]($(zipname_done)){target=\"_blank\"}\n\n"
 	end
 	# PDF erzeugt make render-slides-pdf
 	h *= "[⬇ Folien als PDF]($(slug(bb)).pdf){download=\"$(slug(bb)).pdf\"}\n"
@@ -194,6 +200,11 @@ function make_slides(bb::BuildingBlock, path_input, path_output)
 		project_folder,
 		slug(bb) * "-folien",
 		joinpath(path_output, zipname),
+	)
+	try_zip_folien_projekt(
+		project_done_folder,
+		slug(bb) * "-folien-fertig",
+		joinpath(path_output, zipname_done),
 	)
 end
 

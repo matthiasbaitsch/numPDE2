@@ -11,19 +11,19 @@ book:
   date: today
   chapters:
     - index.qmd
-    - part: "Bohrpfahl (1D)"
+    - part: "Bohrpfahl"
       chapters:
-        - c/01-starke-und-schwache-form.qmd
-        - c/02-variationsprobleme.qmd
-        - c/03-approximation-von-funktionen.qmd
-        - c/04-numerische-lösung.qmd
-        - c/05-elementweise-berechnung.qmd
-    - part: "Wärmeleitung (2D)"
+        - c/01-bohrpfahl-grundlagen.qmd
+        - c/02-bohrpfahl-variationsprobleme.qmd
+        - c/03-bohrpfahl-approximation-von-funktionen.qmd
+        - c/04-bohrpfahl-numerische-loesung.qmd
+        - c/05-bohrpfahl-elementweise-berechnung.qmd
+    - part: "Wärmeleitung"
       chapters:
-        - c/06-wärmeleitung.qmd
-        - c/07-dirichlet-randbedingungen.qmd
-        - c/08-robin-randbedingungen.qmd
-        - c/09-instationäre-wärmeleitung.qmd
+        - c/06-waermeleitung-grundlagen.qmd
+        - c/07-waermeleitung-dirichlet-randbedingungen.qmd
+        - c/08-waermeleitung-robin-randbedingungen.qmd
+        - c/09-waermeleitung-instationaere-probleme.qmd
 
 
 number-sections: false

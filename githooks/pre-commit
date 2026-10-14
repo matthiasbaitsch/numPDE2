@@ -1,0 +1,11 @@
+#!/bin/bash
+# Entfernt Ausgaben und Ausführungszähler aus allen zum Commit vorgemerkten Jupyter-Notebooks
+# und merkt die bereinigten Dateien erneut vor.
+
+set -o pipefail
+
+git diff --cached --name-only -z --diff-filter=ACM -- '*.ipynb' |
+while IFS= read -r -d '' file; do
+	nbstripout "$file" || exit 1
+	git add "$file" || exit 1
+done

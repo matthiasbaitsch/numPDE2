@@ -28,6 +28,23 @@ publish: render render-slides-pdf
 update-extension:
 	quarto update matthiasbaitsch/quarto-tinh --no-prompt
 
+# Project.toml und Workspace-Datei aus bausteine/00-templates in alle Projektordner kopieren.
+# Workspace-Name mit Nummer, weil Bausteintitel sich wiederholen (01-grundlagen, 06-grundlagen).
+copy-templates:
+	for f in bausteine/*/*/projekt*; do \
+		package=`echo $$f | cut -d'/' -f2`; \
+		case "$$f" in \
+			*-musterloesung) package=$$package-musterloesung ;; \
+			*-playground) package=$$package-playground ;; \
+			*-fertig) package=$$package-fertig ;; \
+		esac; \
+		cp bausteine/00-templates/Project.toml $$f; \
+		others=`ls $$f/*.code-workspace 2>/dev/null | grep -v "/$$package.code-workspace$$"`; \
+		if [ -z "$$others" ]; then \
+			cp bausteine/00-templates/projekt.code-workspace $$f/$$package.code-workspace; \
+		fi; \
+	done
+
 clean:
 	rm -rf lernpfad/*/c
 	rm -rf __output
