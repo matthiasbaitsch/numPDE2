@@ -9,4 +9,8 @@ c
 *Attic
 *_files
 
+# Erzeugt von skripte/notizen-zu-folien.jl
+bausteine/*/folien/folien.qmd
+bausteine/*/folien/bilder/notizen-*.png
+
 /.quarto/

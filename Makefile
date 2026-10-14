@@ -2,6 +2,7 @@ PDF_JOBS ?= 4
 DECKTAPE_ARGS ?=
 
 prepare-render:
+	cd skripte && julia -t1 --project notizen-zu-folien.jl || exit 1
 	cd skripte && julia -t1 --project lernpfad-zusammenstellen.jl || exit 1
 
 render-assignments: prepare-render
