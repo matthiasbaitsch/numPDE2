@@ -1,0 +1,12 @@
+crossref:
+  chapters: true
+
+format-links: true
+
+resources: 
+  - "*.zip"
+
+format: 
+  tinh-assignments-html: default
+  tinh-assignments-typst:
+    number-sections: false

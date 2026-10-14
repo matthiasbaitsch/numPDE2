@@ -1,0 +1,54 @@
+\newcommand{\mmat}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\mtran}{^\top}
+
+::: {#exr-elementfunktionen-dreieck}
+## Lineare Elementfunktionen auf dem Dreieck
+
+Wir betrachten das unten dargestellte Element $\Omega_e$ mit den Knoten
+$$
+    \mathbf{x}^e_1 = \mmat{x^e_{11} \\ x^e_{12}}, \quad
+    \mathbf{x}^e_2 = \mmat{x^e_{21} \\ x^e_{22}}, \quad
+    \mathbf{x}^e_3 = \mmat{x^e_{31} \\ x^e_{32}}
+$$
+sowie den dargestellten Verbindungsvektoren $\mathbf{u}, \mathbf{v}, \mathbf{w}$.
+
+![](bilder/dreieck.svg){width="30%" fig-align="center"}
+
+Bearbeiten Sie folgende Punkte:
+
+1. Kreuzprodukt für Vektoren aus dem $\R^2$:
+
+    Für zwei Vektoren $\mathbf{u}, \mathbf{v} \in \R^2$ erklären wir das Kreuzprodukt durch
+    $$
+    \mathbf{u} \times \mathbf{v}
+    = 
+    \mmat{u_1 \\ u_2} \times \mmat{v_1 \\ v_2}
+    =
+    u_1 v_2 - u_2 v_1.
+    $$
+    Anders als im $\R^3$ wird zwei Vektoren hier eine Zahl zugeordnet. Es gelten jedoch genau dieselben Rechenregeln.
+
+    Warum macht diese Definition Sinn?
+
+    Tipp: Interpretieren Sie Vektoren aus dem $\R^2$ als Vektoren aus dem $\R^3$ deren dritte Komponenten gleich null ist.
+
+1. Zeigen Sie, dass folgende Beziehungen gelten:
+    $$
+    A_e = \frac{1}{2}\mathbf{u} \times \mathbf{v} 
+    \quad \text{und} \quad
+    \mathbf{u} \times \mathbf{v}
+    = 
+    \mathbf{v} \times \mathbf{w}
+    = 
+    \mathbf{w} \times \mathbf{u}.
+    $$
+    Dabei ist $A_e$ der Flächeninhalt von $\Omega_e$.
+
+    Tipp: Schauen Sie nochmal im Skript von Mathematik 1 nach.
+
+1. Leiten Sie mithilfe der Bezeichnungen oben die Gleichungen der Elementfunktionen $N^e_1, N^e_2$ sowie $N^e_3$ her und geben Sie die Gradienten an.
+
+    Tipp für die Funktion $N^e_1$: Stellen Sie die Normalenform der Geraden durch $\mathbf{x}^e_2$ und $\mathbf{x}^e_3$ auf. Skalieren Sie die Gleichung so, dass Sie den Wert 1 erhalten, wenn Sie $\mathbf{x}^e_1$ in die Gleichung einsetzen.
+
+:::

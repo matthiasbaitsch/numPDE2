@@ -1,0 +1,20 @@
+lang: de
+
+project:
+  type: book
+  output-dir: ../../__output/lernpfad/folien-alle
+
+book:
+  title: Numerik partieller Differentialgleichungen
+  subtitle: Master Bau- und Umweltingenieurwesen
+  author: Matthias Baitsch
+  date: today
+  chapters:
+    - index.qmd
+
+
+number-sections: false
+
+format:
+  html:
+    theme: cosmo

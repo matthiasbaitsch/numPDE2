@@ -1,0 +1,48 @@
+::: {#exr-bohrpfahl-fe-loesung}
+## Bohrpfahl: FE-Lösung
+
+### Numerische Lösung
+
+Erstellen Sie eine Funktion `pile_fem(p, k)`, die für gegebene Problemparameter `p` und eine Anzahl von Elementen `k` die Näherungslösung $u_h$ berechnet. Verwenden Sie den folgenden Code als Ausgangspunkt:
+
+```{.julia}
+function pile_fem(p, k)
+    phis = hatfunctions(range(p.Ω, k + 1))
+    # Hier die Berechnung
+    uHat = rand(k + 1)
+    return sum(uHat .* phis)
+end
+
+uh = pile_fem(p, 3)
+fplot(uh, u, npoints=100)
+```
+
+Plotten Sie darüber hinaus die Näherung für die Normalkraft $N_h$ sowie den Fehler $e = u - u_h$.
+
+### Konvergenz
+
+1. Fehlerfunktion: Plotten Sie die Fehlerfunktion $e = u - u_h$ für $k = 2, 4, 8, \dots, 2^5$ Elemente.
+
+    Tipp:
+
+    ```{.julia}
+    2 .^ (1:5)
+    ```
+
+1. Normalkraft: Stellen Sie in einem Plot die approximierte Normalkraft $N_h$ für $k = 2, 4, 8, \dots, 2^5$ Elemente zusammen mit der exakten Lösung $N$ dar. Wie erklären Sie sich den Verlauf?
+
+    Tipp: Eine besser lesbare Darstellung erhalten Sie mit
+
+    ```{.julia}
+    fplot!(Nh, connect_jumps=true)
+    ```
+
+1. Fehler in max-Norm: Berechnen und plotten Sie den prozentualen Fehler
+
+    $$
+    100 \cdot \frac{\|u - u_h\|_\mathrm{max}}{\|u\|_\mathrm{max}}
+    $$
+
+    für $k = 2, 4, 8, \dots, 2^5$ Elemente.
+
+:::

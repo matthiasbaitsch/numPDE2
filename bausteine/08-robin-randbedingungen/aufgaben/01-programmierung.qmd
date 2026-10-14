@@ -1,0 +1,6 @@
+::: {#exr-programmierung}
+## Programmierung
+
+Implementieren Sie die Funktionen `robin_ke(h)` und `robin_re(h, ts)` zur Berücksichtigung von Robin-Randbedingungen. Dabei ist `h` der Wärmeübergangskoeffizient $h = 1/R$ (mit dem Wärmeübergangswiderstand $R$) und `ts` die vorgegebene Temperatur $\theta^*$. Kontrollieren Sie Ihre Funktionen mithilfe des auf Moodle bereitgestellten Tests.
+
+:::

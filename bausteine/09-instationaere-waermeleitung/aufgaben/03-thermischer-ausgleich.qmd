@@ -1,0 +1,17 @@
+::: {#exr-thermischer-ausgleich}
+## Thermischer Ausgleich
+
+Simulieren Sie für die unten dargestellte Situation den Temperaturverlauf über eine Stunde. Über den Rand findet keine Wärmeübertragung statt.
+
+![](bilder/te.svg)
+
+Tipp: Die Knotennummern für die beiden Teilgebiete erhalten Sie mit
+
+```{.julia}
+nl = [i for i = nodeindices(m) if coordinate(node(m, i), 1) < 0.1]
+nr = [i for i = nodeindices(m) if coordinate(node(m, i), 1) > 0.1]
+```
+
+Eine bessere Lösung ist in Arbeit.
+
+:::

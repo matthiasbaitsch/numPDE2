@@ -1,0 +1,16 @@
+/*-- scss:defaults --*/
+
+// Logo auf der Titelfolie kommt aus der Brand (logo.medium), siehe logo.lua
+$title-logo-height: 0.75em !default;
+
+/*-- scss:rules --*/
+
+#title-slide .title img.title-logo {
+  display: block;
+  height: $title-logo-height;
+  margin: 0 0 0.5em 0;
+}
+
+#title-slide .quarto-title-author-name {
+  font-size: 0.8em;
+}

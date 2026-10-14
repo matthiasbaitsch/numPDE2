@@ -1,0 +1,44 @@
+/* Stil für tinh-assignments (bisher bcd-style-notes.css in bcd-bausteine-statistik) */
+.neuerbegriff { 
+    color: rgba(177, 52, 52); 
+    font-weight: bolder;
+} 
+
+.ja::before {
+    content: "✓";
+    color: green;
+}
+
+.nein::before {
+    content: "✗";
+    color: red;
+}
+	
+.beispiel {
+  border-left: 5px solid;
+  border-color: darksalmon;
+  padding-left: 8px;
+  margin-bottom: 1rem;
+}
+
+.definition {
+  background-color: WhiteSmoke;
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 2px;
+  padding: 5px;
+  margin-bottom: 1rem;
+}
+
+.definition > :last-child {
+    margin-bottom: 0 !important;
+}
+
+dt {
+  margin-top: 1.5rem;
+}
+
+dd {
+  margin: 0.5rem 0 0 0;
+  padding-left: 1rem;
+}

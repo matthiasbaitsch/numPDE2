@@ -1,0 +1,39 @@
+title: tinh-slides
+author: Matthias Baitsch
+version: 0.7.0
+quarto-required: ">=1.8.0"
+contributes:
+  formats:
+    revealjs:
+      logo: false
+      filters:
+        - logo.lua
+      lang: de
+      overview: true
+      slide-number: c/t
+      transition: fade
+      transition-speed: slow
+      code-line-numbers: false
+      html-math-method:
+        method: mathjax
+        url: "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"
+      theme:
+        - slides.scss
+        - titlepage.scss
+    typst:
+      lang: de
+      shortcodes:
+        - shortcodes.lua
+      filters:
+        - touying.lua
+        - environment.lua
+        - logo.lua
+      template-partials:
+        - typst-template.typ
+        - typst-show.typ
+        - page.typ
+      include-in-header:
+        - tinh-slides.typ
+      theme-typst: clean-theme
+      theme-title-slide: tinh-title-slide
+      aspect-ratio: "16-9"

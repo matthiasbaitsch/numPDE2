@@ -1,0 +1,119 @@
+::: {#exr-programmierung}
+## Programmierung
+
+### Vorbereitung
+
+1. FE-Netz: Was macht dieser Code?
+
+    ```{.julia}
+    m = Mesh(0 .. 20, 25)
+    mplot(m) |> mconf()
+    ```
+
+1. Ein Element des FE-Netzes
+
+    ```{.julia}
+    e22 = element(m, 22)
+    println(e22)
+    println(length(e22))
+    ```
+
+1. Addition einer Untermatrix mit Indexvektor:
+
+    ```{.julia}
+    I = [4, 1]
+    K = reshape(collect(1:16), 4, 4)
+    Ke = [100 200; 300 400]  
+
+    display(K)
+    display(Ke)
+    display(K[I, I])
+
+    K[I, I] += Ke
+
+    display(K)
+    ```
+
+    Passen Sie die Matrix `Ae` so an, dass Sie für `K` das selbe Ergebnis wie oben erhalten (Block mit Code kopieren):
+
+    ```{.julia}
+    K = reshape(collect(1:16), 4, 4)
+    Ke = [100 200; 300 400]  
+    Ae = [0 0 0 0; 0 0 0 0]
+    K += Ae' * Ke * Ae
+
+    display(K)
+    ```
+
+    Wie addieren Sie die Elementsteifigkeitsmatrizen zur globalen Matrix hinzu?
+
+1. Schleife über Elemente des FE-Netzes
+
+    ```{.julia}
+    m = Mesh(0 .. 20, 4)
+    for e = elements(m)
+        println(e)
+        println(nodeindices(e))
+    end
+    ```
+
+1. Parametrisierte Funktion
+
+    ```{.julia}
+    function bsin(b)
+        function f(x)
+            return b * sin(x)
+        end
+        return f
+    end
+
+    f1 = bsin(1)
+    f2 = bsin(5)
+
+    println("f1(π/2) = ", f1(π / 2), ", f2(π/2) = ", f2(π / 2))
+    ```
+
+1. Funktion mit zwei Rückgabewerten
+
+    ```{.julia}
+    function test(x)
+        return x, x^2
+    end
+
+    a, b = test(2)
+    println("a = ", a, ", b = ", b)
+    ```
+
+
+1. Funktion mit Bestandteilen des FE-Netzes assoziieren
+
+    ```{.julia}
+    m = Mesh(0 .. 20, 4)
+    
+    setdata!(group(m, :elements), :test, sqrt)
+    setdata!(node(m, 1), :test, exp)
+
+    f = data(element(m, 3), :test)
+    println(f(4))
+    f = data(node(m, 1), :test)
+    println(f(1))
+    hasdata(node(m, 2), :test)
+    ```
+
+    Wie können Sie diese Idee für die Assemblierung des linearen Gleichungssystems nutzen?
+
+### Umsetzung
+
+Erstellen und testen Sie die Funktion `assemble_kr(m)`, die für ein Netz `m` die globale Steifigkeitsmatrix $\mathbf{K}$ und den globalen Lastvektor $\mathbf{r}$ zurück gibt. 
+
+Feder und Einzellast bleiben im Moment unberücksichtigt.
+
+#### Organisation
+
+Verschieben Sie die Funktionen für den Bohrpfahl in eine Datei `pile.jl` und die Funktion für das LGS in eine Datei `fem.jl`. Stellen Sie sicher, dass ihr Notebook nach wie vor ausgeführt werden kann.
+
+#### Berechnung
+
+Kopieren Sie ihr Notebook für das vorherige Aufgabenblatt und ändern Sie die Funktion `pile_fem` dahingehend, dass die Berechnung von $\hat{\mathbf{u}}$ mithilfe der Funktionen aus diesem Aufgabenblatt erfolgt. An dieser Stelle müssen Sie Federsteifigkeit und Einzellast einbauen.
+
+:::

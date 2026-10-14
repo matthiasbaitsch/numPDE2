@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"ltex.markdown.nodes": {
+			"FencedDiv": "ignore",
+			"AttributesNode": "ignore"
+		},
+		"editor.formatOnSave": true,
+		"chat.disableAIFeatures": true
+	}
+}

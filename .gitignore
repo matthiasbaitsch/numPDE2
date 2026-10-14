@@ -1,0 +1,12 @@
+/__output
+**/.quarto/
+.DS_Store
+
+**/*.quarto_ipynb
+
+c
+*old
+*Attic
+*_files
+
+/.quarto/

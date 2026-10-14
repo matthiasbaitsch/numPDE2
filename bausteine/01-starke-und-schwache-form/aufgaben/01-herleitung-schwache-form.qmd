@@ -1,0 +1,6 @@
+::: {#exr-herleitung-schwache-form}
+## Herleitung der schwachen Form
+
+Schreiben Sie die Herleitung der schwachen Form für den Bohrpfahl so auf, dass Sie für sich selber jeden Schritt nachvollziehen können.
+
+:::

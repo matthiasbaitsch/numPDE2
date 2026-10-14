@@ -1,0 +1,43 @@
+::: {#exr-element-waermeleitfaehigkeitsmatrix}
+## Element-Wärmeleitfähigkeitsmatrix und Quellvektor
+
+1. Zeigen Sie, dass Sie die Elementmatrix
+    $$
+    \mathbf{K}^e = \lambda \cdot A_e \cdot
+    \mmat{
+        \nabla N^e_1 \cdot \nabla N^e_1 & 
+        \nabla N^e_1 \cdot \nabla N^e_2 & 
+        \nabla N^e_1 \cdot \nabla N^e_3 \\[1ex]
+        \nabla N^e_1 \cdot \nabla N^e_2 & 
+        \nabla N^e_2 \cdot \nabla N^e_2 & 
+        \nabla N^e_2 \cdot \nabla N^e_3 \\[1ex]
+        \nabla N^e_1 \cdot \nabla N^e_3 & 
+        \nabla N^e_2 \cdot \nabla N^e_3 & 
+        \nabla N^e_3 \cdot \nabla N^e_3
+    }
+    $$
+    mithilfe der B-Matrix
+    $$
+    \mathbf{B}^e = (\nabla N^e_1 \quad \nabla N^e_2 \quad \nabla N^e_3)
+    $$
+    in der Form 
+    $$
+    \mathbf{K}^e = \lambda \cdot A_e \cdot \mathbf{B}^e{}\mtran \mathbf{B}^e
+    $$
+    berechnen können.
+
+    Tipp: Verwenden Sie die Schreibweise
+    $$
+    \nabla N^e_{i} = \mmat{N^e_{i,1} \\[1ex] N^e_{i,2}}.
+    $$
+    Um Schreibarbeit zu sparen können Sie den hochgestellten Index $e$ weglassen.
+
+1. Implementieren und testen Sie die Funktion `heat_ke` zur Bereitstellung einer Funktion, mit der die Element-Wärmeleitfähigkeitsmatrix berechnet wird (vergleiche `pile_ke`). Den entsprechenden Test finden Sie auf Moodle.
+
+1. Leiten Sie den Quellvektor $\mathbf{r}^e$ her.
+
+    Tipp: Sie können die Formel zur Berechnung des Volumens einer Pyramide verwenden.
+
+1. Implementieren und testen Sie die Funktion `heat_re`.
+
+:::

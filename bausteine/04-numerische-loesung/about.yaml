@@ -1,0 +1,9 @@
+titel: Numerische Lösung
+teil: Bohrpfahl (1D)
+
+inhalt:
+  - Galerkin-Verfahren
+  - Numerische Lösung am Beispiel Bohrpfahl
+  - Konvergenz
+
+dauer: 1

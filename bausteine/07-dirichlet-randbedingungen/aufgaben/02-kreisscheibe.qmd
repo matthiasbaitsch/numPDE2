@@ -1,0 +1,43 @@
+::: {#exr-kreisscheibe}
+## Kreisscheibe
+
+Es soll die Temperaturverteilung einer Kreisscheibe mit homogenem Material und einer vorgegebenen Randtemperatur von 0°C unter konstantem Wärmeeintrag untersucht werden.
+
+1. Erzeugen Sie mit Gmsh ein FE-Netz für ein kreisförmiges Gebiet mit dem Radius $r = 2.2$m. Die Elementgröße soll $h = 0.2$m betragen. Es trägt zur Übersichtlichkeit bei, wenn Sie die Gmsh-Dateien in einen Unterordner `gmsh` legen.
+
+    Zur Kontrolle: Sie sollten rund 500 Knoten und 1000 Elemente erhalten.
+
+1. Berechnen Sie in der Datei `heat_plate.ipynb` die Näherungslösung der Temperaturverteilung für die Kreisplatte mit $r=2.2$, frei gewählten Parametern $\lambda$ und $w$ sowie einer vorgebenen Temperatur $\theta^* = 0$ auf dem Rand. Vergleichen Sie die maximale Temperatur mit der exakten Lösung
+    $$
+    w_{\mathrm{max}} = \frac{w \cdot r^2}{4 \cdot \lambda}.
+    $$
+
+1. Wandeln Sie die Matrix $\mathbf{K}$ so um, dass nur die von null verschiedenen Einträge gespeichert werden. Vergleichen Sie die Zeit, die zum Lösen des LGS benötigt wird für die Ausgangsmatrix und die konvertierte Matrix (den Code müssen Sie zwei mal ausführen).
+
+    ```{.julia}
+    using SparseArrays
+    KSparse = sparse(K)
+    @time That =  K \ r;
+    @time That =  KSparse \ r;
+    ```
+
+    Einen Eindruck von der Matrix können Sie sich mit
+
+    ```{.julia}
+    using CairoMakie: spy, hidedecorations!, hidespines!, Colorbar, DataAspect
+    sp = spy(sparse(K), markersize=6, marker=:circle) 
+    hidedecorations!(sp.axis)
+    hidespines!(sp.axis)
+    Colorbar(sp.figure[1, 2])
+    sp.axis.yreversed = true
+    sp.axis.aspect = DataAspect()
+    sp
+    ```
+
+    verschaffen.
+
+    Wie erklären Sie sich die Struktur der Matrix und den Unterschied in der Rechenzeit?
+
+1. Zusatzaufgabe: Mithilfe der Funktion der Temperaturverteilung (Notizen zur Vorlesung) können Sie die exakte Lösung in den Knotenpunkten berechnen und damit den Diskretisierungsfehler plotten.
+
+:::

@@ -1,0 +1,32 @@
+% LaTeX-Präambel für tinh-notes (bisher _bcd-setup.tex in bcd-bausteine-statistik)
+\usepackage{framed}
+\usepackage{siunitx}
+\usepackage{makeidx}
+\usepackage{pifont}
+
+\makeindex
+
+% Umgebungen
+\newenvironment{beispiel}{
+  \begin{leftbar}
+    \renewenvironment{table}{
+      \hfill
+    }{
+      \hfill
+    }
+    }{
+  \end{leftbar}
+}
+
+% Befehle
+\renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\textit{#1}}
+\newcommand{\neuerbegriff}[1]{\textcolor{BrickRed}{#1}\index{#1}}
+\newcommand{\ja}[1]{\textcolor{green!60!black}{\ding{51}}}
+\newcommand{\nein}[1]{\textcolor{red}{\ding{55}}}
+
+% TODO: Make it work
+% \usepackage{tcolorbox}
+% \usepackage{keytheorems}
+% \tcbset{definition_style/.style={}}
+% \renewkeytheorem{definition}[style=definition,tcolorbox={definition_style}]
+

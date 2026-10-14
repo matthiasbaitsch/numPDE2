@@ -1,0 +1,6 @@
+::: {#exr-praxisbeispiel}
+## Praxisbeispiel
+
+Berechnen Sie die Temperaturverteilung für eine praxisnahe Wärmebrücke.
+
+:::

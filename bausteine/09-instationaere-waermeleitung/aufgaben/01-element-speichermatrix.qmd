@@ -1,0 +1,8 @@
+::: {#exr-element-speichermatrix}
+## Herleitung der Element-Speichermatrix
+
+1. Skizzieren Sie die Graphen der Funktionen $\hat{N}_i, \; i = 1, 2, 3$ über dem Einheitsdreieck $\hat\Omega$
+
+1. Stellen Sie die Element-Speichermatrix $\mathbf{M}^e$ auf
+
+:::

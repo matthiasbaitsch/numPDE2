@@ -1,0 +1,18 @@
+::: {#exr-funktionale}
+## Funktionale, Linear- und Bilinearformen
+
+Wir betrachten verschiedene Funktionale, die jeweils zwei Funktionen $[0, l] \to \mathbb{R}$ mit $l > 0$ eine reelle Zahl zuordnen.
+
+$$
+\begin{aligned}
+  &\text{(a)} \quad & a(u, v) &= \int_0^l u'(x) \cdot v'(x) \,\mathrm{d}x + u(0) \cdot v(0) \\[1ex]
+  &\text{(b)} \quad & a(u, v) &= \int_0^l \big(u(x) + v(x)\big) \,\mathrm{d}x \\[1ex]
+  &\text{(c)} \quad & a(u, v) &= 42 \\[1ex]
+  &\text{(d)} \quad & a(u, v) &= \int_0^l u'(x) \cdot v'(x) \,\mathrm{d}x \\[1ex]
+  &\text{(e)} \quad & a(u, v) &= u(0) \cdot v(l)
+\end{aligned}
+$$
+
+Überprüfen Sie, ob es sich um eine Bilinearform oder sogar ein Skalarprodukt handelt. Wenn nicht, dann soll gezeigt werden, welche Eigenschaft fehlt.
+
+:::

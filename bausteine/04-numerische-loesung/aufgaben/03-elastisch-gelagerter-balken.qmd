@@ -1,0 +1,12 @@
+::: {#exr-elastisch-gelagerter-balken}
+## Elastisch gelagerter Balken
+
+Ermitteln Sie für den elastisch gelagerten Balken aus Aufgabe 1.3 mit
+
+$$
+  l = \SI{8}{\metre}, \quad q = \SI{50}{\kilo\newton\per\metre} \quad \text{und} \quad k = \SI{100}{\kilo\newton\per\centi\metre}
+$$ 
+
+eine FE-Lösung. Verwenden Sie ein IPE 300 Profil.
+
+:::

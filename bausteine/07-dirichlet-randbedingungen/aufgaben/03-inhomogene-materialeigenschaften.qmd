@@ -1,0 +1,10 @@
+::: {#exr-inhomogene-materialeigenschaften}
+## Inhomogene Materialeigenschaften
+
+Berechnen Sie die Temperaturverteilung für das unten dargestellte Wärmeleitungsproblem mit inhomogenen Materialeigenschaften.
+
+![](bilder/multi-lambda.svg)
+
+Für die Generierung des Netzes schauen Sie sich bitte [dieses Beispiel](https://matthiasbaitsch.github.io/mmjmesh/guide/mesh.html#collections-of-entities-groups) an.
+
+:::

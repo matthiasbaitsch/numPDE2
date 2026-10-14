@@ -1,0 +1,22 @@
+::: {#exr-assemblierung}
+## Assemblierung des linearen Gleichungssystems
+
+### Basisfunktionen und Elementfunktionen
+
+Elemente und Knoten müssen nicht zwangsläufig fortlaufend nummeriert sein. Stellen Sie für das (originell nummerierte) Netz
+
+![](bilder/mesh.svg)
+
+die Assemblierungsmatrizen $\mathbf{A}^e, \; e = 1, \dots, 4$ auf. Skizzieren Sie hierfür die Basisfunktionen $\varphi_i, \; i = 1, \dots, 5$ und die Elementfunktionen $N^e_k, \; k = 1, 2$.
+
+Können Sie das Schema erkennen, nach dem die Einsen in den Matrizen platziert werden? Schreiben sie hierzu für jedes Element in einem Spaltenvektor die Knotennummern neben die Matrix.
+
+### Steifigkeitsmatrix und Lastvektor für ein Element
+
+Bestimmen Sie für den Bohrpfahl die Elementsteifigkeitsmatrix $\mathbf{K}^e$ und den Elementlastvektor $\mathbf{r}^e$ für ein Element der Länge $h$.
+
+### Feder und Einzellast
+
+Nach welchem Schema können eine Feder und eine Einzellast im linearen Gleichungssystem berücksichtigt werden?
+
+:::

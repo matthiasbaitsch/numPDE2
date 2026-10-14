@@ -1,0 +1,128 @@
+::: {#exr-erste-schritte-julia}
+## Erste Schritte in der FEM mit Julia
+
+Wir verwenden das [`MMJMesh`-Paket](https://github.com/matthiasbaitsch/mmjmesh). Es stellt Möglichkeiten zur Verfügung um
+
+- Finite-Element-Netze zu erzeugen und darzustellen
+- Funktionen als Elemente eines linearen Raums zu behandeln
+
+In einem ersten Schritt soll eine vorgegebene Funktion mithilfe abschnittsweise linearer Basisfunktionen approximiert werden.
+
+Gehen Sie in den folgenden Schritten vor.
+
+1. Installation: Erzeugen Sie ein Jupyter Notebook für dieses Aufgabenblatt und laden Sie in dem ersten Codeblock die benötigten Pakete.
+
+    ```{.julia}
+    using CairoMakie
+    using MMJMesh.Plots
+    using MMJMesh.Mathematics
+    ```
+
+    Stellen Sie sicher, dass Sie eine Datei `Project.toml` in ihrem Ordner liegen haben (ggf. nachfragen).
+
+    Nehmen Sie sich fünf Minuten Zeit um sich in der [Dokumentation](https://matthiasbaitsch.github.io/mmjmesh/guide/) ein wenig umzusehen. Beachten Sie, dass die Dokumentation noch in den Kinderschuhen steckt.
+
+1. Funktion: Erzeugen Sie die Funktionen 
+
+    $$
+        f, g, h: [0, 4\pi] \to \mathbb{R} \quad \text{mit} \quad f(x) = \cos x, \; g(x) = 1 - \frac{1}{4\pi}x \; \text{und} \; h = f \cdot g
+    $$
+
+    und plotten Sie die Graphen in einem Koordinatensystem mit `fplot`. Plotten Sie in einem zweiten Koordinatensystem die Ableitungen der Funktionen.
+
+1. Funktionswerte: Ändern Sie den Code
+
+    ```{.julia}
+        x = [1, 3, 7]
+        y = 0 * x
+        p = fplot(h)
+        scatter!(x, y, color=:tomato)
+        p 
+    ```
+
+    so ab, dass die Tomaten auf dem Graphen von $h$ liegen. 
+    
+    Tipp: Mit `sin.([0, pi/2])` berechnen Sie den Sinus für die Stellen $0$ und $\pi/2$.
+
+1. Basisfunktionen: Erstellen Sie mithilfe von
+
+    ```{.julia}
+    nodes = range(0, 4π, 5)
+    phis = hatfunctions(nodes)
+
+    fplot(phis)
+    ```
+
+    die Basisfunktionen zu den Knoten $0, \pi, \dots, 4\pi$. Plotten Sie alle die Funktionen $\varphi_1$ und $\varphi_4$ in einem eigenen Koordinatensystem.
+
+1. Linearkombination: Bilden Sie mit dem Vektor $\hat{\mathbf{u}} = (0, 0.5, 0.1, 0.5, 0)$ die Linearkombination 
+
+    $$
+        u(x) = \sum_{i=1}^5 \hat{u}_i \cdot \varphi_i(x)
+    $$ 
+    
+    und plotten Sie das Ergebnis. 
+    
+    Tipp: Probieren Sie den Code 
+
+    ```{.julia}
+    a = [1, 2, 3]
+    b = [6, 4, 2]
+    a .* b
+    sum(a .* b)
+    ```  
+
+    aus und überlegen Sie, was das helfen könnte. Definieren Sie eine Julia Funktion `lc(uhat, phis)` um die Linearkombination einfach zu bestimmen.
+
+1. Approximation: Erzeugen Sie in Julia die Approximation
+
+    $$
+        h_a(x) = \sum_{i=1}^n h(x_i) \cdot \varphi_i(x)
+    $$
+
+    wobei $x_i$ die Stelle des $i$-ten Knotens ist. Plotten Sie $h$ und $h_a$ ein einem Koordinatensystem. Plotten Sie darüber hinaus die Fehlerfunktion $e = h - h_a$.
+
+1. Norm: Erstellen Sie eine Julia-Funktion `norm2(u)`, die
+
+    $$
+        \|u\|_2 = \int_0^{4\pi} \!\!\! u^2(x) \, \mathrm{d}x
+    $$
+
+    berechnet. Ermitteln Sie die damit Norm $\|e\|_2$ des Fehlers $e$.
+
+1. Konvergenz: Es soll untersucht werden, wie sich der Fehler verhält, wenn Sie die Anzahl der Basisfunktionen erhöhen. Erstellen Sie dafür eine Funktion `error(Ne)`, die den Approximationsfehler für `Ne` Elemente berechnet. Berechnen Sie den Fehler für $N_e = 4, 8, \dots, 2^{10}$. Plotten Sie den Fehler über
+
+    - die Anzahl der Elemente $N_e$ sowie
+    - die Elementgröße $h = 4\pi / N_e$.
+
+    Stellen Sie beide Ergebnisse zusätzlich noch in einer [doppelt-logarithmischen Skala](https://docs.makie.org/stable/reference/blocks/axis#xscale) dar.
+
+    Tipps: 
+
+    - Die `Makie` Funktion `scatterlines(xs, ys)` plottet den Verlauf mit Punkten und Linien.
+    - Hier die Monome 
+    
+      $$
+        m_k : [10^{-5}, 1] \to \mathbb{R}, \quad m_k(x) = x^k, \quad k = 1, \dots, 4
+      $$ 
+    
+      einmal mit 'normaler' Skalierung
+
+      ```{.julia}
+      mks = monomials(1:4, 1e-5 .. 1)
+      fplot(mks...)
+      ```
+
+      und in einer doppelt-logarithmischer Skala
+
+      ```{.julia}
+      f = Figure()
+      Axis(f[1, 1], xscale=log10, yscale=log10)
+      fplot!(mks...)
+      f
+      ```
+
+      Die Punkte hinter `mks` besprechen wir später mal.
+    
+
+:::

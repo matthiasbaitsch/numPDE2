@@ -1,0 +1,139 @@
+\newcommand{\SI}[2]{#1\,#2}
+\newcommand{\si}[1]{#1}
+\newcommand{\num}[1]{#1}
+\newcommand{\newton}{\mathrm{N}}
+\newcommand{\metre}{\mathrm{m}}
+\newcommand{\milli}{\mathrm{m}}
+\newcommand{\per}{/}
+\newcommand{\squared}{^2}
+\newcommand{\kilo}{\mathrm{k}}
+\newcommand{\gram}{\mathrm{g}}
+\newcommand{\second}{\mathrm{s}}
+\newcommand{\tothe}[1]{^#1}
+
+::: {#exr-bohrpfahl-exakte-loesung}
+## Bohrpfahl: exakte Lösung
+
+### Systemparameter
+
+Wir lösen das Bohrpfahlproblem mit der Finite-Elemente-Methode für die folgenden Systemparameter:
+
+$$
+    \begin{split}
+      E & = \SI{35 \cdot 10^9}{\newton\per\metre\squared}
+      &
+      d & = \SI{0.8}{\metre}
+      &
+      l & = \SI{20}{\metre}
+      \\[0.5em]
+      F & = \SI{2 \cdot 10^6}{\newton}
+      &
+      \rho & = \SI{2500}{\kilo\gram\per\metre\tothe{3}}\qquad
+      &
+      g & = \SI{9.81}{\metre\per\second\squared}
+      \\[0.5em]
+      C & = 1.75 \cdot 10^7 \, \pi \, d \, \si{\newton\per\metre\squared}\qquad
+      &
+      S & = \SI{120 \cdot 10^6}{\newton\per\metre}
+    \end{split}
+$$
+
+### Notebook einrichten
+
+Legen Sie ein Jupyter-Notebook für dieses Paket an und laden sie die folgenden Bibliotheken.
+
+```{.julia}
+using DotMaps
+using CairoMakie
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
+### Problemparameter
+
+Für die Programmierung bietet es sich an, die Systemparameter in einem Struct zu speichern. Das geht so:
+
+```{.julia}
+p = DotMap()
+
+# Basiswerte
+p.E = 35e9
+p.F = 2e6
+...
+
+# Abgeleitete Werte
+p.EA = 
+...
+p.Ω = 0 .. p.l
+```
+
+Unter einem Struct kann man sich eine Mehrfachvariable vorstellen, die unter einem übergeordnetem Namen mehrere Werte speichert. Auf die Werte in dem Struct kann dann mit dem Punkt zugegriffen werden, so ist zum Beispiel `p.E` der E-Modul.
+
+### Exakte Lösung
+
+Für den Bohrpfahl lässt sich die Lösungsfunktion analytisch bestimmen, zum Beispiel mithilfe des Computeralgebrasystems Mathematica. Für die Parameter oben lautet die Verschiebungsfunktion 
+
+$$
+\begin{multlined}
+  u(x) 
+  = 
+  \frac
+  {\exp(-x/20)}
+  {3500000 \cdot \pi \cdot  \left(a_1 \cdot e^2 - a_2\right)}
+  \cdot
+  \bigg(
+    25000 \cdot \big(a_1 \cdot e^2 + a_2 \cdot \exp(x / 10)\big)
+    \\[1em]
+    - 2943 \cdot \pi \cdot e \cdot \big(\exp(x / 10) + 1\big)
+    \\[1em]
+    + 981 \cdot \pi \cdot \exp(x / 20) \cdot \big(a_1 \cdot e^2 - a_2\big)
+  \bigg).
+\end{multlined}
+$$
+
+wobei $a_1 = 3 + 7 \pi$ und $a_2 = 7\pi - 3$ gelten soll. Die Eulersche Zahl $e$ geben Sie mit `\euler Tab` ein.
+
+Geben Sie die exakte Lösung in ihr Notebook ein. Sie können den folgenden Code als Ausgangspunkt verwenden:
+
+```{.julia}
+a1 = 99
+a2 = 99
+x = parameter(p.Ω)
+
+u = exp(x / 20) + exp(-x / 10)
+
+fplot(u, npoints=100)
+```
+
+Plotten Sie zusätzlich die Normalkraft $N = EA \cdot u'$.
+
+### Kontrolle starke Form
+
+Kontrollieren Sie, ob die Funktion $u$ wirklich das Randwertproblem löst. Plotten Sie hierzu das Residuum $EA u'' - C u + n$ und überprüfen Sie, ob die Randbedingungen erfüllt sind.
+
+### Schwache Form und Kontrolle
+
+Geben Sie die Bilinear- und Linearform der schwachen Formulierung des Problems ein. Hier eine Idee, wie das funktioniert:
+
+```{.julia}
+a(u, δu) = integrate(u' * δu', p.Ω)
+```
+
+Überprüfen Sie für die Funktionen
+
+```{.julia}
+x = parameter(p.Ω)
+δu1 = sin(x)
+δu2 = x
+δu3 = Polynomial([0, 0, 1])
+```
+
+ob die Gleichung der Schwachen Form erfüllt ist. Es bietet sich an, hierzu die prozentuale Abweichung
+
+$$
+  100 \cdot \frac{|a(u, \delta u) - b(\delta u)|}{|a(u, \delta u)|}
+$$
+
+zu betrachten.
+
+:::

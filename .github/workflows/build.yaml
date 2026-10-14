@@ -1,0 +1,58 @@
+name: Render and publish
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+
+  render:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@v3
+
+      - name: "Install Julia packages"
+        run: julia --project -e 'using Pkg; Pkg.instantiate()'
+        working-directory: skripte
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install decktape
+        run: npm install -g decktape
+
+      - name: Render and export PDF
+        run: make publish PDF_JOBS=2 DECKTAPE_ARGS=--chrome-arg=--no-sandbox
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: '__output'
+
+  deploy:
+    needs: render
+    environment:
+      name: github-pages
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup Pages
+      uses: actions/configure-pages@v6
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v5

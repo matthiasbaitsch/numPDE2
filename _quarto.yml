@@ -1,0 +1,22 @@
+lang: de
+
+crossref:
+    exr-title: "Aufgabe"
+    exr-prefix: "Aufgabe"
+
+project:
+  output-dir: __output
+  render:
+    - "**/*.qmd"
+    - "**/*.md"
+    - "!lernpfad/folien-alle/"
+
+toc-depth: 1
+number-depth: 1
+number-sections: true
+format-links: false
+
+# Aussehen und gemeinsame Optionen kommen aus der Extension tinh (_extensions/), Logo aus _brand.yml
+format:
+  tinh-slides-revealjs: default
+  tinh-notes-html: default

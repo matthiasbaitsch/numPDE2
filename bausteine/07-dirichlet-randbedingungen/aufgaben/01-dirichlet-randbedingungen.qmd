@@ -1,0 +1,6 @@
+::: {#exr-dirichlet-randbedingungen}
+## Dirichlet-Randbedingungen
+
+Implementieren Sie die Funktion `apply_dirichlet_bcs!(K, r, dofs)` mit der das lineare Gleichungssystem so modifiziert wird, dass die Lösungen für die Freiheitsgrade in `dofs` gleich null sind. Verwenden Sie das Notebook `dirichlet-test.ipynb` auf Moodle zum Testen.
+
+:::

@@ -1,0 +1,9 @@
+titel: Wärmeleitung
+teil: Wärmeleitung (2D)
+
+inhalt:
+  - Mathematische Grundlagen in 2D
+  - Randwertproblem und schwache Form der Wärmeleitung
+  - Finite-Elemente-Formulierung
+
+dauer: 1
