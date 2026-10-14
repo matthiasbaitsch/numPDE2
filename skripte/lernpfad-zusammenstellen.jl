@@ -189,9 +189,7 @@ function make_slides(bb::BuildingBlock, path_input, path_output)
 	if isdir(project_folder)
 		h *= "[⬇ Projekt zu den Folien herunterladen]($(zipname)){target=\"_blank\"}\n\n"
 	end
-	if isdir(project_done_folder)
-		h *= "[⬇ Fertiges Projekt zu den Folien herunterladen]($(zipname_done)){target=\"_blank\"}\n\n"
-	end
+	# Zip von projekt-fertig wird erzeugt, aber nicht auf den Folien verlinkt (Link z.B. in Moodle)
 	# PDF erzeugt make render-slides-pdf
 	h *= "[⬇ Folien als PDF]($(slug(bb)).pdf){download=\"$(slug(bb)).pdf\"}\n"
 	copy_qmd(h, bb, path_input, joinpath(path_output, slug(bb) * ".qmd"))
