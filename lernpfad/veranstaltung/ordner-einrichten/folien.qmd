@@ -1,39 +1,37 @@
 ---
-title: Numerik partieller Differentialgleichungen
-subtitle: Ordner für die Vorlesung einrichten
+title: Ordner für die Vorlesung einrichten
+subtitle: Numerik partieller Differentialgleichungen
 ---
 
-## Ordnerstruktur
+## Sinnvolle Ordnerstruktur für die Vorlesung
 
 Die Zip-Datei enthält eine Ordnerstruktur für das Modul:
 
 ```
 numerik-partieller-dgln/
-├── folien/                  Folien als PDF, eigene Notizen
-├── aufgaben/                Aufgabenblätter
-├── projekt-folien/          Notebooks zu den Vorlesungen
-└── projekt-aufgaben/        Notebooks zu den Übungen
+├── folien/                          Folien als PDF, eigene Notizen
+├── aufgaben/                        Aufgabenblätter
+├── projekt-folien/                  Notebooks zu den Vorlesungen
+├── projekt-aufgaben/                Notebooks zu den Übungen
+├── julia-und-jupyter-notebooks/     Aus der Einführung, hierher verschieben
+└── ...                              Eigene Ordner
 ```
 
-[⬇ Ordnerstruktur herunterladen](numerik-partieller-dgln.zip){download="numerik-partieller-dgln.zip"}
+::: {.panel-tabset}
+## Organisation
 
-[]{.down40}
-
-Entpacken Sie sie an einem festen Ort (nicht im Download-Ordner) und passen Sie sie nach Belieben an, z.B. mit weiteren Ordnern für Literatur oder die Hausarbeit.
-
-## Die Idee
-
-- Unterlagen (`folien`, `aufgaben`) und Programme (`projekt-…`) liegen getrennt
-- Jeder Ordner `projekt-…` ist ein eigenes Julia-Projekt: `Project.toml` legt die Pakete fest, `instantiate.jl` installiert sie, der Workspace öffnet das Projekt in VS Code
-- `projekt-folien`: Notebooks aus der Vorlesung, dort gemeinsam ausgefüllt
-- `projekt-aufgaben`: Notebooks zu den Übungen. Im Unterordner `src` entsteht über das Semester Ihr eigenes Finite-Elemente-Programm
+- Ordner `folien` und `aufgaben` für PDF-Dokumente
+- Projektordner für Jupyter-Notebooks
+- Ordner für Notebooks aus Julia-Einführung
+- Weitere Ordner nach Ihrem Bedarf
 
 ## Einrichten
 
-1. In VS Code mit *File → Open Workspace from File…* den Workspace in `projekt-folien` öffnen
-1. `instantiate.jl` öffnen und ausführen (▷ oben rechts). Beim ersten Mal dauert das bis zu zehn Minuten
-1. Dasselbe für `projekt-aufgaben`
+1. [Ordnerstruktur herunterladen ⬇](numerik-partieller-dgln.zip){download="numerik-partieller-dgln.zip"}
+1. In Ordner für Masterstudium entpacken
+1. Workspace in `projekt-folien` mit Doppelklick öffnen
+1. Datei `instantiate.jl` öffnen und ausführen (▷ oben rechts)
+   
+   → Beim ersten Mal dauert das bis zu zehn Minuten
+:::
 
-[]{.down40}
-
-`instantiate.jl` holt auch die aktuelle Version von MMJMesh, bei Bedarf einfach erneut ausführen.
