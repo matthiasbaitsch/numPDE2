@@ -3,6 +3,8 @@
 - [ ]  Skript zur Veranstaltung schreiben und die Folien daraus ableiten. Bis dahin sind die Folien die
   handschriftlichen Notizen (`bausteine/*/folien/notizen/`, umgewandelt von `skripte/notizen-zu-folien.jl`).
 
+- [ ]  Aufgabenblätter ohne Inhaltsverzeichnis.
+
 - [ ]  Musterlösungen zu den Aufgaben auf Papier (Herleitungen, Skizzen, Handrechnungen) erstellen. Material:
   Musterlösungen zu den LaTeX-Übungsblättern in `../../numPDE/04-uebungsaufgaben/uebungsblatt-*/01-musterloesung`.
 
