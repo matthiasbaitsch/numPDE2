@@ -2,6 +2,8 @@
 
 - [ ]  Aufgabenblätter ohne Inhaltsverzeichnis.
 - [ ]  Simplify issue in MMJMesh - broken test
+- [ ]  DotMaps ist aus der Projektvorlage entfernt: Aufgabentext 4.1 (`04-numerische-loesung/aufgaben/01-exakte-loesung.qmd`)
+  und die Musterlösungen in 04 und 05 von `p = DotMap()` auf NamedTuples umstellen (wie in 07).
 - [ ]  Pre-Commit-Hook für Kopien in `aufgaben/projekt-musterloesung/src/` (z.B. `fem.jl`). Zunächst
   `githooks/pre-commit` und `skripte/duplikate.jl` aus dem Informatik-Projekt unverändert übernehmen (erkennt
   einseitig geänderte, bisher identische Kopien). Dann erweitern: Ändert sich eine Datei in einem früheren Baustein,
