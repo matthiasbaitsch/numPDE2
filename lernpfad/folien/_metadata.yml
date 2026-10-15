@@ -2,4 +2,4 @@ author:
   - Matthias Baitsch
 
 resources:
-  - "*.zip"
+  - "**/*.ipynb"
