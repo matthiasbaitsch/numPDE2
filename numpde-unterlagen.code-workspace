@@ -10,6 +10,6 @@
 			"AttributesNode": "ignore"
 		},
 		"editor.formatOnSave": true,
-		"chat.disableAIFeatures": true
+		"chat.disableAIFeatures": false
 	}
 }
