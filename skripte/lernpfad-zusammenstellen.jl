@@ -127,12 +127,16 @@ function copy_images_folder(from_folder::String, to_folder::String)
 end
 
 # Jedes Projekt enthält genau ein Notebook mit generischem Namen (folien.ipynb, aufgaben.ipynb),
-# das hier unter dem Slug-Namen kopiert wird
-function try_copy_notebook(folder, name, to_file)
+# das hier unter dem Slug-Namen gezippt wird: x.zip enthält x.ipynb. Zip, weil GitHub Pages
+# .ipynb als Text ausliefert und der Browser sie bei Links von anderen Seiten (Moodle) anzeigt
+function try_zip_notebook(folder, name, zipfile)
 	from_file = joinpath(folder, name)
 	!isfile(from_file) && return false
-	mkpath(dirname(to_file))
-	cp(from_file, to_file)
+	mkpath(dirname(zipfile))
+	ZipWriter(zipfile) do w
+		zip_newfile(w, replace(basename(zipfile), r"\.zip$" => ".ipynb"); compress = true)
+		write(w, read(from_file))
+	end
 	return true
 end
 
@@ -161,13 +165,13 @@ end
 # -------------------------------------------------------------------------------------------------
 
 function make_slides(bb::BuildingBlock, path_input, path_output)
-	notebook = slug(bb) * "-folien.ipynb"
-	has_notebook = try_copy_notebook(
+	notebook = slug(bb) * "-folien.zip"
+	has_notebook = try_zip_notebook(
 		joinpath(path_input, "projekt"), "folien.ipynb", joinpath(path_output, notebook))
-	# Notebook aus projekt-fertig wird kopiert, aber nicht auf den Folien verlinkt (Link z.B. in Moodle)
-	try_copy_notebook(
+	# Notebook aus projekt-fertig wird gezippt, aber nicht auf den Folien verlinkt (Link z.B. in Moodle)
+	try_zip_notebook(
 		joinpath(path_input, "projekt-fertig"), "folien.ipynb",
-		joinpath(path_output, slug(bb) * "-folien-fertig.ipynb"))
+		joinpath(path_output, slug(bb) * "-folien-fertig.zip"))
 	h = """
 	---
 	title: "$(bb.part): \${title}"
@@ -247,13 +251,13 @@ function make_assignments(bb::BuildingBlock, path_input, path_output)
 	copy_qmd(header, bb, path_input, joinpath(path_output, slug(bb) * "-aufgaben.qmd"))
 	copy_images_folder(path_input, path_output)
 
-	# Notebooks, Link auf das Gerüst in den Aufgaben über ${slug}-aufgaben.ipynb
-	try_copy_notebook(
+	# Notebooks, Link auf das Gerüst in den Aufgaben über ${slug}-aufgaben.zip
+	try_zip_notebook(
 		joinpath(path_input, "projekt"), "aufgaben.ipynb",
-		joinpath(path_output, slug(bb) * "-aufgaben.ipynb"))
-	try_copy_notebook(
+		joinpath(path_output, slug(bb) * "-aufgaben.zip"))
+	try_zip_notebook(
 		joinpath(path_input, "projekt-musterloesung"), "aufgaben.ipynb",
-		joinpath(path_output, "musterloesungen", musterloesung_folder(bb), slug(bb) * "-musterloesung.ipynb"))
+		joinpath(path_output, "musterloesungen", musterloesung_folder(bb), slug(bb) * "-musterloesung.zip"))
 end
 
 

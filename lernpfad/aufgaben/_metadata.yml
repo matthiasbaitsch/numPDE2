@@ -4,7 +4,7 @@ crossref:
 format-links: true
 
 resources: 
-  - "**/*.ipynb"
+  - "**/*.zip"
 
 format: 
   tinh-assignments-html: default

@@ -23,7 +23,7 @@ Bearbeiten Sie hierzu folgende Aufgaben:
     {24 \cdot EI \cdot k} 
     $$
 
-    und die Zahlenwerte $l = 3.7$, $EI = 2.2$, $k = 3.9$ und $q = 1.1$ aus. Laden Sie dazu das [Notebook](${slug}-aufgaben.ipynb){download="${slug}-aufgaben.ipynb"} herunter, speichern Sie es in Ihrem Projektordner für die Übungen und öffnen Sie es.
+    und die Zahlenwerte $l = 3.7$, $EI = 2.2$, $k = 3.9$ und $q = 1.1$ aus. Laden Sie dazu das [Notebook](${slug}-aufgaben.zip){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in Ihren Projektordner für die Übungen und öffnen Sie es.
     1. Definieren Sie $w$ und eine Testfunktion $\delta w$, zum Beispiel $\delta w(x) = \sin x + x$, und stellen Sie beide Funktionen grafisch dar.
     1. Definieren Sie die Bilinearform $a(w, \delta w)$ und die Linearform $b(\delta w)$ der schwachen Formulierung als Julia-Funktionen. Prüfen Sie, ob $a(w, \delta w) = b(\delta w)$ gilt – auch für andere Testfunktionen wie $\delta w(x) = \sin x + x$. Was können Sie aus dem Ergebnis schließen?
     1. Prüfen Sie, dass $w$ die Differentialgleichung und die Randbedingungen des Randwertproblems erfüllt.
