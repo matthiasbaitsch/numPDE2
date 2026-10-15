@@ -9,7 +9,7 @@ Bearbeiten Sie hierzu folgende Aufgaben:
 
 1. Formulieren Sie das zugehörige Randwertproblem. In den Gleichungen soll als Unbekannte nur die Verschiebungsfunktion $w$ auftauchen.
 1. Überführen Sie das Randwertproblem in die schwache Formulierung. Sie müssen hierzu zweimal partiell integrieren.
-1. Werten Sie die Integralgleichung der schwachen Form für
+1. Werten Sie die schwache Formulierung in Julia für
 
     $$
     w(x) =
@@ -21,10 +21,23 @@ Bearbeiten Sie hierzu folgende Aufgaben:
       k \cdot q \cdot x^4
     }
     {24 \cdot EI \cdot k}
-    \quad \text{und} \quad
-    \delta w(x) = 1 + x
     $$
 
-    aus. Was können Sie aus dem Ergebnis schließen?
+    und die Zahlenwerte $l = 3.7$, $EI = 2.2$, $k = 3.9$ und $q = 1.1$ aus. Laden Sie dazu die [Zip-Datei](${slug}.zip) herunter, entpacken Sie sie und öffnen Sie das Notebook `01-grundlagen.ipynb`.
+    1. Definieren Sie $w$ und eine Testfunktion $\delta w$, zum Beispiel $\delta w(x) = 1 + x$, und stellen Sie beide Funktionen grafisch dar.
+    1. Definieren Sie die Bilinearform $a(w, \delta w)$ und die Linearform $b(\delta w)$ der schwachen Formulierung als Julia-Funktionen. Prüfen Sie, ob $a(w, \delta w) = b(\delta w)$ gilt – auch für andere Testfunktionen wie $\delta w(x) = \sin x + x$. Was können Sie aus dem Ergebnis schließen?
+    1. Prüfen Sie, dass $w$ die Differentialgleichung und die Randbedingungen des Randwertproblems erfüllt.
+
+    Hilfreich sind die folgenden Befehle:
+
+    ```{.julia}
+    x = parameter(0 .. l)       # Variable x auf dem Intervall [0, l]
+    w = 1 + x^2                 # Funktion von x
+    w(0.5)                      # Funktionswert
+    w', w'', w'''               # Ableitungen
+    integrate(w, 0 .. l)        # Integral
+    fplot(w, δw)                # Grafische Darstellung
+    a(w, δw) ≈ b(δw)            # Vergleich mit Rundungstoleranz
+    ```
 
 :::
