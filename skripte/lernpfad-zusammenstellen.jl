@@ -139,13 +139,17 @@ end
 # Ordner für die Musterlösung: Nicht zu erraten, aber stabil (hängt nur vom Slug ab)
 musterloesung_folder(bb::BuildingBlock) = bytes2hex(sha1("87362-" * slug(bb)))[1:8]
 
-function zip_folder(folder, folder_in_zipfile, zipfile)
+# Ordner rekursiv zippen, leere Ordner (im Repo mit .gitkeep) bleiben als leere Ordner erhalten
+function zip_folder(folder, zipfile)
+	ignore(f) = f ∈ (".DS_Store", ".gitkeep", "Manifest.toml")
 	ZipWriter(zipfile) do w
-		for f in readdir(folder)
-			full = joinpath(folder, f)
-			if isfile(full) && f != ".DS_Store"
-				zip_newfile(w, joinpath(folder_in_zipfile, f); compress = true)
-				write(w, read(full))
+		for (root, dirs, files) in walkdir(folder)
+			path_in_zip = relpath(root, dirname(folder))
+			files = filter(!ignore, files)
+			isempty(files) && isempty(dirs) && zip_mkdir(w, path_in_zip * "/")
+			for f in files
+				zip_newfile(w, joinpath(path_in_zip, f); compress = true)
+				write(w, read(joinpath(root, f)))
 			end
 		end
 	end
@@ -308,7 +312,7 @@ end
 make_book_config(book_folder, chapters)
 
 # Folien, die nur zu dieser Veranstaltung gehören (Quellen liegen in lernpfad/veranstaltung/<name>)
-veranstaltung_parts = ["einfuehrung"]
+veranstaltung_parts = ["einfuehrung", "ordner-einrichten"]
 veranstaltung_folder = joinpath(lernpfad_folder, "veranstaltung")
 veranstaltung_output_folder = joinpath(veranstaltung_folder, "c")
 rm(veranstaltung_output_folder, force = true, recursive = true)
@@ -329,10 +333,11 @@ for (idx, name) ∈ enumerate(veranstaltung_parts)
 			end
 		end
 	end
+	# Jeder Ordner zip/<name> wird als <name>.zip ausgeliefert (z.B. Ordnerstruktur für die Studierenden)
+	zip_input = joinpath(part_folder, "zip")
+	isdir(zip_input) || continue
+	for name ∈ readdir(zip_input)
+		isdir(joinpath(zip_input, name)) || continue
+		zip_folder(joinpath(zip_input, name), joinpath(veranstaltung_output_folder, name * ".zip"))
+	end
 end
-
-# Projektvorlage für die Studierenden (einmal für die Folien, einmal für die Aufgaben anlegen)
-zip_folder(
-	joinpath(bausteine_folder, "00-templates"), "numpde",
-	joinpath(veranstaltung_output_folder, "numpde-projekt.zip"),
-)
