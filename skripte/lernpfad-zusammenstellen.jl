@@ -126,29 +126,13 @@ function copy_images_folder(from_folder::String, to_folder::String)
 	copy_files(joinpath(from_folder, "bilder"), joinpath(to_folder, "bilder"))
 end
 
-function try_zip_folder(folder, folder_in_zipfile, zipfile)
+function try_zip_projekt(folder, folder_in_zipfile, zipfile)
 	!isdir(folder) && return
-	ZipWriter(zipfile) do w
-		for (root, _, files) in walkdir(folder)
-			for file in files
-				if !occursin(r"/obj\b|/bin\b", root) && file != ".DS_Store"
-					file_path = joinpath(root, file)
-					zip_path = joinpath(folder_in_zipfile, relpath(file_path, folder))
-					zip_newfile(w, zip_path; compress = true)
-					write(w, read(file_path))
-				end
-			end
-		end
-	end
-end
-
-function try_zip_folien_projekt(folder, folder_in_zipfile, zipfile)
-	!isdir(folder) && return
-	allowed = r"\.(jl|ipynb|toml|qmd|code-workspace)$"
+	allowed(f) = occursin(r"\.(jl|ipynb|toml|qmd|code-workspace|geo|msh)$", f) && f != "Manifest.toml"
 	ZipWriter(zipfile) do w
 		for entry in readdir(folder)
 			full = joinpath(folder, entry)
-			if isfile(full) && occursin(allowed, entry)
+			if isfile(full) && allowed(entry)
 				zip_newfile(w, joinpath(folder_in_zipfile, entry); compress = true)
 				write(w, read(full))
 			elseif isdir(full)
@@ -157,7 +141,7 @@ function try_zip_folien_projekt(folder, folder_in_zipfile, zipfile)
 					occursin(r"/obj\b|/bin\b", root) && continue
 					in_assets = occursin(r"/Assets\b"i, root)
 					for f in files
-						if (occursin(allowed, f) || in_assets) && f != ".DS_Store"
+						if (allowed(f) || in_assets) && f != ".DS_Store"
 							file_path = joinpath(root, f)
 							zip_path = joinpath(folder_in_zipfile, entry, relpath(file_path, full))
 							zip_newfile(w, zip_path; compress = true)
@@ -194,12 +178,12 @@ function make_slides(bb::BuildingBlock, path_input, path_output)
 	h *= "[⬇ Folien als PDF]($(slug(bb)).pdf){download=\"$(slug(bb)).pdf\"}\n"
 	copy_qmd(h, bb, path_input, joinpath(path_output, slug(bb) * ".qmd"))
 	copy_images_folder(path_input, path_output)
-	try_zip_folien_projekt(
+	try_zip_projekt(
 		project_folder,
 		slug(bb) * "-folien",
 		joinpath(path_output, zipname),
 	)
-	try_zip_folien_projekt(
+	try_zip_projekt(
 		project_done_folder,
 		slug(bb) * "-folien-fertig",
 		joinpath(path_output, zipname_done),
@@ -270,12 +254,12 @@ function make_assignments(bb::BuildingBlock, path_input, path_output)
 	copy_images_folder(path_input, path_output)
 
 	# Zip project folder
-	try_zip_folder(
+	try_zip_projekt(
 		joinpath(path_input, "projekt"),
-		slug(bb),
+		slug(bb) * "-aufgaben",
 		joinpath(path_output, slug(bb) * ".zip"),
 	)
-	try_zip_folder(
+	try_zip_projekt(
 		joinpath(path_input, "projekt-musterloesung"),
 		slug(bb) * "-musterloesung",
 		joinpath(path_output, slug(bb) * "-musterloesung-$(join(rand('a':'z', 5))).zip"),
