@@ -13,14 +13,14 @@ Bearbeiten Sie hierzu folgende Aufgaben:
 
     $$
     w(x) =
-    \frac{
-      12 \cdot EI \cdot l \cdot q
+    q \cdot \frac{
+      12 \cdot EI \cdot l 
       +
-      k \cdot l^3 \cdot q \cdot x - 2 k \cdot l \cdot q \cdot x^3
+      k \cdot l^3 \cdot x - 2 k \cdot l \cdot x^3
       +
-      k \cdot q \cdot x^4
+      k \cdot x^4
     }
-    {24 \cdot EI \cdot k}
+    {24 \cdot EI \cdot k} 
     $$
 
     und die Zahlenwerte $l = 3.7$, $EI = 2.2$, $k = 3.9$ und $q = 1.1$ aus. Laden Sie dazu die [Zip-Datei](${slug}.zip) herunter, entpacken Sie sie und öffnen Sie das Notebook `01-grundlagen.ipynb`.
