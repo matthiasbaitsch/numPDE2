@@ -1,2 +1,5 @@
 author:
   - Matthias Baitsch
+
+resources:
+  - "*.zip"
