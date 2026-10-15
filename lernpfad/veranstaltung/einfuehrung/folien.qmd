@@ -1,6 +1,6 @@
 ---
-title: Numerik partieller Differentialgleichungen
-subtitle: Einführung
+title: Einführung
+subtitle: Numerik partieller Differentialgleichungen
 ---
 
 ##

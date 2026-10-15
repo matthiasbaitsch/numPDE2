@@ -171,6 +171,7 @@ function make_slides(bb::BuildingBlock, path_input, path_output)
 	h = """
 	---
 	title: "$(bb.part): \${title}"
+	subtitle: Numerik partieller Differentialgleichungen
 	---
 	"""
 	h *= "\n[]{.down150}\n"

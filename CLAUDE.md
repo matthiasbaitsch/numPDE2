@@ -48,4 +48,5 @@ Aufbau und Werkzeuge folgen dem Informatik-Projekt `../../informatik-master_2.0/
 ## Inhaltliche Richtlinien
 
 - Alle Texte auf **Deutsch** (Siezen: „Sie"); **Ausnahme Folien:** dürfen englisch sein, damit die Studierenden die englische Terminologie lernen
+- Folien: Titel ist das Thema, `subtitle` immer der Veranstaltungstitel „Numerik partieller Differentialgleichungen“ (bei Bausteinen setzt ihn das Lernpfad-Skript, bei `lernpfad/veranstaltung/*/folien.qmd` von Hand)
 - Abstrakte mathematische Konzepte (lineare Räume, Bilinearformen, Variationsprobleme, …) werden **unterwegs eingeführt**, jeweils nur das, was am Modellproblem gerade benötigt wird – bewusst anders als in der mathematischen Literatur, wo die Theorie vorab aufgebaut wird. Nicht als Mangel werten und keine vorgezogenen Theorie-Bausteine vorschlagen.
