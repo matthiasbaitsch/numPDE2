@@ -1,0 +1,15 @@
+```{=typst}
+#notiz("notizen/NP 1D 08 Approximation of functions.pdf", 1)
+#notiz("notizen/NP 1D 08 Approximation of functions.pdf", 2)
+#notiz("notizen/NP 1D 08 Approximation of functions.pdf", 3)
+#notiz("notizen/NP 1D 08 Approximation of functions.pdf", 4)
+#notiz("notizen/NP 1D 08 Approximation of functions.pdf", 5)
+#notiz("notizen/NP 1D 08 Approximation of functions.pdf", 6)
+```
+
+```{=typst}
+#notiz("notizen/NP 1D 09 Subspaces.pdf", 1)
+#notiz("notizen/NP 1D 09 Subspaces.pdf", 2)
+#notiz("notizen/NP 1D 09 Subspaces.pdf", 3)
+#notiz("notizen/NP 1D 09 Subspaces.pdf", 4)
+```

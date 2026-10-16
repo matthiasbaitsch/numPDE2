@@ -1,6 +1,7 @@
 # TODO
 
-- [ ]  Aufgabenblätter ohne Inhaltsverzeichnis.
+- [ ]  Aufgabenblätter ohne Inhaltsverzeichnis
+- [X]  Folien nur als PDF
 - [ ]  Simplify issue in MMJMesh - broken test
 - [ ]  DotMaps ist aus der Projektvorlage entfernt: Aufgabentext 4.1 (`04-numerische-loesung/aufgaben/01-exakte-loesung.qmd`)
   und die Musterlösungen in 04 und 05 von `p = DotMap()` auf NamedTuples umstellen (wie in 07).
@@ -24,4 +25,4 @@
   Duplikat-Check und dotnet nur in Informatik. Angehen, sobald dieselbe Verbesserung mehrfach in beiden Kopien
   nachgezogen werden muss. Mathe B bleibt außen vor (R-Pipeline mit Submodulen, zu verschieden).
 - [ ]  Skript zur Veranstaltung schreiben und die Folien daraus ableiten. Bis dahin sind die Folien die
-  handschriftlichen Notizen (`bausteine/*/folien/notizen/`, umgewandelt von `skripte/notizen-zu-folien.jl`).
+  handschriftlichen Notizen (`bausteine/*/folien/notizen/`, seitenweise eingebunden in `folien/folien.qmd`).

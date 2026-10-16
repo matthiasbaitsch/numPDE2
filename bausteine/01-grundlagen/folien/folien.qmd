@@ -1,0 +1,36 @@
+```{=typst}
+#notiz("notizen/NP 1D 01 Introduction.pdf", 1)
+#notiz("notizen/NP 1D 01 Introduction.pdf", 2)
+#notiz("notizen/NP 1D 01 Introduction.pdf", 3)
+#notiz("notizen/NP 1D 01 Introduction.pdf", 4)
+#notiz("notizen/NP 1D 01 Introduction.pdf", 5)
+```
+
+```{=typst}
+#notiz("notizen/NP 1D 02 Strong form.pdf", 1)
+#notiz("notizen/NP 1D 02 Strong form.pdf", 2)
+#notiz("notizen/NP 1D 02 Strong form.pdf", 3)
+#notiz("notizen/NP 1D 02 Strong form.pdf", 4)
+#notiz("notizen/NP 1D 02 Strong form.pdf", 5)
+#notiz("notizen/NP 1D 02 Strong form.pdf", 6)
+```
+
+```{=typst}
+#notiz("notizen/NP 1D 03 Weak form.pdf", 1)
+#notiz("notizen/NP 1D 03 Weak form.pdf", 2)
+#notiz("notizen/NP 1D 03 Weak form.pdf", 3)
+#notiz("notizen/NP 1D 03 Weak form.pdf", 4)
+#notiz("notizen/NP 1D 03 Weak form.pdf", 5)
+#notiz("notizen/NP 1D 03 Weak form.pdf", 6)
+#notiz("notizen/NP 1D 03 Weak form.pdf", 7)
+```
+
+```{=typst}
+#notiz("notizen/NP 1D 04 Properties of weak form.pdf", 1)
+#notiz("notizen/NP 1D 04 Properties of weak form.pdf", 2)
+#notiz("notizen/NP 1D 04 Properties of weak form.pdf", 3)
+#notiz("notizen/NP 1D 04 Properties of weak form.pdf", 4)
+#notiz("notizen/NP 1D 04 Properties of weak form.pdf", 5)
+#notiz("notizen/NP 1D 04 Properties of weak form.pdf", 6)
+#notiz("notizen/NP 1D 04 Properties of weak form.pdf", 7)
+```

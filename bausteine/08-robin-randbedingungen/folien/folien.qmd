@@ -1,0 +1,7 @@
+```{=typst}
+#notiz("notizen/NP 2D 06 Robin boundary conditions.pdf", 1)
+#notiz("notizen/NP 2D 06 Robin boundary conditions.pdf", 2)
+#notiz("notizen/NP 2D 06 Robin boundary conditions.pdf", 3)
+#notiz("notizen/NP 2D 06 Robin boundary conditions.pdf", 4)
+#notiz("notizen/NP 2D 06 Robin boundary conditions.pdf", 5)
+```

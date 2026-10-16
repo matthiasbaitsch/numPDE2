@@ -1,0 +1,17 @@
+```{=typst}
+#notiz("notizen/NP 1D 05 Linear spaces.pdf", 1)
+#notiz("notizen/NP 1D 05 Linear spaces.pdf", 2)
+```
+
+```{=typst}
+#notiz("notizen/NP 1D 06 Properties of a and b.pdf", 1)
+#notiz("notizen/NP 1D 06 Properties of a and b.pdf", 2)
+#notiz("notizen/NP 1D 06 Properties of a and b.pdf", 3)
+#notiz("notizen/NP 1D 06 Properties of a and b.pdf", 4)
+```
+
+```{=typst}
+#notiz("notizen/NP 1D 07 Abstract variational problem.pdf", 1)
+#notiz("notizen/NP 1D 07 Abstract variational problem.pdf", 2)
+#notiz("notizen/NP 1D 07 Abstract variational problem.pdf", 3)
+```

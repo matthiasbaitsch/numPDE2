@@ -1,0 +1,16 @@
+```{=typst}
+#notiz("notizen/NP 2D 04 Heat conduction_ Dirichlet boundary conditions.pdf", 1)
+#notiz("notizen/NP 2D 04 Heat conduction_ Dirichlet boundary conditions.pdf", 2)
+#notiz("notizen/NP 2D 04 Heat conduction_ Dirichlet boundary conditions.pdf", 3)
+#notiz("notizen/NP 2D 04 Heat conduction_ Dirichlet boundary conditions.pdf", 4)
+```
+
+```{=typst}
+#notiz("notizen/NP 2D 05 Mesh generation.pdf", 1)
+#notiz("notizen/NP 2D 05 Mesh generation.pdf", 2)
+#notiz("notizen/NP 2D 05 Mesh generation.pdf", 3)
+#notiz("notizen/NP 2D 05 Mesh generation.pdf", 4)
+#notiz("notizen/NP 2D 05 Mesh generation.pdf", 5)
+#notiz("notizen/NP 2D 05 Mesh generation.pdf", 6)
+#notiz("notizen/NP 2D 05 Mesh generation.pdf", 7)
+```

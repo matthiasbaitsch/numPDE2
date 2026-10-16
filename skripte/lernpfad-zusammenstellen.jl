@@ -72,8 +72,7 @@ function resolve_includes(text::String, base_folder::String)
 	return String(take!(result))
 end
 
-function copy_qmd(header::String, bb::BuildingBlock, from_folder::String, to_file::String;
-	transform = identity)
+function copy_qmd(header::String, bb::BuildingBlock, from_folder::String, to_file::String)
 	text = header
 	text *= "\n"
 	for f ∈ filter(f -> endswith(f, ".qmd"), readdir(from_folder, join = true))
@@ -83,20 +82,7 @@ function copy_qmd(header::String, bb::BuildingBlock, from_folder::String, to_fil
 		text *= "\n\n"
 	end
 	text = substitute_text(text, make_dict(bb))
-	write(to_file, transform(text))
-end
-
-function demote_headings(text::String)
-	lines = String.(split(text, '\n'))
-	in_code_block = false
-	for (i, line) ∈ enumerate(lines)
-		if startswith(lstrip(line), "```")
-			in_code_block = !in_code_block
-		elseif !in_code_block && occursin(r"^#{1,5}\s", line)
-			lines[i] = "#" * line
-		end
-	end
-	return join(lines, "\n")
+	write(to_file, text)
 end
 
 function copy_files(from_folder::String, to_folder::String, allow_duplicates::Bool = false)
@@ -178,58 +164,14 @@ function make_slides(bb::BuildingBlock, path_input, path_output)
 	subtitle: Numerik partieller Differentialgleichungen
 	---
 	"""
-	h *= "\n[]{.down150}\n"
 	if has_notebook
-		h *= "[⬇ Notebook zu den Folien herunterladen]($(notebook)){download=\"$(notebook)\"}\n\n"
+		h *= "\n## Material\n\n"
+		h *= "[⬇ Notebook zu den Folien herunterladen]($(notebook))\n\n"
 	end
-	# PDF erzeugt make render-slides-pdf
-	h *= "[⬇ Folien als PDF]($(slug(bb)).pdf){download=\"$(slug(bb)).pdf\"}\n"
 	copy_qmd(h, bb, path_input, joinpath(path_output, slug(bb) * ".qmd"))
 	copy_images_folder(path_input, path_output)
-end
-
-function make_book_chapter(bb::BuildingBlock, path_input, path_output)
-	h = """
-	---
-	title: "\${title}"
-	---
-	"""
-	copy_qmd(h, bb, path_input, joinpath(path_output, slug(bb) * ".qmd"), transform = demote_headings)
-	copy_images_folder(path_input, path_output)
-end
-
-# chapters: Paare (Teil, Datei), Kapitel mit gleichem Teil folgen aufeinander
-function make_book_config(path_output, chapters::Vector{Tuple{String, String}})
-	write(joinpath(path_output, "index.qmd"), "Unterlagen zur Vorlesung Numerik partieller Differentialgleichungen.\n")
-	chapter_lines = ""
-	for part ∈ unique(first.(chapters))
-		chapter_lines *= "    - part: \"$(part)\"\n      chapters:\n"
-		for (p, file) ∈ chapters
-			p == part && (chapter_lines *= "        - $(file)\n")
-		end
-	end
-	write(joinpath(path_output, "_quarto.yml"), """
-	lang: de
-
-	project:
-	  type: book
-	  output-dir: ../../__output/lernpfad/folien-alle
-
-	book:
-	  title: Numerik partieller Differentialgleichungen
-	  subtitle: Master Bau- und Umweltingenieurwesen
-	  author: Matthias Baitsch
-	  date: today
-	  chapters:
-	    - index.qmd
-	$(chapter_lines)
-
-	number-sections: false
-
-	format:
-	  html:
-	    theme: cosmo
-	""")
+	# Handschriftliche Notizen, eingebunden mit #notiz (siehe lernpfad/folien/_metadata.yml)
+	copy_files(joinpath(path_input, "notizen"), joinpath(path_output, "notizen"))
 end
 
 function make_assignments(bb::BuildingBlock, path_input, path_output)
@@ -293,28 +235,13 @@ for path ∈ paths
 		path_input = joinpath(path, folder)
 		if isdir(path_input)
 			output_folder = joinpath(lernpfad_folder, folder, "c")
-			copy_files(bausteine_folder, output_folder, true)
+			# Literatur (_metadata.yml, .bib, .csl) nicht bei den Folien: Typst erzeugt für die (leere)
+			# Literaturliste sonst eine leere Folie am Ende
+			folder != "folien" && copy_files(bausteine_folder, output_folder, true)
 			make_function(bb, path_input, output_folder)
 		end
 	end
 end
-
-# Book with all slides
-book_folder = joinpath(lernpfad_folder, "folien-alle")
-book_output_folder = joinpath(book_folder, "c")
-rm(book_output_folder, force = true, recursive = true)
-mkpath(book_output_folder)
-chapters = Tuple{String, String}[]
-for path ∈ paths
-	bb = BuildingBlock(path)
-	path_input = joinpath(path, "folien")
-	if isdir(path_input)
-		copy_files(bausteine_folder, book_output_folder, true)
-		make_book_chapter(bb, path_input, book_output_folder)
-		push!(chapters, (bb.part, "c/" * slug(bb) * ".qmd"))
-	end
-end
-make_book_config(book_folder, chapters)
 
 # Folien, die nur zu dieser Veranstaltung gehören (Quellen liegen in lernpfad/veranstaltung/<name>)
 veranstaltung_parts = ["einfuehrung", "ordner-einrichten"]

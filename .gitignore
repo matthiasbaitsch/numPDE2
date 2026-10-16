@@ -10,10 +10,6 @@ c
 *_files
 Manifest.toml
 
-# Erzeugt von skripte/notizen-zu-folien.jl
-bausteine/*/folien/folien.qmd
-bausteine/*/folien/bilder/notizen-*.png
-
 # Erzeugt beim Ausführen der Notebooks (Netze stehen im Notebook)
 bausteine/*/*/projekt*/*.geo
 bausteine/*/*/projekt*/*.msh

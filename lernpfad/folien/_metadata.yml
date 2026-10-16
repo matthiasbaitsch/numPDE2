@@ -3,3 +3,15 @@ author:
 
 resources:
   - "**/*.zip"
+
+# ## ist immer eine Folie, auch ohne #-Überschriften (Quarto macht sonst ## zu Ebene 1)
+shift-heading-level-by: 0
+
+# Seiten der handschriftlichen Notizen als Folien ohne Rand: #notiz("notizen/x.pdf", 3)
+format:
+  tinh-slides-typst:
+    include-in-header:
+      text: |
+        #let notiz(file, page) = slide(config: config-page(margin: 0pt, header: none, footer: none))[
+          #align(center + horizon, image(file, page: page, height: 100%))
+        ]

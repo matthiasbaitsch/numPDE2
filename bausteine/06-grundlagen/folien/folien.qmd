@@ -1,0 +1,50 @@
+```{=typst}
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 1)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 2)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 3)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 4)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 5)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 6)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 7)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 8)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 9)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 10)
+#notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 11)
+```
+
+```{=typst}
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 1)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 2)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 3)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 4)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 5)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 6)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 7)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 8)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 9)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 10)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 11)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 12)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 13)
+#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 14)
+```
+
+```{=typst}
+#notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 1)
+#notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 2)
+#notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 3)
+#notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 4)
+#notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 5)
+```
+
+```{=typst}
+#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 1)
+#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 2)
+#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 3)
+#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 4)
+#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 5)
+#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 6)
+#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 7)
+#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 8)
+#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 9)
+```
