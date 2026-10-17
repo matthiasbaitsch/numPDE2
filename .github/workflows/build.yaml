@@ -19,12 +19,14 @@ jobs:
       - name: Check out
         uses: actions/checkout@v7
 
-      # Roboto für die Typst-Folien (Theme clean), sonst setzt Typst eine Serifenschrift ein
       - name: Install fonts
         run: sudo apt-get update && sudo apt-get install -y fonts-roboto-unhinted
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Cache Julia packages
+        uses: julia-actions/cache@v2
 
       - name: Set up Julia
         uses: julia-actions/setup-julia@v3
@@ -33,16 +35,8 @@ jobs:
         run: julia --project -e 'using Pkg; Pkg.instantiate()'
         working-directory: skripte
 
-      - name: Set up Node
-        uses: actions/setup-node@v7
-        with:
-          node-version: 22
-
-      - name: Install decktape
-        run: npm install -g decktape
-
       - name: Render and export PDF
-        run: make publish PDF_JOBS=2 DECKTAPE_ARGS=--chrome-arg=--no-sandbox
+        run: make render
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
