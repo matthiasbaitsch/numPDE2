@@ -3,3 +3,6 @@ author:
 
 resources:
   - "*.zip"
+
+format:
+  tinh-slides-revealjs: default
