@@ -17,26 +17,9 @@ update-extension:
 
 # Project.toml, instantiate.jl und Workspace-Datei aus bausteine/00-templates in alle Projektordner kopieren,
 # auch in die Ordnerstruktur für die Studierenden (lernpfad/veranstaltung/*/zip/*/projekt-*).
-# Workspace-Name in bausteine mit Nummer, weil Bausteintitel sich wiederholen (01-grundlagen, 06-grundlagen),
-# in der Ordnerstruktur wie der Ordner. Vorhandene Workspace-Dateien werden ersetzt.
-TEMPLATES = bausteine/00-templates
+# Workspace-Name in bausteine ohne Nummer (grundlagen-musterloesung), in der Ordnerstruktur wie der Ordner.
 copy-templates:
-	for f in bausteine/*/*/projekt* lernpfad/veranstaltung/*/zip/*/projekt-*; do \
-		case "$$f" in \
-			lernpfad/*) package=`basename $$f` ;; \
-			*) package=`echo $$f | cut -d'/' -f2 | sed 's/^[0-9]*-//'` ;; \
-		esac; \
-		case "$$f" in \
-			lernpfad/*) ;; \
-			*-musterloesung) package=$$package-musterloesung ;; \
-			*-playground) package=$$package-playground ;; \
-			*-fertig) package=$$package-fertig ;; \
-		esac; \
-		echo $$package; \
-		cp $(TEMPLATES)/Project.toml $(TEMPLATES)/instantiate.jl $$f; \
-		rm -f $$f/*.code-workspace; \
-		cp $(TEMPLATES)/projekt.code-workspace $$f/$$package.code-workspace; \
-	done
+	julia skripte/copy-templates.jl
 
 clean:
 	rm -rf lernpfad/*/c
