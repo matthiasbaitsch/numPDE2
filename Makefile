@@ -1,25 +1,16 @@
-PDF_JOBS ?= 4
-DECKTAPE_ARGS ?=
-
 prepare-render:
 	cd skripte && julia -t1 --project lernpfad-zusammenstellen.jl || exit 1
 
 render-assignments: prepare-render
-	quarto render lernpfad/aufgaben -t tinh-notes-html
+	quarto render lernpfad/aufgaben
 
 render-slides: prepare-render
-	quarto render lernpfad/folien -t tinh-slides-typst
+	quarto render lernpfad/folien
 
 render-slides-veranstaltung: prepare-render
-	quarto render lernpfad/veranstaltung/c -t tinh-slides-revealjs
-
-render-slides-pdf:
-	find __output/lernpfad/veranstaltung/c -maxdepth 1 -name '*.html' -print0 | \
-		xargs -0 -P $(PDF_JOBS) -I {} sh -c 'decktape reveal $(DECKTAPE_ARGS) -s 1050x700 -p 200 "$$1" "$${1%.html}.pdf"' _ {}
+	quarto render lernpfad/veranstaltung
 
 render: render-assignments render-slides render-slides-veranstaltung
-
-publish: render render-slides-pdf
 
 update-extension:
 	quarto update matthiasbaitsch/quarto-tinh --no-prompt
@@ -33,7 +24,7 @@ copy-templates:
 	for f in bausteine/*/*/projekt* lernpfad/veranstaltung/*/zip/*/projekt-*; do \
 		case "$$f" in \
 			lernpfad/*) package=`basename $$f` ;; \
-			*) package=`echo $$f | cut -d'/' -f2` ;; \
+			*) package=`echo $$f | cut -d'/' -f2 | sed 's/^[0-9]*-//'` ;; \
 		esac; \
 		case "$$f" in \
 			lernpfad/*) ;; \
@@ -41,6 +32,7 @@ copy-templates:
 			*-playground) package=$$package-playground ;; \
 			*-fertig) package=$$package-fertig ;; \
 		esac; \
+		echo $$package; \
 		cp $(TEMPLATES)/Project.toml $(TEMPLATES)/instantiate.jl $$f; \
 		rm -f $$f/*.code-workspace; \
 		cp $(TEMPLATES)/projekt.code-workspace $$f/$$package.code-workspace; \
