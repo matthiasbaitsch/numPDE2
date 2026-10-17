@@ -1,6 +1,3 @@
-crossref:
-  chapters: true
-
 format-links: true
 
 resources: 
@@ -8,5 +5,4 @@ resources:
 
 format: 
   tinh-assignments-html: default
-  tinh-assignments-typst:
-    number-sections: false
+  tinh-assignments-typst: default

@@ -1,16 +1,11 @@
 # TODO
 
-- [ ]  Aufgabenblätter ohne Inhaltsverzeichnis
+- [X]  Aufgabenblätter ohne Inhaltsverzeichnis
+- [X]  Bibliographie bei Aufgaben pdf raus
 - [X]  Folien nur als PDF
-- [ ]  Simplify issue in MMJMesh - broken test
+- [X]  Simplify issue in MMJMesh - broken test
 - [ ]  DotMaps ist aus der Projektvorlage entfernt: Aufgabentext 4.1 (`04-numerische-loesung/aufgaben/01-exakte-loesung.qmd`)
   und die Musterlösungen in 04 und 05 von `p = DotMap()` auf NamedTuples umstellen (wie in 07).
-- [ ]  Pre-Commit-Hook für Kopien in `aufgaben/projekt-musterloesung/src/` (z.B. `fem.jl`). Zunächst
-  `githooks/pre-commit` und `skripte/duplikate.jl` aus dem Informatik-Projekt unverändert übernehmen (erkennt
-  einseitig geänderte, bisher identische Kopien). Dann erweitern: Ändert sich eine Datei in einem früheren Baustein,
-  schreibt der Hook in alle gleichnamigen Dateien späterer Bausteine eine Zeile `# TODO(sync): …` und bricht den
-  Commit ab. Änderungen, die nur aus `TODO(sync)`-Zeilen bestehen, ignorieren; keine doppelten TODOs. Erweiterung
-  möglichst auch ins Informatik-Projekt übernehmen.
 - [ ]  Musterlösungen zu den Aufgaben auf Papier (Herleitungen, Skizzen, Handrechnungen) erstellen. Material:
   Musterlösungen zu den LaTeX-Übungsblättern in `../../numPDE/04-uebungsaufgaben/uebungsblatt-*/01-musterloesung`.
 - [ ]  Baustein **Elastizität** anlegen. Inhalt: ebene Elastizität, Finite-Elemente-Formulierung mit mehreren

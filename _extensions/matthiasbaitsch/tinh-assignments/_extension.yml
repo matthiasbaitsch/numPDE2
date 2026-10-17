@@ -2,8 +2,14 @@ title: tinh-assignments
 author: Matthias Baitsch
 version: 0.2.0
 quarto-required: ">=1.8.0"
+
 contributes:
   formats:
+    common:
+      crossref:
+        exr-title: "Aufgabe"
+        exr-prefix: "Aufgabe"
+      reference-section-title: "Literatur"
     html:
       lang: de
       css:
@@ -11,4 +17,7 @@ contributes:
       default-image-extension: svg
     typst:
       lang: de
+      citeproc: true
       mainfont: Liberation Sans
+      
+
