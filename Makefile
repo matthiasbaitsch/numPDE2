@@ -1,16 +1,16 @@
+render: render-aufgaben render-folien render-veranstaltung
+
 prepare-render:
 	cd skripte && julia -t1 --project lernpfad-zusammenstellen.jl || exit 1
 
-render-assignments: prepare-render
+render-aufgaben: prepare-render
 	quarto render lernpfad/aufgaben
 
-render-slides: prepare-render
+render-folien: prepare-render
 	quarto render lernpfad/folien
 
-render-slides-veranstaltung: prepare-render
+render-veranstaltung: prepare-render
 	quarto render lernpfad/veranstaltung
-
-render: render-assignments render-slides render-slides-veranstaltung
 
 update-extension:
 	quarto update matthiasbaitsch/quarto-tinh --no-prompt
