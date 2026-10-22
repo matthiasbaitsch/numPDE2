@@ -11,6 +11,7 @@
 			".vscode": true,
 			"*.code-workspace": true,
 			"Manifest.toml": true
-		}
+		},
+		"julia.environmentPath": "/Users/maba/sciebo/lehrveranstaltungen/numPDE_2.1/unterlagen/bausteine/02-variationsprobleme/aufgaben/projekt-musterloesung"
 	}
 }

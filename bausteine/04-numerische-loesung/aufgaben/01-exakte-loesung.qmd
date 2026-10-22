@@ -3,6 +3,7 @@
 \newcommand{\num}[1]{#1}
 \newcommand{\newton}{\mathrm{N}}
 \newcommand{\metre}{\mathrm{m}}
+\newcommand{\centi}{\mathrm{c}}
 \newcommand{\milli}{\mathrm{m}}
 \newcommand{\per}{/}
 \newcommand{\squared}{^2}

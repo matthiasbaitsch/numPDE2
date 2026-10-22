@@ -5,4 +5,4 @@ Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [sources]
-MMJMesh = {url = "https://github.com/matthiasbaitsch/mmjmesh.git"}
+MMJMesh = {rev = "main", url = "https://github.com/matthiasbaitsch/mmjmesh.git"}
