@@ -1,0 +1,101 @@
+# Numerische Lösung
+
+```{julia}
+using DotMaps
+using CairoMakie
+using LinearAlgebra
+
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
+## Problemparameter
+
+```{julia}
+# Mehrfachvariable
+p = DotMap()
+
+# Basiswerte
+p.E = 35e9
+p.d = 0.8
+p.l = 20
+p.F = 2e6
+p.ρ = 2500
+p.g = 9.81
+p.S = 120e6
+p.c = 1.75e7
+
+# Abgeleitete Werte
+p.Ω = 0 .. p.l
+p.C = p.c * π * p.d
+p.A = π * p.d^2 / 4
+p.EA = p.E * p.A
+p.n = p.ρ * p.g * p.A;
+```
+
+## Exakte Lösung
+
+```{julia}
+a1 = 3 + 7π
+a2 = 7π - 3
+x = parameter(p.Ω)
+
+u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
+        25000 * (a1 * ℯ^2 + a2 * exp(x / 10))
+        -
+        2943 * π * ℯ * (exp(x / 10) + 1)
+        +
+        981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
+    )
+
+N = p.EA * u'
+
+fig = Figure()
+fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, npoints=100)
+fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, npoints=100)
+fig
+```
+
+## Schwache Form
+
+```{julia}
+a(u, δu) = integrate(p.EA * u' * δu' + p.C * u * δu, p.Ω) + p.S * u(p.l) * δu(p.l)
+b(δu) = integrate(p.n * δu, p.Ω) + p.F * δu(0)
+```
+
+## Numerische Lösung
+
+```{julia}
+```
+
+```{julia}
+```
+
+```{julia}
+```
+
+## Konvergenz
+
+Fehlerfunktion
+
+```{julia}
+```
+
+Normalkraft
+
+```{julia}
+```
+
+Fehler in Energienorm
+
+```{julia}
+```
+
+```{julia}
+```
+
+```{julia}
+```
+
+```{julia}
+```

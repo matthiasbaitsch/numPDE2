@@ -1,0 +1,88 @@
+# Codebeispiele - Eigenschaften von a und b
+
+Fortsetzung der Codebeispiele zu den Grundlagen. Die folgenden Zellen wiederholen die dort benötigten Definitionen.
+
+```{julia}
+using CairoMakie
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
+Beispielhafte Systemparameter
+
+```{julia}
+# Grundgrößen
+E = 35e9
+d = 0.8
+l = 20
+F = 2e6
+ρ = 2500
+g = 9.81
+C = 1.75e7 * π * d
+S = 120e6
+
+# Abgeleitete Größen
+A = π * d^2 / 4
+EA = E*A
+n = ρ * A * g;
+```
+
+## Exakte Lösung
+
+```{julia}
+x = parameter(0 .. l)
+a1 = 3 + 7 * π
+a2 = 7 * π - 3
+u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
+    25000 * (a1 * ℯ^2 + a2 * exp(x / 10)) 
+    - 2943 * π * ℯ * (exp(x / 10) + 1) 
+    +  981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
+)
+
+fplot(u, zero(x), npoints=10)
+```
+
+## Variationsformulierung Bohrpfahlproblem
+
+Daten und Funktionen zum Testen
+
+```{julia}
+δu = exp(x / l) - 2
+v = sin(x)
+w = 1 - x^2 / l^2
+
+fplot(δu, v, w, npoints=10)
+```
+
+Rechte Seite
+
+```{julia}
+b(δu) = n * integrate(δu, 0 .. l) + F * δu(0)
+
+println(b(δu))
+println(b(w))
+```
+
+Linke Seite
+
+```{julia}
+a(u, δu) = EA * integrate(u' * δu', 0 .. l) + C * integrate(u * δu, 0 .. l) + S * u(l) * δu(l)
+
+println(a(u, δu))
+println(a(u, w))
+```
+
+Eigenschaften von $b$ und $a$
+
+```{julia}
+```
+
+```{julia}
+```
+
+Man kann sich überlegen, dass diese Eigenschaften für (fast) beliebige Funktionen $u, v, w$ erfüllt sind. Man sagt, $b$ ist eine Linearform, $a$ ein Skalarprodukt. Ein Skalarprodukt ist eine Bilinearform, die symmetrisch und positiv definit ist.
+
+Gegenbeispiel
+
+```{julia}
+```

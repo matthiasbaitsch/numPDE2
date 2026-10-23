@@ -1,0 +1,29 @@
+# Approximation von Funktionen
+
+```{julia}
+using CairoMakie
+using LinearAlgebra
+
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
+## Kombination von Funktionen
+
+Taylorpolynom
+
+```{julia}
+```
+
+## Stückweise lineare Funktionen - Hutfunktionen
+
+```{julia}
+```
+
+```{julia}
+```
+
+## Lineare Hülle
+
+```{julia}
+```

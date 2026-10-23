@@ -1,0 +1,66 @@
+---
+title: Test der Elementfunktionen Wärmeleitung 2D
+jupyter: julia-1.11
+---
+
+```{julia}
+using MMJMesh
+using MMJMesh.Meshes
+using MMJMesh.Plots
+import CairoMakie
+
+include("heat-2.jl")
+```
+
+## Netz
+
+```{julia}
+coords = [0.0 1.2 0.3; 0.1 0.2 2.5];
+elts = [[1, 2, 3]]
+m = Mesh(coords, elts, 2);
+mplot(m) |> mconf()
+```
+
+## Referenzwerte
+
+```{julia}
+ke_ref = [
+     1.39122807 -1.19736842 -0.19385965
+    -1.19736842  1.33421053 -0.13684211
+    -0.19385965 -0.13684211  0.33070175
+]
+re_ref = [1.9475, 1.9475, 1.9475];
+```
+
+## Berechnung und Vergleich
+
+### Elementmatrix
+
+```{julia}
+kef = heat_ke(1.3)
+ke = kef(element(m, 1))
+
+println("Ke = ", ke)
+println("Elementmatrix OK: ", ke ≈ ke_ref)
+```
+
+### Elementvektor
+
+```{julia}
+ref = heat_re(4.1);
+```
+
+Element
+
+```{julia}
+re = ref(element(m, 1))
+
+println("re =", re)
+println("Elementvektor OK: ", re ≈ re_ref)
+```
+
+Kante
+
+```{julia}
+re = ref(edge(m, 1))
+```

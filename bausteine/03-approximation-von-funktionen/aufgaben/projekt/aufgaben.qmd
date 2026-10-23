@@ -1,0 +1,82 @@
+# Approximation von Funktionen
+
+```{julia}
+using CairoMakie
+using LinearAlgebra
+
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
+## Funktionen approximieren
+
+### Funktionen
+
+```{julia}
+x = parameter(0 .. 4π)
+f = cos(x)
+g = 1 - x / (4π)
+h = f * g
+
+fplot(f, g, h)
+```
+
+### Funktionswerte
+
+```{julia}
+```
+
+### Approximation
+
+Funktion
+
+```{julia}
+```
+
+Fehler
+
+```{julia}
+e = h - ha
+fplot(e)
+```
+
+### Konvergenz
+
+Funktion um Approximationsfehler zu berechnen
+
+Approximationsfehler für $2, 4, 8, ..., 2^{10}$ Elemente
+
+```{julia}
+```
+
+Fehler über Anzahl der Elemente
+
+```{julia}
+```
+
+Fehler über Elementgröße
+
+```{julia}
+```
+
+Mit loglog-Skala
+
+```{julia}
+```
+
+```{julia}
+```
+
+## Zur Interpretation von loglog-Plots
+
+```{julia}
+mks = monomials(1:4, 0.0001 .. 1)
+fplot(mks...)
+```
+
+```{julia}
+f = Figure()
+Axis(f[1, 1], xscale=log10, yscale=log10)
+fplot!(mks...)
+f
+```

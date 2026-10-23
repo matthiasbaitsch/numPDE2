@@ -1,0 +1,468 @@
+# Aufgabe 9.1: Herleitung der Element-Speichermatrix
+
+```{julia}
+using Symbolics
+using SymbolicNumericIntegration
+
+# Kurzschreibweise für symbolische Integration
+integrates(f, d) = integrate(f, d, symbolic=true, detailed=false)
+
+# Symbolische Variablen
+@syms Ae xi1 xi2
+
+# Elementfunktionen auf Referenzdreieck
+Nhat = [xi1, xi2, 1 - xi1 - xi2]
+
+# Element-Bilinearform für Massenmatrix
+am(Nhati, NHatj) = integrates(integrates(Nhati * NHatj, (xi2, 0, 1 - xi1)), (xi1, 0, 1))
+
+# Massenmatrix ausrechnen
+Me = 2 * Ae * [am(Nhati, Nhatj) for Nhati = Nhat, Nhatj = Nhat]
+```
+
+# Aufgabe 9.2: Verifikation
+
+Verification of transient solution of 1D rod from the [NAFEMS](https://www.nafems.org) test suite, see section "1D Single Equation" on [wolfram.com](https://reference.wolfram.com/language/PDEModels/tutorial/HeatTransfer/HeatTransferVerificationTests.html).
+
+```{julia}
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Utilities
+using MMJMesh.Geometries
+
+using SparseArrays
+using DifferentialEquations
+using CairoMakie: Figure, Axis, scatterlines!, update_theme!
+
+include("src/fem.jl")
+include("src/heat.jl")
+update_theme!(colormap=:acton)
+```
+
+Helper function to plot solution of initial value problem
+
+```{julia}
+function splot(sol)
+    t = sol.t
+    y = stack(sol.u, dims=1)
+    p = Figure()
+    Axis(p[1, 1])
+    for i = 1:size(y, 2)
+        scatterlines!(t, y[:, i])
+    end
+    p
+end
+```
+
+## Mesh
+
+```{julia}
+write("rod.geo", raw"""
+SetFactory("OpenCASCADE");
+
+// measurment point
+Point(1) = {0.02, 0.005, 0, 1.0};
+
+// rectangle
+Rectangle(1) = {0.0, 0, 0, 0.1, 0.01, 0};
+
+// connect point to surface (https://stackoverflow.com/questions/36338025/how-to-ensure-node-points-in-gmsh)
+Point{1} In Surface {1};
+
+// physical groups
+Physical Point("p") = {1};
+Physical Curve("bl") = {4};
+Physical Curve("br") = {2};
+Physical Surface("s") = {1};
+
+// mesh
+MeshSize{:} = 0.002;
+Mesh 2;
+Save "rod.msh";
+""");
+```
+
+```{julia}
+m = Mesh("rod.geo")
+mplot(m, edgesvisible=true) |> mconf()
+```
+
+## Element functions
+
+```{julia}
+setdata!(group(m, :elements), :ke_func, heat_ke(35))
+setdata!(group(m, :elements), :me_func, heat_me(7200, 440.5))
+```
+
+## Boundary conditions
+
+We use Robin BCs in order to impose Dirichlet BCs using a large value for the heat transfer coefficient  als penalty parameter.
+
+```{julia}
+pen = 1e10
+setdata!(group(m, :bl), :ke_func, robin_ke(pen))
+setdata!(group(m, :bl), :re_func, robin_re(pen, 1))
+setdata!(group(m, :br), :ke_func, robin_ke(pen))
+```
+
+## System matrices and vector
+
+```{julia}
+K, M, r = assemble_kmr(m)
+```
+
+## Initial condition
+
+```{julia}
+t0 = zeros(nnodes(m));
+```
+
+### Solve initial value problem
+
+See
+- https://docs.sciml.ai/DiffEqDocs/latest/tutorials/faster_ode_example/
+- https://docs.sciml.ai/DiffEqDocs/latest/solvers/split_ode_solve/
+- https://docs.sciml.ai/DiffEqDocs/latest/tutorials/advanced_ode_example/
+
+Use recommended method
+
+```{julia}
+F(ΘHat, _, t) = -K * ΘHat + 100 * sin(pi * t / 40) * r
+JF(_, _, _) = -K
+FM = ODEFunction(F, mass_matrix=M, jac=JF);
+p = ODEProblem(FM, t0, [0.0, 32.0])
+@time s1 = solve(p, QNDF())
+splot(s1)
+```
+
+Euler's method (just to try it, not accurate), does not work for large pentalty factor
+
+```{julia}
+pen = 1e4
+setdata!(group(m, :bl), :ke_func, robin_ke(pen))
+setdata!(group(m, :bl), :re_func, robin_re(pen, 1))
+setdata!(group(m, :br), :ke_func, robin_ke(pen))
+K, M, r = assemble_kmr(m)
+
+luM = lu(M)
+F(ΘHat, _, t) = luM \ (-K * ΘHat + 100 * sin(pi * t / 40) * r)
+p = ODEProblem(F, t0, (0.0, 32.0))
+
+@time s3 = solve(p, Euler(), dt=0.01)
+splot(s3)
+```
+
+## Plot results
+
+```{julia}
+mplot(m, s1.u[end]) |> mconf()
+```
+
+## Compare to reference value
+
+The relative error should be smaller than one permille.
+
+```{julia}
+tref = 36.6
+tact = s1.u[end][nodeindex(m, on(Point(0.02, 0.005)))]
+error = abs(tref - tact) / tref
+
+println("   Temperature: ", tact)
+println("Relative error: ", error)
+println("   Test passed: ", error < 1e-3)
+```
+
+# Aufgabe 9.3: Thermischer Ausgleich
+
+```{julia}
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Utilities
+using MMJMesh.Geometries
+
+using SparseArrays
+using DifferentialEquations
+using CairoMakie: Figure, Axis, scatter!, lines, scatterlines, scatterlines!, update_theme!
+
+include("src/fem.jl")
+include("src/heat.jl")
+update_theme!(colormap=:acton)
+```
+
+## Netz
+
+```{julia}
+write("thermal-equilibrium.geo", raw"""
+SetFactory("OpenCASCADE");
+
+Rectangle(1) = {0.0, 0, 0, 0.1, 0.1, 0};
+Rectangle(2) = {0.1, 0, 0, 0.1, 0.1, 0};
+
+Coherence;
+
+Physical Curve("c1") = {2};
+Physical Surface("s1") = {1};
+Physical Surface("s2") = {2};
+
+MeshSize{:} = 0.005;
+
+Mesh 2;
+
+Save "thermal-equilibrium.msh";
+""");
+```
+
+```{julia}
+m = Mesh("thermal-equilibrium.geo")
+
+nl = [i for i = nodeindices(m) if coordinate(node(m, i), 1) < 0.1]
+nr = [i for i = nodeindices(m) if coordinate(node(m, i), 1) > 0.1]
+
+p = mplot(m, edgesvisible=true) |> mconf()
+scatter!(coordinates(m, nl), color=:hotpink)
+scatter!(coordinates(m, nr), color=:steelblue)
+p
+```
+
+## Elementfunktionen
+
+```{julia}
+setdata!(group(m, :elements), :ke_func, heat_ke(401))
+setdata!(group(m, :elements), :me_func, heat_me(8960, 3850))
+```
+
+## Anfangswert
+
+```{julia}
+t0 = zeros(nnodes(m))
+t0[nl] .= -10
+t0[nr] .= 10
+mplot(m, t0) |> mconf()
+```
+
+## Anfangswertproblem definieren und lösen
+
+```{julia}
+K, M, r = assemble_kmr(m)
+F(T, _, _) = -K * T
+JF(_, _, _) = -K
+p = ODEProblem(ODEFunction(F, jac=JF, mass_matrix=M), t0, [0.0, 3600.0])
+@time s = solve(p, QNDF());
+```
+
+## Ergebnisse darstellen
+
+```{julia}
+t = s.t
+y = stack(s.u, dims=1)
+i1 = nodeindex(m, on(Point(0.0, 0.0)))
+i2 = nodeindex(m, on(Point(0.2, 0.0)))
+p = scatterlines(t, y[:, i1])
+scatterlines!(t, y[:, i2])
+p
+```
+
+```{julia}
+mplot(m, s[end], edgesvisible=true) |> mconf()
+```
+
+# Aufgabe 9.4: Raumecke mit wechselnder Außentemperatur
+
+```{julia}
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Geometries
+using MMJMesh.Mathematics
+
+using SparseArrays
+using DifferentialEquations
+using CairoMakie: update_theme!, scatter!, lines, lines!, axislegend
+
+include("src/fem.jl")
+include("src/heat.jl")
+update_theme!(colormap=:acton)
+```
+
+## Netz und Punkte
+
+```{julia}
+write("corner.geo", raw"""
+SetFactory("OpenCASCADE");
+
+d1 = 0.115;
+d2 = 0.200;
+d3 = 0.250;
+l0 = 1;
+
+Point(1)  = {           0, 0, 0};
+Point(2)  = {          d1, 0, 0};
+Point(3)  = {     d1 + d2, 0, 0};
+Point(4)  = {d1 + d2 + d3, 0, 0};
+
+Point(5)  = {           0, l0 + d3 + d2 + d1, 0};
+Point(6)  = {          d1, l0 + d3 + d2,      0};
+Point(7)  = {     d1 + d2, l0 + d3,           0};
+Point(8)  = {d1 + d2 + d3, l0,                0};
+
+Point(9)  = {d1 + d2 + d3 + l0, l0 + d3 + d2 + d1, 0};
+Point(10) = {d1 + d2 + d3 + l0, l0 + d3 + d2,      0};
+Point(11) = {d1 + d2 + d3 + l0, l0 + d3,           0};
+Point(12) = {d1 + d2 + d3 + l0, l0,                0};
+
+Line(1) = {1, 2};
+Line(2) = {2, 3};
+Line(3) = {3, 4};
+Line(4) = {1, 5};
+Line(5) = {2, 6};
+Line(6) = {3, 7};
+Line(7) = {4, 8};
+Line(11) = {5, 9};
+Line(12) = {6, 10};
+Line(13) = {7, 11};
+Line(14) = {8, 12};
+Line(15) = {9, 10};
+Line(16) = {10, 11};
+Line(17) = {11, 12};
+
+Curve Loop(1) = {1, 5, 12, -15, -11, -4};
+Curve Loop(2) = {2, 6, 13, -16, -12, -5};
+Curve Loop(3) = {3, 7, 14, -17, -13, -6};
+
+Plane Surface(1) = {1};
+Plane Surface(2) = {2};
+Plane Surface(3) = {3};
+
+Physical Curve("wi") = {7, 14};
+Physical Curve("wa") = {4, 11};
+Physical Surface("s1") = {1};
+Physical Surface("s2") = {2};
+Physical Surface("s3") = {3};
+
+
+Coherence;
+
+MeshSize{:} = 0.025;
+
+Mesh 2;
+
+Save "corner.msh";
+""");
+```
+
+```{julia}
+m = Mesh("corner.geo")
+
+c1 = nodeindex(m, on(Point(0.000, 1.565)))
+c2 = nodeindex(m, on(Point(0.115, 1.450)))
+c3 = nodeindex(m, on(Point(0.315, 1.250)))
+c4 = nodeindex(m, on(Point(0.565, 1.000)))
+i1 = nodeindex(m, on(Point(1.565, 1.565)))
+i2 = nodeindex(m, on(Point(1.565, 1.450)))
+i3 = nodeindex(m, on(Point(1.565, 1.250)))
+i4 = nodeindex(m, on(Point(1.565, 1.000)))
+nds = [c1, c2, c3, c4, i1, i2, i3, i4]
+
+p = mplot(m, edgesvisible=true) |> mconf()
+scatter!(coordinates(m, nds))
+p
+```
+
+## Berechnung
+
+### Materialparameter und Randbedingungen
+
+```{julia}
+setdata!(group(m, :s1), :ke_func, heat_ke(1.0))
+setdata!(group(m, :s1), :me_func, heat_me(1800, 1000))
+setdata!(group(m, :s2), :ke_func, heat_ke(0.04))
+setdata!(group(m, :s2), :me_func, heat_me(50, 900))
+setdata!(group(m, :s3), :ke_func, heat_ke(2.3))
+setdata!(group(m, :s3), :me_func, heat_me(2400, 1000))
+setdata!(group(m, :wa), :ke_func, robin_ke(25))
+setdata!(group(m, :wa), :re_func, robin_re(25, -5))
+setdata!(group(m, :wi), :ke_func, robin_ke(7.5))
+setdata!(group(m, :wi), :re_func, robin_re(7.5, 20))
+```
+
+### Systemmatrizen- und Vektor
+
+```{julia}
+K, M, r = assemble_kmr(m);
+```
+
+### Stationäre Berechnung
+
+```{julia}
+theta0 = K \ r;
+mplot(m, theta0) |> mconf()
+```
+
+## Transiente Berechnung
+
+Anteile für innen und außen in `r` auf zwei Vektoren aufteilen
+
+```{julia}
+gi = group(m, :wi0)
+ri = zeros(nnodes(m))
+ri[gi] .= r[gi] 
+
+ga = group(m, :wa0)
+ra = zeros(nnodes(m))
+ra[ga] .= r[ga];
+```
+
+Kontrolle
+
+```{julia}
+K \ (ri + ra) ≈ theta0
+```
+
+Anfangswertproblem lösen
+
+```{julia}
+ω = 2 * π / (24 * 60 * 60)
+F(T, _, t) = -K * T + ri + (1 + sin(ω * t)) * ra
+JF(_, _, _) = -K
+
+FM = ODEFunction(F, mass_matrix=M, jac=JF);
+p = ODEProblem(FM, theta0, [0.0, 2 * 24 * 60 * 60])
+sol = solve(p, QNDF());
+```
+
+Zeit und Temperaturen in Matrix
+
+```{julia}
+t = sol.t / 3600
+theta = stack(sol.u, dims=1);
+```
+
+Plot außen
+
+```{julia}
+p = lines(t, theta[:,c1], label="c1")
+lines!(t, theta[:,c2], label="c2")
+lines!(t, theta[:,i1], label="i1")
+lines!(t, theta[:,i2], label="i2")
+axislegend(position=:rb)
+p
+```
+
+Plot innen
+
+```{julia}
+p = lines(t, theta[:,c3], label="c3")
+lines!(t, theta[:,c4], label="c4")
+lines!(t, theta[:,i3], label="i3")
+lines!(t, theta[:,i4], label="i4")
+axislegend(position=:rb)
+p
+```
+
+Temperaturverteilung im letzten Schritt
+
+```{julia}
+mplot(m, sol[end]) |> mconf()
+```

@@ -1,0 +1,48 @@
+```{julia}
+using CairoMakie
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
+## Balken auf Federn
+
+### Lösungskandidat und Testfunktion
+
+```{julia}
+l = 3.7
+EI = 2.2
+k = 3.9
+q = 1.1
+
+x = parameter(0 .. l)
+# w = 
+# δw = 
+# Plot
+```
+
+### Schwache Formulierung
+
+Linear und Bilinearform
+
+```{julia}
+# a(w, δw) = 
+# b(δw) = 
+```
+
+Kontrolle mit Testfunktion
+
+```{julia}
+```
+
+### Kontrolle Randwertproblem
+
+Differentialgleichung
+
+```{julia}
+# fplot
+```
+
+Randbedingungen
+
+```{julia}
+```

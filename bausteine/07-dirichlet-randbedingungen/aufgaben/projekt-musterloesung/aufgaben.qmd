@@ -1,0 +1,187 @@
+# Aufgabe 7.2: Kreisscheibe
+
+```{julia}
+using MMJMesh
+using MMJMesh.Meshes
+using MMJMesh.Plots
+using LinearAlgebra
+using SparseArrays
+using CairoMakie: spy, update_theme!
+
+include("src/fem.jl")
+include("src/heat.jl")
+
+update_theme!(colormap=:acton)
+```
+
+## Parameters
+
+```{julia}
+p = (
+    r = 2.2,
+    λ = 2.19,
+    w = 1.96
+)
+```
+
+## Mesh
+
+```{julia}
+pwd()
+```
+
+```{julia}
+write("heat-plate.geo", raw"""
+SetFactory("OpenCASCADE");
+
+// Point and circular domain
+Point(1) = {0, 0, 0};
+Disk(1) = {0, 0, 0, 2.2, 2.2};
+Point{1} In Surface{1};
+
+// Mesh size
+MeshSize{:} = 0.2;
+
+// Create and save mesh 
+Mesh 2;
+Save "heat-plate.msh";
+""");
+```
+
+```{julia}
+m = Mesh("heat-plate.geo")
+mplot(m, edgesvisible=true) |> mconf()
+```
+
+## Solution
+
+### Define problem
+
+```{julia}
+setdata!(group(m, :elements), :ke_func, heat_ke(p.λ))
+setdata!(group(m, :elements), :re_func, heat_re(p.w))
+```
+
+### Set up linear system
+
+```{julia}
+K, r = assemble_kr(m)
+apply_dirichlet_bcs!(K, r, group(m, :boundarynodes))
+```
+
+### Solve
+
+Linear system
+
+```{julia}
+θHat =  K \ r;
+```
+
+Comparison to exact solution
+
+```{julia}
+thetaMax = p.w * p.r^2 / (4 * p.λ)
+thetaMaxH = maximum(θHat)
+
+println("         Exact solution: thethaMax = ", thetaMax)
+println("Finite element solution: thethaMax = ", thetaMaxH)
+println("                             Error = ", 100 * abs(thetaMaxH - thetaMax) / thetaMax, "%")
+```
+
+### Plot
+
+```{julia}
+mplot(m, θHat, edgesvisible=true, edgecolor=:black) |> mconf()
+```
+
+```{julia}
+θ = p.w / (4 * p.λ) * (p.r^2 .- [norm(coordinates(m, i))^2 for i ∈ 1:nnodes(m)]) 
+e = abs.(θHat - θ)
+println("Maximum error: ", maximum(e))
+mplot(m, e) |> mconf()
+```
+
+## Sparse Matrix
+
+```{julia}
+using SparseArrays
+KSparse = sparse(K)
+@time That =  K \ r;
+@time That =  KSparse \ r;
+```
+
+```{julia}
+using CairoMakie: spy, hidedecorations!, hidespines!, Colorbar, DataAspect
+sp = spy(sparse(K), markersize=6, marker=:circle) 
+hidedecorations!(sp.axis)
+hidespines!(sp.axis)
+Colorbar(sp.figure[1, 2])
+sp.axis.yreversed = true
+sp.axis.aspect = DataAspect()
+sp
+```
+
+# Aufgabe 7.3: Inhomogene Materialeigenschaften
+
+```{julia}
+using MMJMesh
+using MMJMesh.Meshes
+using MMJMesh.Plots
+using LinearAlgebra
+using SparseArrays
+
+include("src/fem.jl")
+include("src/heat.jl")
+
+import CairoMakie
+CairoMakie.update_theme!(colormap=:acton)
+```
+
+## Mesh
+
+```{julia}
+write("multi-lambda.geo", raw"""
+SetFactory("OpenCASCADE");
+
+Rectangle(1) = {0, 0, 0, 1, 1, 0};
+Rectangle(2) = {0.3, 0.0, 0, 0.15, 1, 0};
+Coherence;
+
+Physical Surface("S1") = {3, 4};
+Physical Surface("S2") = {2};
+Physical Curve("ΓD") = {2, 4, 6, 8, 9, 10};
+
+MeshSize{:} = 0.025;
+Mesh 2;
+Save "multi-lambda.msh";
+""");
+```
+
+```{julia}
+m = Mesh("multi-lambda.geo")
+mplot(m, edgesvisible=true) |> mconf()
+```
+
+## Solution
+
+### Define problem
+
+```{julia}
+setdata!(group(m, :S1), :ke_func, heat_ke(1))
+setdata!(group(m, :S2), :ke_func, heat_ke(20))
+setdata!(group(m, :elements), :re_func, heat_re(250))
+```
+
+### Set up and solve linear system
+
+```{julia}
+K, r = assemble_kr(m)
+apply_dirichlet_bcs!(K, r, m.groups[:ΓD0]);
+θHat =  K \ r;
+```
+
+### Plot
+
+```{julia}
+mplot(m, θHat) |> mconf()
+```

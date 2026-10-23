@@ -1,0 +1,104 @@
+# Approximation von Funktionen
+
+```{julia}
+using CairoMakie
+using LinearAlgebra
+
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
+## Funktionen approximieren
+
+### Funktionen
+
+```{julia}
+x = parameter(0 .. 4π)
+f = cos(x)
+g = 1 - x / (4π)
+h = f * g
+
+fplot(f, g, h)
+```
+
+### Funktionswerte
+
+```{julia}
+x = [1, 3, 7]
+y = h.(x)
+p = fplot(h)
+scatter!(x, y, color=:tomato)
+p
+```
+
+### Approximation
+
+```{julia}
+nodes = range(0, 4π, 6)
+phis = hatfunctions(nodes)
+uHat = h.(nodes)
+ha = uHat ⋅ phis
+fplot(ha, h)
+```
+
+```{julia}
+e = h - ha
+fplot(e)
+```
+
+### Konvergenz
+
+```{julia}
+norm2(f) = sqrt(integrate(f * f, domain(f)))
+
+function error(Ne)
+    nodes = range(0, 4π, Ne + 1)
+    phis = hatfunctions(nodes)
+    ha = h.(nodes) ⋅ phis
+    return norm2(h - ha)
+end
+
+error(4)
+```
+
+```{julia}
+Nes = 2 .^ (2:10)
+hs = 4π ./ Nes
+es = error.(Nes)
+```
+
+```{julia}
+scatterlines(Nes, es)
+```
+
+```{julia}
+scatterlines(hs, es)
+```
+
+```{julia}
+f = Figure()
+Axis(f[1, 1], xscale=log2, yscale=log10)
+scatterlines!(Nes, es)
+f
+```
+
+```{julia}
+f = Figure()
+Axis(f[1, 1], xscale=log10, yscale=log10)
+scatterlines!(hs, es)
+f
+```
+
+## Zur Interpretation von loglog-Plots
+
+```{julia}
+mks = monomials(1:4, 0.0001 .. 1)
+fplot(mks...)
+```
+
+```{julia}
+f = Figure()
+Axis(f[1, 1], xscale=log10, yscale=log10)
+fplot!(mks...)
+f
+```

@@ -1,0 +1,138 @@
+# Bohrpfahl: Grundlagen
+
+## Die Bibliothek MMJMesh
+
+Das Paket [MMJMesh](https://matthiasbaitsch.github.io/mmjmesh/guide) (*Matthias' und Minh's Julia Mesh Library*) stellt das Grundfunktionen für die Programmierung der Methode der finiten Elemente bereit. Für diesen Abschnitt benötigen wir die Bausteine `MMJMesh.Mathematics` mit mathematischen Funktionen und `MMJMesh.Plots` zum Plotten .
+
+```{julia}
+using CairoMakie
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
+## Funktionen
+
+Wir legen zunächst fest, dass `x` ein Funktionsparameter mit $0 \leq x \leq 7\pi$ ist. Die Funktionen $f$ und $u$ sind dadurch definiert, dass links der Funktionsname und rechts die Zuordnungsvorschrift steht. Die Schreibweise entspricht nicht der mathematischen Konvention, ist aber praktisch. Weiterhin ist es möglich, mit Funktionen zu rechnen, im Beispiel ist `h` die Funktion mit der Zuordnungsvorschrift $h(x) = (f(x) + u(x)) / 2$.
+
+```{julia}
+```
+
+Ableitungen von Funktionen werden mit der in der Mathematik üblichen Schreibweise gebildet.
+
+```{julia}
+```
+
+Mit `integrate` werden bestimmte Integrale berechnet, der zweite Parameter legt den Integrationsbereich fest.
+
+```{julia}
+```
+
+## Differentialgleichungen
+
+Gesucht ist eine beliebige Lösung der DGL $u''(x) + u(x) = 0$ für $0 < x < 4\pi$.
+
+```{julia}
+```
+
+## Randwertproblem Bohrpfahlproblem
+
+Randwertproblem Bohrpfahl (D): Gesucht ist eine Funktion $u: [0, l] \to \R$, die
+
+1. die Differentialgeichung
+
+    $$
+        EA u''(x) - C u(x) = -n
+    $$
+
+    löst und
+
+1. den Randbedingungen
+
+    $$
+        EA u'(0) = -F \quad \text{sowie} \quad EA u'(l) + S u(l) = 0
+    $$
+
+    genügt.
+
+Beispielhafte Systemparameter
+
+```{julia}
+# Grundgrößen
+E = 35e9
+d = 0.8
+l = 20
+F = 2e6
+ρ = 2500
+g = 9.81
+C = 1.75e7 * π * d
+S = 120e6
+
+# Abgeleitete Größen
+A = π * d^2 / 4
+EA = E*A
+n = ρ * A * g;
+```
+
+## Exakte Lösung
+
+```{julia}
+x = parameter(0 .. l)
+a1 = 3 + 7 * π
+a2 = 7 * π - 3
+u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
+    25000 * (a1 * ℯ^2 + a2 * exp(x / 10)) 
+    - 2943 * π * ℯ * (exp(x / 10) + 1) 
+    +  981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
+)
+```
+
+Normalkraft
+
+```{julia}
+```
+
+Kontrolle: Es muss $EA u'(x) - C u(x) + n = 0$ gelten
+
+```{julia}
+```
+
+Kontrolle Randbedingungen
+
+```{julia}
+```
+
+## Variationsformulierung Bohrpfahlproblem
+
+Drei Funktionen zum Testen
+
+```{julia}
+δu1 = exp(x / l) - 2
+δu2 = sin(x)
+δu3 = 1 - x^2 / l^2
+
+fplot(δu1, δu2, δu3, npoints=10)
+```
+
+Rechte Seite
+
+```{julia}
+```
+
+Linke Seite
+
+```{julia}
+```
+
+Kontrolle
+
+```{julia}
+println(a(u, δu1) ≈ b(δu1))
+println(a(u, δu2) ≈ b(δu2))
+println(a(u, δu3) ≈ b(δu3))
+```
+
+Gegenprobe
+
+```{julia}
+println(a(δu3, δu1) ≈ b(δu1))
+```
