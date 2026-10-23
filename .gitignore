@@ -15,3 +15,6 @@ bausteine/*/*/projekt*/*.msh
 
 # Temporary files of the Quarto extension for VS Code
 **/.vdoc.*
+
+# Local Claude Code settings
+.claude/
