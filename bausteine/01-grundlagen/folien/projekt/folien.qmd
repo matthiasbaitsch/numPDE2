@@ -21,7 +21,6 @@ h = (f + u) / 2
 fplot(f, u, h)
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 ```
@@ -34,7 +33,6 @@ Ableitungen von Funktionen werden mit der in der Mathematik üblichen Schreibwei
 fplot(f', u', f'')
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 ```
@@ -47,7 +45,6 @@ Mit `integrate` werden bestimmte Integrale berechnet, der zweite Parameter legt 
 integrate(u, 0 .. 20)
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 ```
@@ -64,7 +61,6 @@ u = 3 * sin(x) + 6 * cos(x)
 fplot(u'' + u)
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 ```
@@ -116,26 +112,24 @@ n = ρ * A * g;
 x = parameter(0 .. l)
 a1 = 3 + 7 * π
 a2 = 7 * π - 3
-u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
-    25000 * (a1 * ℯ^2 + a2 * exp(x / 10)) 
-    - 2943 * π * ℯ * (exp(x / 10) + 1) 
-    +  981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
+u = exp(-x/20)/(3500000*π*(a1*ℯ^2 - a2))*(
+    25000*(a1*ℯ^2 + a2*exp(x/10)) - 2943*π*ℯ*(exp(x/10) + 1) +
+        981*π*exp(x/20)*(a1*ℯ^2 - a2)
 )
 
 fplot(u, zero(x), npoints=10)
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 x = parameter(0 .. l)
 a1 = 3 + 7 * π
 a2 = 7 * π - 3
-u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
-    25000 * (a1 * ℯ^2 + a2 * exp(x / 10)) 
-    - 2943 * π * ℯ * (exp(x / 10) + 1) 
-    +  981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
+u = exp(-x/20)/(3500000*π*(a1*ℯ^2 - a2))*(
+    25000*(a1*ℯ^2 + a2*exp(x/10)) - 2943*π*ℯ*(exp(x/10) + 1) +
+        981*π*exp(x/20)*(a1*ℯ^2 - a2)
 )
+# ...
 ```
 :::
 
@@ -143,11 +137,9 @@ Normalkraft
 
 ::: {.solution}
 ```{julia}
-p = fplot(EA * u', zero(x), npoints=10)
-p
+fplot(EA * u', zero(x), npoints = 10)
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 ```
@@ -157,12 +149,11 @@ Kontrolle: Es muss $EA u'(x) - C u(x) + n = 0$ gelten
 
 ::: {.solution}
 ```{julia}
-p = fplot(EA * u'' - C * u + n, npoints=100)
+p = fplot(EA * u'' - C * u + n, npoints = 100)
 ylims!(p.axis, [-0.001, 0.001])
 p.figure
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 ```
@@ -176,7 +167,6 @@ println(EA * u'(0) ≈ -F)
 println(abs(EA * u'(l) + S * u(l)) < 1e-9)
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 ```
@@ -191,7 +181,7 @@ Drei Funktionen zum Testen
 δu2 = sin(x)
 δu3 = 1 - x^2 / l^2
 
-fplot(δu1, δu2, δu3, npoints=10)
+fplot(δu1, δu2, δu3, npoints = 10)
 ```
 
 Rechte Seite
@@ -204,7 +194,6 @@ println(b(δu1))
 println(b(δu3))
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 ```
@@ -220,7 +209,6 @@ println(a(u, δu1))
 println(a(u, δu3))
 ```
 :::
-
 ::: {.scaffold}
 ```{julia}
 ```
@@ -228,14 +216,27 @@ println(a(u, δu3))
 
 Kontrolle
 
+::: {.solution}
 ```{julia}
 println(a(u, δu1) ≈ b(δu1))
 println(a(u, δu2) ≈ b(δu2))
 println(a(u, δu3) ≈ b(δu3))
 ```
+:::
+::: {.scaffold}
+```{julia}
+```
+:::
 
 Gegenprobe
 
+::: {.solution}
 ```{julia}
 println(a(δu3, δu1) ≈ b(δu1))
 ```
+:::
+::: {.scaffold}
+```{julia}
+```
+:::
+

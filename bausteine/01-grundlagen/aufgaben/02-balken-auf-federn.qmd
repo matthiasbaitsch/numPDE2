@@ -11,31 +11,33 @@ Gegeben ist der dargestellte Balken, der links und rechts auf Federn gelagert is
 
 1. Überführen Sie das Randwertproblem in die schwache Formulierung. Sie müssen hierzu zweimal partiell integrieren.
 
-### Mit dem Computer lösen
+### Mit Julia lösen
 
-1. Stellen Sie die Bilinearform und die Linearform des Variationsproblems auf
+In diesem Aufgabenteil sollen Sie überprüfen, ob die Funktion
 
-1. Werten Sie die schwache Formulierung in Julia für
+$$
+  w(x) =
+  q \cdot \frac{
+    12 \cdot EI \cdot l 
+    +
+    k \cdot l^3 \cdot x - 2 k \cdot l \cdot x^3
+    +
+    k \cdot x^4
+  }
+  {24 \cdot EI \cdot k} 
+$$
 
-    $$
-    w(x) =
-    q \cdot \frac{
-      12 \cdot EI \cdot l 
-      +
-      k \cdot l^3 \cdot x - 2 k \cdot l \cdot x^3
-      +
-      k \cdot x^4
-    }
-    {24 \cdot EI \cdot k} 
-    $$
+eine Lösung des Balkenproblems ist. Laden Sie hierfür das [Notebook](${slug}-aufgaben.zip){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es.
 
-    und die Zahlenwerte $l = 3.7$, $EI = 2.2$, $k = 3.9$ und $q = 1.1$ aus. Laden Sie dazu das [Notebook](${slug}-aufgaben.zip){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in Ihren Projektordner für die Übungen und öffnen Sie es.
+1. Definieren Sie Zahlenwerte für die Systemparameter, zum Beispiel $l = 3.7$, $EI = 2.2$, $k = 3.9$ und $q = 1.1$.
 
-    1. Definieren Sie $w$ und eine Testfunktion $\delta w$, zum Beispiel $\delta w(x) = \sin x + x$, und stellen Sie beide Funktionen grafisch dar.
+1. Stellen Sie die Funktion $w$ in Julia auf und plotten Sie den Graphen. Ist der Verlauf plausibel?
 
-    1. Definieren Sie die Bilinearform $a(w, \delta w)$ und die Linearform $b(\delta w)$ der schwachen Formulierung als Julia-Funktionen. Prüfen Sie, ob $a(w, \delta w) = b(\delta w)$ gilt – auch für andere Testfunktionen wie $\delta w(x) = \sin x + x$. Was können Sie aus dem Ergebnis schließen?
+1. Stellen Sie die Bilinearform $a$ und die Linearform $b$ des Variationsproblems als Julia-Funktionen auf.
 
-    1. Prüfen Sie, dass $w$ die Differentialgleichung und die Randbedingungen des Randwertproblems erfüllt.
+1. Überprüfen Sie die Bedingung $a(w, \delta w) = b(\delta w)$ für verschiedene Testfunktionen, zum Beispiel $\delta w(x) = \sin x + x$. Was können Sie aus dem Ergebnis schließen?
+
+1. Prüfen Sie, ob $w$ das Randwertproblem löst.
 
 ::: {.callout-tip title="Tipps für Julia"}
 ```{.julia}
