@@ -9,3 +9,9 @@ c
 
 bausteine/*/*/projekt*/*.geo
 bausteine/*/*/projekt*/*.msh
+
+/.quarto/
+**/*.quarto_ipynb
+
+# Temporary files of the Quarto extension for VS Code
+**/.vdoc.*
