@@ -42,3 +42,15 @@ dd {
   margin: 0.5rem 0 0 0;
   padding-left: 1rem;
 }
+
+/* Niedrigere Tabellenzeilen: Markdown-Tabellen (Bootstrap) und gt-Tabellen */
+body .table > :not(caption) > * > * {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+
+.gt_table .gt_row,
+.gt_table .gt_col_heading {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+}

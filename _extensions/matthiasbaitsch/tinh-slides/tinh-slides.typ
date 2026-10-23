@@ -15,6 +15,9 @@
 #let down40 = down(40)
 #let down50 = down(50)
 
+// Tabellen etwas kleiner als Fließtext
+#show table: set text(size: 0.8em)
+
 // Titelfolie wie bei clean, zusätzlich mit Logo (info.logo) über dem Titel
 #let tinh-title-slide(..args) = touying-slide-wrapper(self => {
   let info = self.info + args.named()
