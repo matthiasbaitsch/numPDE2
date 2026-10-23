@@ -3,4 +3,5 @@
 
 Werten Sie die Integralgleichung aus der schwachen Form des Bohrpfahlproblems für $l = 10, EA = 1, C = 2, S = 5, n = 1, F = 10$ und die Funktionen $u(x) = 10 - x / 20$ sowie $\delta u(x) = x$ aus. Was sagt Ihnen das Ergebnis über die Funktion $u$?
 
+--> Kommt jetzt als demo in der Vorlesung
 :::

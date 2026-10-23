@@ -8,7 +8,9 @@ Gegeben ist der dargestellte Balken, der links und rechts auf Federn gelagert is
 Bearbeiten Sie hierzu folgende Aufgaben:
 
 1. Formulieren Sie das zugehörige Randwertproblem. In den Gleichungen soll als Unbekannte nur die Verschiebungsfunktion $w$ auftauchen.
+
 1. Überführen Sie das Randwertproblem in die schwache Formulierung. Sie müssen hierzu zweimal partiell integrieren.
+
 1. Werten Sie die schwache Formulierung in Julia für
 
     $$
@@ -28,16 +30,16 @@ Bearbeiten Sie hierzu folgende Aufgaben:
     1. Definieren Sie die Bilinearform $a(w, \delta w)$ und die Linearform $b(\delta w)$ der schwachen Formulierung als Julia-Funktionen. Prüfen Sie, ob $a(w, \delta w) = b(\delta w)$ gilt – auch für andere Testfunktionen wie $\delta w(x) = \sin x + x$. Was können Sie aus dem Ergebnis schließen?
     1. Prüfen Sie, dass $w$ die Differentialgleichung und die Randbedingungen des Randwertproblems erfüllt.
 
-    Hilfreich sind die folgenden Befehle:
-
-    ```{.julia}
-    x = parameter(0 .. l)       # Variable x auf dem Intervall [0, l]
-    w = 1 + x^2                 # Funktion von x
-    w(0.5)                      # Funktionswert
-    w', w'', w'''               # Ableitungen
-    integrate(w, 0 .. l)        # Integral
-    fplot(w, δw)                # Grafische Darstellung
-    a(w, δw) ≈ b(δw)            # Vergleich mit Rundungstoleranz
-    ```
+::: {.callout-tip title="Tipps für Julia"}
+```{.julia}
+x = parameter(0 .. l)       # Variable x auf dem Intervall [0, l]
+w = 1 + x^2                 # Funktion von x
+w', w'', w'''               # Ableitungen von w
+w(0.5)                      # Funktion auswerten
+fplot(w, w')                # Funktionen plotten
+integrate(w, 0 .. l)        # Funktion w von 0 bis l integrieren
+x ≈ y                       # Vergleich mit Rundungstoleranz (\approx)
+```
+:::
 
 :::
