@@ -47,6 +47,8 @@ function make_dict(bb::BuildingBlock)
 	return Dict(
 		"title" => bb.title,
 		"slug" => slug(bb),
+		# absolute URL of the assignments notebook, relative links do not work in PDF files
+		"notebook" => "$SITE_URL/aufgaben/c/$(slug(bb))-aufgaben.zip",
 	)
 end
 

@@ -27,7 +27,7 @@ $$
   {24 \cdot EI \cdot k} 
 $$
 
-eine Lösung des Balkenproblems ist. Laden Sie hierfür das [Notebook](${slug}-aufgaben.zip){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es.
+eine Lösung des Balkenproblems ist. Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es.
 
 1. Definieren Sie Zahlenwerte für die Systemparameter, zum Beispiel $l = 3.7$, $EI = 2.2$, $k = 3.9$ und $q = 1.1$.
 
