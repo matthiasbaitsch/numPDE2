@@ -3,11 +3,12 @@ title: Test der Elementfunktionen Wärmeleitung 2D
 ---
 
 ```{julia}
+using Revise
 using MMJMesh
 using MMJMesh.Meshes
 using MMJMesh.Plots
 import CairoMakie
-include("../projekt/src/heat.jl")
+includet("../projekt/src/heat.jl")
 ```
 
 ## Netz

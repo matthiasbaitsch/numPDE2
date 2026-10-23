@@ -1,6 +1,7 @@
 # Aufgabe 7.2: Kreisscheibe
 
 ```{julia}
+using Revise
 using MMJMesh
 using MMJMesh.Meshes
 using MMJMesh.Plots
@@ -8,8 +9,8 @@ using LinearAlgebra
 using SparseArrays
 using CairoMakie: spy, update_theme!
 
-include("src/fem.jl")
-include("src/heat.jl")
+includet("src/fem.jl")
+includet("src/heat.jl")
 
 update_theme!(colormap=:acton)
 ```
@@ -124,14 +125,15 @@ sp
 # Aufgabe 7.3: Inhomogene Materialeigenschaften
 
 ```{julia}
+using Revise
 using MMJMesh
 using MMJMesh.Meshes
 using MMJMesh.Plots
 using LinearAlgebra
 using SparseArrays
 
-include("src/fem.jl")
-include("src/heat.jl")
+includet("src/fem.jl")
+includet("src/heat.jl")
 
 import CairoMakie
 CairoMakie.update_theme!(colormap=:acton)

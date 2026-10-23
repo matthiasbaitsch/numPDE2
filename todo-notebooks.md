@@ -25,15 +25,16 @@
 
   Umgesetzt mit Blöcken `::: {.solution}` und `::: {.scaffold}` für alle Arten von Inhalt (statt `keep`
   und `.loesung`); Details in CLAUDE.md. `target: scaffold` in 01–04 (wie bisher), ohne `target` nur Musterlösung; `target: blank` für später, wenn die Studierenden weniger Hilfe bekommen.
-- [ ]  Pre-Commit-Hook `githooks/pre-commit` (nbstripout) entfernen, sobald keine `.ipynb` mehr eingecheckt sind.
+- [X]  Pre-Commit-Hook `githooks/pre-commit` (nbstripout) entfernen, sobald keine `.ipynb` mehr eingecheckt sind.
 - [X]  Aufräumen: `folien copy.ipynb` in `03-approximation-von-funktionen/folien/projekt-fertig/` (war das aktuelle
   fertige Notebook, ersetzt `folien.qmd`).
-- [ ]  CLAUDE.md (Abschnitte Notebooks, Pre-Commit-Hook) anpassen.
+- [X]  CLAUDE.md (Abschnitte Notebooks, Pre-Commit-Hook) anpassen.
 
 ## Download-Link in den PDF-Folien
 
-- [ ]  Der Link auf der Folie „Material“ (`[⬇ Notebook zu den Folien herunterladen](…-folien.zip)`, erzeugt in
-  `skripte/lernpfad-zusammenstellen.jl`) funktioniert in den PDF-Folien nicht.
+- [X]  Der Link auf der Folie „Material“ (`[⬇ Notebook zu den Folien herunterladen](…-folien.zip)`, erzeugt in
+  `skripte/lernpfad-zusammenstellen.jl`) funktioniert in den PDF-Folien nicht. Jetzt absolute URL zur
+  GitHub-Seite (`SITE_URL` im Skript).
 
 ## IJulia
 
@@ -52,5 +53,5 @@
 ## Revise für die Studierenden
 
 - [X]  Revise in die Projektvorlage (`bausteine/00-templates/Project.toml`) aufnehmen.
-- [ ]  In den Notebooks `src/*.jl` mit `includet` statt `include` laden.
-- [ ]  Aufgabentexte und Musterlösungen entsprechend anpassen.
+- [X]  In den Notebooks `src/*.jl` mit `includet` statt `include` laden (mit `using Revise` in derselben Zelle).
+- [X]  Aufgabentexte und Musterlösungen entsprechend anpassen (die Aufgabentexte erwähnen `include` nicht).

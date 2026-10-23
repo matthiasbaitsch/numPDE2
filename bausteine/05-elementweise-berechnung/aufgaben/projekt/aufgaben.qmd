@@ -46,7 +46,8 @@ println(length(e2))
 ### Umsetzung
 
 ```{julia}
-include("src/pile.jl")
+using Revise
+includet("src/pile.jl")
 
 m = Mesh(0 .. 20, 23)
 n4 = node(m, 4)
@@ -135,7 +136,8 @@ hasdata(node(m, 2), :test)
 ### Umsetzung
 
 ```{julia}
-include("src/fem.jl")
+using Revise
+includet("src/fem.jl")
 
 m = Mesh(0 .. 20, 4)
 setdata!(group(m, :elements), :ke_func, pile_ke(8.1, 9.2))
@@ -211,8 +213,9 @@ fig
 ## Numerische Lösung
 
 ```{julia}
-include("src/fem.jl")
-include("src/pile.jl")
+using Revise
+includet("src/fem.jl")
+includet("src/pile.jl")
 ```
 
 ### Ein Netz

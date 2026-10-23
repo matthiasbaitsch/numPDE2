@@ -25,6 +25,7 @@ Me = 2 * Ae * [am(Nhati, Nhatj) for Nhati = Nhat, Nhatj = Nhat]
 Verification of transient solution of 1D rod from the [NAFEMS](https://www.nafems.org) test suite, see section "1D Single Equation" on [wolfram.com](https://reference.wolfram.com/language/PDEModels/tutorial/HeatTransfer/HeatTransferVerificationTests.html).
 
 ```{julia}
+using Revise
 using MMJMesh
 using MMJMesh.Plots
 using MMJMesh.Meshes
@@ -35,8 +36,8 @@ using SparseArrays
 using DifferentialEquations
 using CairoMakie: Figure, Axis, scatterlines!, update_theme!
 
-include("src/fem.jl")
-include("src/heat.jl")
+includet("src/fem.jl")
+includet("src/heat.jl")
 update_theme!(colormap=:acton)
 ```
 
@@ -176,6 +177,7 @@ println("   Test passed: ", error < 1e-3)
 # Aufgabe 9.3: Thermischer Ausgleich
 
 ```{julia}
+using Revise
 using MMJMesh
 using MMJMesh.Plots
 using MMJMesh.Meshes
@@ -186,8 +188,8 @@ using SparseArrays
 using DifferentialEquations
 using CairoMakie: Figure, Axis, scatter!, lines, scatterlines, scatterlines!, update_theme!
 
-include("src/fem.jl")
-include("src/heat.jl")
+includet("src/fem.jl")
+includet("src/heat.jl")
 update_theme!(colormap=:acton)
 ```
 
@@ -271,6 +273,7 @@ mplot(m, s[end], edgesvisible=true) |> mconf()
 # Aufgabe 9.4: Raumecke mit wechselnder Außentemperatur
 
 ```{julia}
+using Revise
 using MMJMesh
 using MMJMesh.Plots
 using MMJMesh.Meshes
@@ -281,8 +284,8 @@ using SparseArrays
 using DifferentialEquations
 using CairoMakie: update_theme!, scatter!, lines, lines!, axislegend
 
-include("src/fem.jl")
-include("src/heat.jl")
+includet("src/fem.jl")
+includet("src/heat.jl")
 update_theme!(colormap=:acton)
 ```
 

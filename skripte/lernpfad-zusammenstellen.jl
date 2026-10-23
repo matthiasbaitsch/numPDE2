@@ -6,6 +6,9 @@ using ZipArchives
 include("notebooks.jl")
 using .Notebooks
 
+# Published learning path, for absolute links (relative links do not work in PDF files)
+const SITE_URL = "https://matthiasbaitsch.github.io/numPDE2/lernpfad"
+
 # -------------------------------------------------------------------------------------------------
 # Building block
 # -------------------------------------------------------------------------------------------------
@@ -179,7 +182,7 @@ function make_slides(bb::BuildingBlock, path_input, path_output)
 	"""
 	if has_notebook
 		h *= "\n## Material\n\n"
-		h *= "[⬇ Notebook zu den Folien herunterladen]($(notebook))\n\n"
+		h *= "[⬇ Notebook zu den Folien herunterladen]($SITE_URL/folien/c/$(notebook))\n\n"
 	end
 	copy_qmd(h, bb, path_input, joinpath(path_output, slug(bb) * ".qmd"))
 	copy_images_folder(path_input, path_output)

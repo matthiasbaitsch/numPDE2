@@ -3,9 +3,10 @@ title: Test der Elementfunktionen Robin-Randbedingungen für Wärmeleitung
 ---
 
 ```{julia}
+using Revise
 using MMJMesh
 using MMJMesh.Meshes
-include("../projekt/src/heat.jl")
+includet("../projekt/src/heat.jl")
 ```
 
 ## Netz mit einer Kante

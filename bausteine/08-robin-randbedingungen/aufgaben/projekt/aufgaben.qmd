@@ -12,8 +12,8 @@ using MMJMesh.Mathematics
 
 using LinearAlgebra
 
-include("src/fem.jl")
-include("src/heat.jl")
+includet("src/fem.jl")
+includet("src/heat.jl")
 update_theme!(colormap=:acton)
 ```
 

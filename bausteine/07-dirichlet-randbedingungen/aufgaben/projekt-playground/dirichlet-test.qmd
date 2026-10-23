@@ -3,7 +3,8 @@ title: Test Dirichlet BCs
 ---
 
 ```{julia}
-include("../projekt/src/fem.jl")
+using Revise
+includet("../projekt/src/fem.jl")
 ```
 
 Test data
