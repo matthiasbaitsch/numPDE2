@@ -1,4 +1,5 @@
 lang: de
+engine: julia
 
 crossref:
     exr-title: "Aufgabe"
@@ -6,16 +7,3 @@ crossref:
 
 project:
   output-dir: __output
-  render:
-    - "**/*.qmd"
-    - "**/*.md"
-
-toc-depth: 1
-number-depth: 1
-number-sections: true
-format-links: false
-
-# Aussehen und gemeinsame Optionen kommen aus der Extension tinh (_extensions/), Logo aus _brand.yml
-format:
-  tinh-slides-revealjs: default
-  tinh-notes-html: default
