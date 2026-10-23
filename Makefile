@@ -21,6 +21,11 @@ update-extension:
 copy-templates:
 	julia skripte/copy-templates.jl
 
+# Zu Semesterbeginn: aktuelle Paketversionen (auch MMJMesh main) in das Manifest der Vorlage holen und verteilen
+update-packages:
+	julia --project=bausteine/00-templates -e 'using Pkg; Pkg.update()'
+	julia skripte/copy-templates.jl
+
 clean:
 	rm -rf lernpfad/*/c
 	rm -rf __output

@@ -1,17 +1,11 @@
-/__output
-**/.quarto/
-.DS_Store
-
-**/*.quarto_ipynb
+.quarto
+__output
 
 c
 *old
 *Attic
 *_files
-Manifest.toml
+*.quarto_ipynb
 
-# Erzeugt beim Ausführen der Notebooks (Netze stehen im Notebook)
 bausteine/*/*/projekt*/*.geo
 bausteine/*/*/projekt*/*.msh
-
-/.quarto/

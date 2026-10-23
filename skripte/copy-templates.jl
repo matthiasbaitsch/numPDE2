@@ -1,6 +1,7 @@
 # Input, use functions to be able to have input on top
 SOURCE_CONTENT() = [
     "bausteine/00-templates/Project.toml" => keep_name,
+    "bausteine/00-templates/Manifest.toml" => keep_name,
     "bausteine/00-templates/instantiate.jl" => keep_name,
     "bausteine/00-templates/projekt.code-workspace" => workspace_name
 ]
