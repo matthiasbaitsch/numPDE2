@@ -4,7 +4,7 @@
 - [X]  Bibliographie bei Aufgaben pdf raus
 - [X]  Folien nur als PDF
 - [X]  Simplify issue in MMJMesh - broken test
-- [ ]  DotMaps ist aus der Projektvorlage entfernt: Aufgabentext 4.1 (`04-numerische-loesung/aufgaben/01-exakte-loesung.qmd`)
+- [X]  DotMaps ist aus der Projektvorlage entfernt: Aufgabentext 4.1 (`04-numerische-loesung/aufgaben/01-exakte-loesung.qmd`)
   und die Musterlösungen in 04 und 05 von `p = DotMap()` auf NamedTuples umstellen (wie in 07).
 - [ ]  Musterlösungen zu den Aufgaben auf Papier (Herleitungen, Skizzen, Handrechnungen) erstellen. Material:
   Musterlösungen zu den LaTeX-Übungsblättern in `../../numPDE/04-uebungsaufgaben/uebungsblatt-*/01-musterloesung`.
