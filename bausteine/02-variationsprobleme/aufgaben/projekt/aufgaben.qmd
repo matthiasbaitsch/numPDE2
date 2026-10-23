@@ -1,5 +1,3 @@
-# Lineare Räume und Variationsprobleme (Aufgaben)
-
 ```{julia}
 using CairoMakie
 
@@ -39,24 +37,75 @@ println("pd: ", a(u3, u3) > 0)
 
 (a)
 
+::: {.solution}
+```{julia}
+a(u, v) = integrate(u' * v', 0 .. l) + u(0) * v(0)
+
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+println("l2: ", a(u1, u2 + u3) ≈ a(u1, u2) + a(u1, u3))
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
+println(" s: ", a(u1, u2) ≈ a(u2, u1))
+println("pd: ", a(u3, u3) > 0)
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
+::: {.solution}
+→ Skalarprodukt
+:::
+
+::: {.scaffold}
 → ?
+:::
 
 (b)
 
+::: {.solution}
+```{julia}
+a(u, v) = integrate(u + v, 0 .. l)
+
+println(a(u1 + u2, u3) , " ", a(u1, u3) + a(u2, u3))
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
+::: {.solution}
+→ Keine Bilinearform
+:::
+
+::: {.scaffold}
 → ?
+:::
 
 (c)
 
+::: {.solution}
+```{julia}
+a(u, v) = 42
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
+::: {.solution}
+→ Keine Bilinearform
+:::
+
+::: {.scaffold}
 → ?
+:::
 
 (d)
 
@@ -71,5 +120,3 @@ println("pd: ", a(u3, u3) > 0)
 ```
 
 → ?
-
-

@@ -1,6 +1,5 @@
 ---
 title: Test der Elementfunktionen Wärmeleitung 2D
-jupyter: julia-1.11
 ---
 
 ```{julia}

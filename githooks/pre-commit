@@ -1,6 +1,6 @@
 #!/bin/bash
-# Entfernt Ausgaben und Ausführungszähler aus allen zum Commit vorgemerkten Jupyter-Notebooks
-# und merkt die bereinigten Dateien erneut vor.
+# Removes outputs and execution counts from all Jupyter notebooks staged for commit and stages
+# the cleaned files again.
 
 set -o pipefail
 

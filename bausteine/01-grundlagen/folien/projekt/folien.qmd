@@ -1,5 +1,3 @@
-# Bohrpfahl: Grundlagen
-
 ## Die Bibliothek MMJMesh
 
 Das Paket [MMJMesh](https://matthiasbaitsch.github.io/mmjmesh/guide) (*Matthias' und Minh's Julia Mesh Library*) stellt das Grundfunktionen für die Programmierung der Methode der finiten Elemente bereit. Für diesen Abschnitt benötigen wir die Bausteine `MMJMesh.Mathematics` mit mathematischen Funktionen und `MMJMesh.Plots` zum Plotten .
@@ -14,25 +12,63 @@ using MMJMesh.Mathematics
 
 Wir legen zunächst fest, dass `x` ein Funktionsparameter mit $0 \leq x \leq 7\pi$ ist. Die Funktionen $f$ und $u$ sind dadurch definiert, dass links der Funktionsname und rechts die Zuordnungsvorschrift steht. Die Schreibweise entspricht nicht der mathematischen Konvention, ist aber praktisch. Weiterhin ist es möglich, mit Funktionen zu rechnen, im Beispiel ist `h` die Funktion mit der Zuordnungsvorschrift $h(x) = (f(x) + u(x)) / 2$.
 
+::: {.solution}
+```{julia}
+x = parameter(0 .. 7π)
+f = sin(x)
+u = x / 20
+h = (f + u) / 2
+fplot(f, u, h)
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 Ableitungen von Funktionen werden mit der in der Mathematik üblichen Schreibweise gebildet.
 
+::: {.solution}
+```{julia}
+fplot(f', u', f'')
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 Mit `integrate` werden bestimmte Integrale berechnet, der zweite Parameter legt den Integrationsbereich fest.
 
+::: {.solution}
+```{julia}
+integrate(u, 0 .. 20)
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 ## Differentialgleichungen
 
 Gesucht ist eine beliebige Lösung der DGL $u''(x) + u(x) = 0$ für $0 < x < 4\pi$.
 
+::: {.solution}
+```{julia}
+x = parameter(0 .. 4π)
+u = 3 * sin(x) + 6 * cos(x)
+fplot(u'' + u)
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 ## Randwertproblem Bohrpfahlproblem
 
@@ -75,6 +111,22 @@ n = ρ * A * g;
 
 ## Exakte Lösung
 
+::: {.solution}
+```{julia}
+x = parameter(0 .. l)
+a1 = 3 + 7 * π
+a2 = 7 * π - 3
+u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
+    25000 * (a1 * ℯ^2 + a2 * exp(x / 10)) 
+    - 2943 * π * ℯ * (exp(x / 10) + 1) 
+    +  981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
+)
+
+fplot(u, zero(x), npoints=10)
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 x = parameter(0 .. l)
 a1 = 3 + 7 * π
@@ -85,21 +137,50 @@ u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
     +  981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
 )
 ```
+:::
 
 Normalkraft
 
+::: {.solution}
+```{julia}
+p = fplot(EA * u', zero(x), npoints=10)
+p
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 Kontrolle: Es muss $EA u'(x) - C u(x) + n = 0$ gelten
 
+::: {.solution}
+```{julia}
+p = fplot(EA * u'' - C * u + n, npoints=100)
+ylims!(p.axis, [-0.001, 0.001])
+p.figure
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 Kontrolle Randbedingungen
 
+::: {.solution}
+```{julia}
+println(EA * u'(0) ≈ -F)
+println(abs(EA * u'(l) + S * u(l)) < 1e-9)
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 ## Variationsformulierung Bohrpfahlproblem
 
@@ -115,13 +196,35 @@ fplot(δu1, δu2, δu3, npoints=10)
 
 Rechte Seite
 
+::: {.solution}
+```{julia}
+b(δu1) = n * integrate(δu1, 0 .. l) + F * δu1(0)
+
+println(b(δu1))
+println(b(δu3))
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 Linke Seite
 
+::: {.solution}
+```{julia}
+a(u, δu1) = EA * integrate(u' * δu1', 0 .. l) + C * integrate(u * δu1, 0 .. l) + S * u(l) * δu1(l)
+
+println(a(u, δu1))
+println(a(u, δu3))
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 Kontrolle
 

@@ -1,6 +1,5 @@
 ---
 title: Test der Elementfunktionen Wärmeleitung 2D
-jupyter: julia-1.10
 ---
 
 ```{julia}
@@ -8,7 +7,7 @@ using MMJMesh
 using MMJMesh.Meshes
 using MMJMesh.Plots
 import CairoMakie
-include("../projekt-musterloesung/src/heat.jl")
+include("../projekt/src/heat.jl")
 ```
 
 ## Netz

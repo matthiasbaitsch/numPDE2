@@ -7,3 +7,6 @@ inhalt:
   - Abstraktes Variationsproblem
 
 dauer: 1
+
+# Notebook für die Studierenden zu den Aufgaben: scaffold oder blank (ohne Angabe nur Musterlösung)
+target: scaffold

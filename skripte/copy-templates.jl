@@ -13,9 +13,10 @@ function workspace_name(path, _)
     if startswith(path, "lernpfad")
         return basename(path) * ".code-workspace"
     end
-    b = match(r"bausteine/\d\d-([\w-]+)/", path)[1]
+    # e.g. bausteine/01-grundlagen/aufgaben/projekt -> aufgaben-grundlagen
+    m = match(r"bausteine/\d\d-([\w-]+)/(\w+)/", path)
     s = replace(basename(path), r"^projekt" => "")
-    return b * s * ".code-workspace"
+    return m[2] * "-" * m[1] * s * ".code-workspace"
 end
 
 keep_name(_, source) = basename(source)

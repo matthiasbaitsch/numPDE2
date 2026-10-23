@@ -1,12 +1,11 @@
 ---
 title: Test der Elementfunktionen Robin-Randbedingungen für Wärmeleitung
-jupyter: julia-1.11
 ---
 
 ```{julia}
 using MMJMesh
 using MMJMesh.Meshes
-include("../projekt-musterloesung/src/heat.jl")
+include("../projekt/src/heat.jl")
 ```
 
 ## Netz mit einer Kante

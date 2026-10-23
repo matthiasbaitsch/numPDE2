@@ -8,6 +8,22 @@ using MMJMesh.Mathematics
 
 ### Lösungskandidat und Testfunktion
 
+::: {.solution}
+```{julia}
+l = 3.7
+EI = 2.2
+k = 3.9
+q = 1.1
+
+x = parameter(0 .. l)
+w = q * (12*EI*l + k*l^3*x - 2*k*l*x^3 + k*x^4) /   (24*EI*k)
+δw = sin(x) + x
+
+fplot(w, δw, zero(x))
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 l = 3.7
 EI = 2.2
@@ -19,30 +35,67 @@ x = parameter(0 .. l)
 # δw = 
 # Plot
 ```
+:::
 
 ### Schwache Formulierung
 
 Linear und Bilinearform
 
+::: {.solution}
+```{julia}
+a(w, δw) = EI * integrate(w'' * δw'', 0 .. l) + k * w(0) * δw(0) + k * w(l) * δw(l)
+b(δw) = q * integrate(δw, 0 .. l)
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 # a(w, δw) = 
 # b(δw) = 
 ```
+:::
 
 Kontrolle mit Testfunktion
 
+::: {.solution}
+```{julia}
+println(a(w, δw) ≈ b(δw))
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::
 
 ### Kontrolle Randwertproblem
 
 Differentialgleichung
 
+::: {.solution}
+```{julia}
+fplot(EI * w'''' - q)
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 # fplot
 ```
+:::
 
 Randbedingungen
 
+::: {.solution}
+```{julia}
+println(k * w(0) + EI * w'''(0))
+println(k * w(l) - EI * w'''(l))
+println(w''(0))
+println(w''(l))
+```
+:::
+
+::: {.scaffold}
 ```{julia}
 ```
+:::

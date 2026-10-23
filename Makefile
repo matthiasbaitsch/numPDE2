@@ -15,13 +15,13 @@ render-veranstaltung: prepare-render
 update-extension:
 	quarto update matthiasbaitsch/quarto-tinh --no-prompt
 
-# Project.toml, instantiate.jl und Workspace-Datei aus bausteine/00-templates in alle Projektordner kopieren,
-# auch in die Ordnerstruktur für die Studierenden (lernpfad/veranstaltung/*/zip/*/projekt-*).
-# Workspace-Name in bausteine ohne Nummer (grundlagen-musterloesung), in der Ordnerstruktur wie der Ordner.
+# Copy Project.toml, Manifest.toml, instantiate.jl and workspace file from bausteine/00-templates to all
+# project folders, including the folder structure for the students (lernpfad/veranstaltung/*/zip/*/projekt-*).
+# Workspace name in bausteine from folder and block without number (aufgaben-grundlagen), in the folder structure like the folder.
 copy-templates:
 	julia skripte/copy-templates.jl
 
-# Zu Semesterbeginn: aktuelle Paketversionen (auch MMJMesh main) in das Manifest der Vorlage holen und verteilen
+# At the start of the semester: update package versions (also MMJMesh main) in the template manifest and distribute
 update-packages:
 	julia --project=bausteine/00-templates -e 'using Pkg; Pkg.update()'
 	julia skripte/copy-templates.jl

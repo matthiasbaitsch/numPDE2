@@ -1,10 +1,9 @@
 ---
 title: Test Dirichlet BCs
-jupyter: julia-1.11
 ---
 
 ```{julia}
-include("../projekt-musterloesung/src/fem.jl")
+include("../projekt/src/fem.jl")
 ```
 
 Test data
