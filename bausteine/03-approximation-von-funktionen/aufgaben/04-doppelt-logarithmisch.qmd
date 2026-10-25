@@ -1,0 +1,20 @@
+::: {#exr-doppelt-logarithmisch}
+## Doppelt-logarithmische Darstellung
+
+Konvergenzuntersuchungen werden meist doppelt-logarithmisch dargestellt, wie in der vorigen Aufgabe und im Abschnitt "Zur Interpretation von loglog-Plots" im Notebook.
+
+### Auf dem Papier lösen
+
+1. Zeigen Sie, dass der Graph der Funktion $y = C \cdot x^n$ mit $C > 0$ in doppelt-logarithmischer Darstellung eine Gerade ist. Welche Steigung hat sie, und welchen Wert hat sie bei $x = 1$?
+
+    Tipp: Führen Sie die Koordinaten $\hat{x} = \lg x$ und $\hat{y} = \lg y$ ein.
+
+1. Lesen Sie aus dem Plot des Fehlers über der Elementgröße $h$ in der vorigen Aufgabe die Steigung ab. Um welchen Faktor wird der Fehler kleiner, wenn Sie $h$ halbieren?
+
+### Mit Julia lösen
+
+1. Überprüfen Sie Ihre Antwort im Notebook: Berechnen Sie für aufeinanderfolgende Netze das Verhältnis $e_k / e_{k+1}$ der Fehler und daraus die Steigung $\log_2(e_k / e_{k+1})$. Ab welcher Elementanzahl stimmt Ihre Antwort?
+
+    Tipp: `es[1:end-1] ./ es[2:end]` teilt jeden Eintrag des Vektors `es` durch den folgenden.
+
+:::

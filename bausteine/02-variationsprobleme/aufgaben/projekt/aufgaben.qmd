@@ -6,7 +6,7 @@ using MMJMesh.Plots
 using MMJMesh.Mathematics
 ```
 
-## Funktionale, Linear- und Bilinearformen
+## Bilinearformen und Skalarprodukte
 
 ### Funktionen zum Testen
 
@@ -16,12 +16,11 @@ x = parameter(0 .. l)     # Parameter
 u1 = sin(3*x)             # Sinusfunktion
 u2 = x                    # Lineare Funktion
 u3 = constant(x, 1.0)     # Konstante Funktion
-u4 = 0 * x                # Nullfunktion
 
 fplot(u1, u2, u3)
 ```
 
-Ein Beispiel
+### Beispiel: Funktional (a)
 
 ```{julia}
 a(u, v) = integrate(u' * v', 0 .. l)
@@ -33,29 +32,15 @@ println(" s: ", a(u1, u2) ≈ a(u2, u1))
 println("pd: ", a(u3, u3) > 0)
 ```
 
-→ Symmetrische Bilinearform, aber nicht positiv definit
-
-(a)
-
 ::: {.solution}
-```{julia}
-a(u, v) = integrate(u' * v', 0 .. l) + u(0) * v(0)
-
-println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
-println("l2: ", a(u1, u2 + u3) ≈ a(u1, u2) + a(u1, u3))
-println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
-println(" s: ", a(u1, u2) ≈ a(u2, u1))
-println("pd: ", a(u3, u3) > 0)
-```
-:::
-
-::: {.solution}
-→ Skalarprodukt
+→ Symmetrische Bilinearform, aber nicht positiv definit: Für die konstante Funktion $u_3 \neq 0$ ist $a(u_3, u_3) = 0$, weil $u_3' = 0$.
 :::
 
 ::: {.scaffold}
 → ?
 :::
+
+### Funktionale (b) bis (f)
 
 (b)
 
@@ -63,7 +48,7 @@ println("pd: ", a(u3, u3) > 0)
 ```{julia}
 a(u, v) = integrate(u + v, 0 .. l)
 
-println(a(u1 + u2, u3) , " ", a(u1, u3) + a(u2, u3))
+println(a(u1 + u2, u3), " ", a(u1, u3) + a(u2, u3))
 println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
 ```
 :::
@@ -81,6 +66,8 @@ println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
 ::: {.solution}
 ```{julia}
 a(u, v) = 42
+
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
 ```
 :::
 
@@ -94,14 +81,100 @@ a(u, v) = 42
 
 (d)
 
+::: {.solution}
 ```{julia}
-```
+a(u, v) = u(0) * v(l)
 
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+println("l2: ", a(u1, u2 + u3) ≈ a(u1, u2) + a(u1, u3))
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
+println(" s: ", a(u3, u2) ≈ a(u2, u3))
+println("pd: ", a(u2, u2) > 0)
+```
+:::
+
+::: {.solution}
+→ Bilinearform, aber nicht symmetrisch ($a(u_3, u_2) = l$, $a(u_2, u_3) = 0$) und nicht positiv definit ($a(u_2, u_2) = 0$ für $u_2 \neq 0$)
+:::
+
+::: {.scaffold}
 → ?
+:::
 
 (e)
 
+::: {.solution}
 ```{julia}
-```
+a(u, v) = integrate(u * v, 0 .. l) + u(0) * v(l) - u(l) * v(0)
 
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+println("l2: ", a(u1, u2 + u3) ≈ a(u1, u2) + a(u1, u3))
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
+println(" s: ", a(u3, u2) ≈ a(u2, u3))
+println("pd: ", a(u1, u1) > 0, " ", a(u2, u2) > 0, " ", a(u3, u3) > 0)
+```
+:::
+
+::: {.solution}
+→ Positiv definit, aber nicht symmetrisch: Für $u = v$ heben sich die Randterme auf, $a(v, v) = \int_0^l v^2 \, \mathrm{d}x > 0$ für $v \neq 0$. Für $u \neq v$ heben sie sich im Allgemeinen nicht auf, z.B. $a(u_3, u_2) = \frac{l^2}{2} + l$, aber $a(u_2, u_3) = \frac{l^2}{2} - l$.
+:::
+
+::: {.scaffold}
 → ?
+:::
+
+(f)
+
+::: {.solution}
+```{julia}
+a(u, v) = integrate(u' * v', 0 .. l) + u(0) * v(0)
+
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+println("l2: ", a(u1, u2 + u3) ≈ a(u1, u2) + a(u1, u3))
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
+println(" s: ", a(u1, u2) ≈ a(u2, u1))
+println("pd: ", a(u3, u3) > 0)
+```
+:::
+
+::: {.solution}
+→ Skalarprodukt: Anders als bei (a) ist auch für Konstanten $a(v, v) > 0$. $a(v, v) = 0$ gilt nur, wenn $v' = 0$ (also $v$ konstant) und $v(0) = 0$ ist, also nur für $v = 0$.
+:::
+
+::: {.scaffold}
+→ ?
+:::
+
+### Zusammenfassung
+
+::: {.solution}
+| | bilinear | symmetrisch | positiv definit | Skalarprodukt |
+|---|:-:|:-:|:-:|:-:|
+| (a) | ja | ja | nein | nein |
+| (b) | nein | – | – | nein |
+| (c) | nein | – | – | nein |
+| (d) | ja | nein | nein | nein |
+| (e) | ja | nein | ja | nein |
+| (f) | ja | ja | ja | ja |
+:::
+
+::: {.scaffold}
+| | bilinear | symmetrisch | positiv definit | Skalarprodukt |
+|---|:-:|:-:|:-:|:-:|
+| (a) | ? | ? | ? | ? |
+| (b) | ? | ? | ? | ? |
+| (c) | ? | ? | ? | ? |
+| (d) | ? | ? | ? | ? |
+| (e) | ? | ? | ? | ? |
+| (f) | ? | ? | ? | ? |
+:::
+
+### Was zeigt die Überprüfung?
+
+::: {.solution}
+Man kann Gegenbeispiele finden, aber um eine Eigenschaft nachzuweisen muss man mathematisch argumentieren.
+:::
+
+::: {.scaffold}
+→ ?
+:::

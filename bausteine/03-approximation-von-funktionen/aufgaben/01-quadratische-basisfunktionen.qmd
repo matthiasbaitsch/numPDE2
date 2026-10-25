@@ -1,7 +1,7 @@
 ::: {#exr-quadratische-basisfunktionen}
 ## Abschnittsweise quadratische Basisfunktionen
 
-Es lassen sich auch Basisfunktionen definieren, die Abschnittsweise quadratisch sind. Hierzu wird jeweils noch ein Knoten in der Mitte jedes Elements angeordnet. Die Eigenschaft
+Es lassen sich auch Basisfunktionen definieren, die abschnittsweise quadratisch sind. Hierzu wird jeweils noch ein Knoten in der Mitte jedes Elements angeordnet. Die Eigenschaft
 
 $$
   \varphi_i(x_j) =
@@ -16,13 +16,14 @@ soll weiterhin erfüllt sein.
 Aufgaben:
 
 1. Skizzieren Sie die Basisfunktionen für $N_e = 3$ Elemente gleicher Länge. 
+
 1. Wie verläuft die Funktion $u_h = \sum \hat u_i \cdot \varphi_i$, wenn der Vektor der Knotenwerte mit 
   $$
     \hat{\mathbf{u}} = (2, 1.5, 1, 2, 1, 1, 2)
   $$
   vorgegeben wird. 
+
 1. Was können Sie hier über die Differenzierbarkeit von $u_h$ sagen?
 
 Tipp: Schauen Sie sich nochmal die Lagrange-Polynome an. Diese Aufgabe erfordert keinerlei Rechnungen, Skizze reicht!
-
 :::

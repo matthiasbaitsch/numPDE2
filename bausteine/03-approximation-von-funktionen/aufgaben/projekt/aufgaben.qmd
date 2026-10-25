@@ -6,17 +6,17 @@ using MMJMesh.Plots
 using MMJMesh.Mathematics
 ```
 
-## Funktionen approximieren
+## Approximation mit Hutfunktionen
 
 ### Funktionen
 
 ```{julia}
 x = parameter(0 .. 4π)
-f = cos(x)
-g = 1 - x / (4π)
-h = f * g
+u = cos(x)
+v = 1 - x / (4π)
+f = u * v
 
-fplot(f, g, h)
+fplot(u, v, f)
 ```
 
 ### Funktionswerte
@@ -24,8 +24,18 @@ fplot(f, g, h)
 ::: {.solution}
 ```{julia}
 x = [1, 3, 7]
-y = h.(x)
-p = fplot(h)
+y = f.(x)
+p = fplot(f)
+scatter!(x, y, color=:tomato)
+p
+```
+:::
+
+::: {.scaffold}
+```{julia}
+x = [1, 3, 7]
+y = 0 * x
+p = fplot(f)
 scatter!(x, y, color=:tomato)
 p
 ```
@@ -39,18 +49,28 @@ Funktion
 ```{julia}
 nodes = range(0, 4π, 6)
 phis = hatfunctions(nodes)
-uHat = h.(nodes)
-ha = uHat ⋅ phis
-fplot(ha, h)
+uHat = f.(nodes)
+fa = uHat ⋅ phis
+fplot(fa, f)
 ```
 :::
 
 Fehler
 
 ```{julia}
-e = h - ha
+e = f - fa
 fplot(e)
 ```
+
+### Norm
+
+::: {.solution}
+```{julia}
+norm2(u) = sqrt(integrate(u * u, domain(u)))
+
+norm2(e)
+```
+:::
 
 ### Konvergenz
 
@@ -58,26 +78,24 @@ Funktion um Approximationsfehler zu berechnen
 
 ::: {.solution}
 ```{julia}
-norm2(f) = sqrt(integrate(f * f, domain(f)))
-
-function error(Ne)
+function approximation_error(Ne)
     nodes = range(0, 4π, Ne + 1)
     phis = hatfunctions(nodes)
-    ha = h.(nodes) ⋅ phis
-    return norm2(h - ha)
+    fa = f.(nodes) ⋅ phis
+    return norm2(f - fa)
 end
 
-error(4)
+approximation_error(4)
 ```
 :::
 
-Approximationsfehler für $2, 4, 8, ..., 2^{10}$ Elemente
+Approximationsfehler für $4, 8, \dots, 2^{10}$ Elemente
 
 ::: {.solution}
 ```{julia}
 Nes = 2 .^ (2:10)
 hs = 4π ./ Nes
-es = error.(Nes)
+es = approximation_error.(Nes)
 ```
 :::
 
@@ -101,23 +119,23 @@ Mit loglog-Skala
 
 ::: {.solution}
 ```{julia}
-f = Figure()
-Axis(f[1, 1], xscale=log2, yscale=log10)
+fig = Figure()
+Axis(fig[1, 1], xscale=log2, yscale=log10)
 scatterlines!(Nes, es)
-f
+fig
 ```
 :::
 
 ::: {.solution}
 ```{julia}
-f = Figure()
-Axis(f[1, 1], xscale=log10, yscale=log10)
+fig = Figure()
+Axis(fig[1, 1], xscale=log2, yscale=log10)
 scatterlines!(hs, es)
-f
+fig
 ```
 :::
 
-## Zur Interpretation von loglog-Plots
+### Zur Interpretation von loglog-Plots
 
 ```{julia}
 mks = monomials(1:4, 0.0001 .. 1)
@@ -125,8 +143,26 @@ fplot(mks...)
 ```
 
 ```{julia}
-f = Figure()
-Axis(f[1, 1], xscale=log10, yscale=log10)
+fig = Figure()
+Axis(fig[1, 1], xscale=log10, yscale=log10)
 fplot!(mks...)
-f
+fig
 ```
+
+## Doppelt-logarithmische Darstellung
+
+Verhältnis aufeinanderfolgender Fehler (Halbierung von $h$)
+
+::: {.solution}
+```{julia}
+es[1:end-1] ./ es[2:end]
+```
+:::
+
+Steigung im loglog-Plot
+
+::: {.solution}
+```{julia}
+log2.(es[1:end-1] ./ es[2:end])
+```
+:::
