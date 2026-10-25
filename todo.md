@@ -19,5 +19,8 @@
   Unterschiede: Zip-Inhalte (C# bzw. Julia), `teil` in Folientitel und Buchteilen, `veranstaltung` nur hier,
   Duplikat-Check und dotnet nur in Informatik. Angehen, sobald dieselbe Verbesserung mehrfach in beiden Kopien
   nachgezogen werden muss. Mathe B bleibt außen vor (R-Pipeline mit Submodulen, zu verschieden).
+- [ ]  Folien zur Einführung (`lernpfad/veranstaltung/einfuehrung/folien.qmd`) zusätzlich als PDF
+  (`tinh-slides-typst` neben Reveal.js, mit `shift-heading-level-by: 0` wie bei den Bausteinfolien). Prüfen, wie
+  revealjs-spezifische Klassen wie `.down80` im PDF wirken.
 - [ ]  Skript zur Veranstaltung schreiben und die Folien daraus ableiten. Bis dahin sind die Folien die
   handschriftlichen Notizen (`bausteine/*/folien/notizen/`, seitenweise eingebunden in `folien/folien.qmd`).
