@@ -1,0 +1,57 @@
+# Brand der Hochschule Bochum nach dem Corporate-Design-Handbuch
+# https://www.hochschule-bochum.de/meinebo/intranet/corporate-design-handbuch/grundlage/
+
+meta:
+  name: Hochschule Bochum
+  link: https://www.hochschule-bochum.de
+
+# Logos unverändert aus dem Download der Hochschule (Logos_2025, RGB, SVG). Das Handbuch erlaubt nur die
+# Verwendung der Downloads in unveränderter Form.
+logo:
+  images:
+    quer:
+      path: logos/hsbo_logo_RGB_Complete_Wide.svg
+      alt: Logo der Hochschule Bochum
+    quer-weiss:
+      path: logos/hsbo_logo_RGB_WHITE_Complete_Wide.svg
+      alt: Logo der Hochschule Bochum
+    hoch:
+      path: logos/hsbo_logo_RGB_Complete_Narrow.svg
+      alt: Logo der Hochschule Bochum
+    hoch-weiss:
+      path: logos/hsbo_logo_RGB_WHITE_Complete_Narrow.svg
+      alt: Logo der Hochschule Bochum
+    bo:
+      path: logos/hsbo_logo_RGB_BO.svg
+      alt: Bildmarke BO der Hochschule Bochum
+    bo-weiss:
+      path: logos/hsbo_logo_RGB_WHITE_BO.svg
+      alt: Bildmarke BO der Hochschule Bochum
+  small:
+    light: bo
+    dark: bo-weiss
+  medium:
+    light: quer
+    dark: quer-weiss
+  large:
+    light: hoch
+    dark: hoch-weiss
+
+# Farben aus dem Handbuch (Grundlage, Farben): BO Rot und die Bereichsfarben
+color:
+  palette:
+    bo-rot: "#E2001A"
+    architektur: "#0288C2"
+    bauingenieurwesen: "#E39005"
+    geodaesie: "#006E2E"
+    gesundheitswissenschaften: "#6A46A8"
+    elektrotechnik-informatik: "#ACC91D"
+    mechatronik-maschinenbau: "#005680"
+    pflege-hebammen-therapie: "#3EBEB0"
+    wirtschaft: "#F8D200"
+    zentrale-einrichtungen: "#860F67"
+    verwaltung: "#7B7C7E"
+  primary: bo-rot
+
+# Schriften: Die Hausschriften BO Regular, BO Antiqua und BO Display gibt es nur auf Anfrage (Dezernat 3), im
+# Web nimmt die Hochschule Arial. Daher hier keine typography, die Schriften kommen aus den Formaten.

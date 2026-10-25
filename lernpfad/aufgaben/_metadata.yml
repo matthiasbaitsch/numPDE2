@@ -3,6 +3,10 @@ format-links: true
 resources: 
   - "**/*.zip"
 
-format: 
+# Logo der Brand (hsbo-brand, _brand/) im Querformat auf den Aufgabenblättern, wie in quarto-tinh
+format:
   tinh-assignments-html: default
-  tinh-assignments-typst: default
+  tinh-assignments-typst:
+    logo:
+      path: medium
+      width: 5cm

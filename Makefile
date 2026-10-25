@@ -12,8 +12,10 @@ render-folien: prepare-render
 render-veranstaltung: prepare-render
 	quarto render lernpfad/veranstaltung
 
+# Update extension tinh (_extensions/) and brand of Hochschule Bochum (_brand/)
 update-extension:
 	quarto update matthiasbaitsch/quarto-tinh --no-prompt
+	quarto use brand matthiasbaitsch/hsbo-brand --force
 
 # Copy Project.toml, Manifest.toml, instantiate.jl and workspace file from bausteine/00-templates to all
 # project folders, including the folder structure for the students (lernpfad/veranstaltung/*/zip/*/projekt-*).
