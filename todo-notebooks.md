@@ -4,7 +4,7 @@
 
 - [X]  Quellen in `bausteine/*/*/projekt*/` als `folien.qmd` bzw. `aufgaben.qmd` statt `.ipynb` einchecken
   (bestehende Notebooks einmalig konvertieren, z.B. `quarto convert`).
-- [X]  Lernpfad-Skript (`try_zip_notebook` in `skripte/lernpfad-zusammenstellen.jl`): `.qmd` erst beim
+- [X]  Lernpfad-Skript (`try_zip_notebook` in `skripte/make-learning-path.jl`): `.qmd` erst beim
   Bereitstellen nach `.ipynb` konvertieren und dann wie bisher zippen. Dabei das Gerüst aus der Musterlösung
   erzeugen statt doppelt pflegen. In `aufgaben/projekt-musterloesung/aufgaben.qmd` markieren:
   - `#| keep: true` – Code-Zelle bleibt im Gerüst stehen, alle übrigen Code-Zellen werden geleert
@@ -33,7 +33,7 @@
 ## Download-Link in den PDF-Folien
 
 - [X]  Der Link auf der Folie „Material“ (`[⬇ Notebook zu den Folien herunterladen](…-folien.zip)`, erzeugt in
-  `skripte/lernpfad-zusammenstellen.jl`) funktioniert in den PDF-Folien nicht. Jetzt absolute URL zur
+  `skripte/make-learning-path.jl`) funktioniert in den PDF-Folien nicht. Jetzt absolute URL zur
   GitHub-Seite (`SITE_URL` im Skript).
 
 ## IJulia

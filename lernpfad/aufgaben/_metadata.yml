@@ -1,5 +1,10 @@
 format-links: true
 
+# Literatur nur bei den Aufgaben (Typst setzt bei den Folien sonst eine leere Folie ans Ende). Die Dateien
+# kopiert das Lernpfad-Skript aus bausteine/ nach c
+bibliography: bibliographie.bib
+csl: style.csl
+
 resources: 
   - "**/*.zip"
 

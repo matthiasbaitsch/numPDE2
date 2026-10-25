@@ -14,8 +14,8 @@
 - [ ]  Baustein **Geometrisch nichtlineare Analyse** anlegen. Inhalt: Grundlagen der nichtlinearen
   Kontinuumsmechanik, Finite-Elemente-Diskretisierung, Lösung des nichtlinearen Gleichungssystems. Material: Skript
   1.0 Kapitel 4, `../../numPDE/07-matlab/05-nonlinear-structural-mechanics`.
-- [ ]  Idee, nicht dringend: `skripte/lernpfad-zusammenstellen.jl` mit dem Informatik-Projekt
-  (`../../informatik-master_2.0/unterlagen/skripte`) zusammenführen, z.B. als gemeinsames Repo analog zu `tinh`.
+- [ ]  Idee, nicht dringend: `skripte/make-learning-path.jl` mit dem Informatik-Projekt
+  (`../../informatik-master_2.0/unterlagen/skripte/lernpfad-zusammenstellen.jl`) zusammenführen, z.B. als gemeinsames Repo analog zu `tinh`.
   Unterschiede: Zip-Inhalte (C# bzw. Julia), `teil` in Folientitel und Buchteilen, `veranstaltung` nur hier,
   Duplikat-Check und dotnet nur in Informatik. Angehen, sobald dieselbe Verbesserung mehrfach in beiden Kopien
   nachgezogen werden muss. Mathe B bleibt außen vor (R-Pipeline mit Submodulen, zu verschieden).

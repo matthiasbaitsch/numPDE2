@@ -1,8 +1,4 @@
-author:
-  - Matthias Baitsch
 
-resources:
-  - "**/*.zip"
 
 # ## ist immer eine Folie, auch ohne #-Überschriften (Quarto macht sonst ## zu Ebene 1)
 shift-heading-level-by: 0

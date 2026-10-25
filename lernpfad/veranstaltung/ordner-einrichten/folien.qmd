@@ -1,6 +1,8 @@
 ---
 title: Ordner für die Vorlesung einrichten
 subtitle: Numerik partieller Differentialgleichungen
+format: 
+   tinh-slides-revealjs: default
 ---
 
 ## Sinnvolle Ordnerstruktur für die Vorlesung

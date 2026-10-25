@@ -1,16 +1,16 @@
 render: render-aufgaben render-folien render-veranstaltung
 
 prepare-render:
-	cd skripte && julia -t1 --project lernpfad-zusammenstellen.jl || exit 1
+	cd skripte && julia -t1 --project make-learning-path.jl || exit 1
 
 render-aufgaben: prepare-render
-	quarto render lernpfad/aufgaben
+	quarto render lernpfad/aufgaben/c
 
 render-folien: prepare-render
-	quarto render lernpfad/folien
+	quarto render lernpfad/folien/c
 
 render-veranstaltung: prepare-render
-	quarto render lernpfad/veranstaltung
+	quarto render lernpfad/veranstaltung/c
 
 # Update extension tinh (_extensions/) and brand of Hochschule Bochum (_brand/)
 update-extension:

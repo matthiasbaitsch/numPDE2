@@ -1,6 +1,12 @@
 lang: de
 engine: julia
 
+author:
+  - Matthias Baitsch
+
+resources:
+  - "**/*.zip"
+
 crossref:
     exr-title: "Aufgabe"
     exr-prefix: "Aufgabe"

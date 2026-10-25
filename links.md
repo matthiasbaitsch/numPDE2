@@ -6,13 +6,13 @@
 
 **Folien**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/01-einfuehrung.html
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/einfuehrung.html
 
 ### Ordner für die Vorlesung einrichten
 
 **Folien**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/02-ordner-einrichten.html
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/ordner-einrichten.html
 
 **Ordnerstruktur (Zip)**
 
@@ -28,9 +28,9 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/01-bohrpfahl-grundla
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/01-bohrpfahl-grundlagen-folien.zip
 
-**Notebook Folien (fertig)**
+**Notebook Folien (Lösung)**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/01-bohrpfahl-grundlagen-folien-fertig.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/01-bohrpfahl-grundlagen-folien-loesung-c683bb27.zip
 
 **Aufgaben**
 
@@ -42,7 +42,7 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grund
 
 **Musterlösung**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grundlagen-musterloesung-c683bb27.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grundlagen-aufgaben-loesung-c683bb27.zip
 
 ## 02 Bohrpfahl: Lineare Räume und Variationsprobleme
 
@@ -54,9 +54,9 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-folien.zip
 
-**Notebook Folien (fertig)**
+**Notebook Folien (Lösung)**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-folien-fertig.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-folien-loesung-52068d50.zip
 
 **Aufgaben**
 
@@ -64,7 +64,7 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/02-bohrpfahl-linea
 
 **Musterlösung**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-musterloesung-52068d50.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-aufgaben-loesung-52068d50.zip
 
 ## 03 Bohrpfahl: Approximation von Funktionen
 
@@ -76,9 +76,9 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approxi
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approximation-von-funktionen-folien.zip
 
-**Notebook Folien (fertig)**
+**Notebook Folien (Lösung)**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approximation-von-funktionen-folien-fertig.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approximation-von-funktionen-folien-loesung-ed7ae60a.zip
 
 **Aufgaben**
 
@@ -86,7 +86,7 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-appro
 
 **Musterlösung**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-approximation-von-funktionen-musterloesung-ed7ae60a.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-approximation-von-funktionen-aufgaben-loesung-ed7ae60a.zip
 
 ## 04 Bohrpfahl: Numerische Lösung
 
@@ -100,7 +100,7 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numer
 
 **Musterlösung**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-musterloesung-9d2e7d9f.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben-loesung-9d2e7d9f.zip
 
 ## 05 Bohrpfahl: Elementweise Berechnung
 
@@ -114,7 +114,7 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/05-bohrpfahl-eleme
 
 **Musterlösung**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/05-bohrpfahl-elementweise-berechnung-musterloesung-d49f06fb.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/05-bohrpfahl-elementweise-berechnung-aufgaben-loesung-d49f06fb.zip
 
 ## 06 Wärmeleitung: Grundlagen
 
@@ -138,7 +138,7 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/07-waermeleitung-d
 
 **Musterlösung**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/07-waermeleitung-dirichlet-randbedingungen-musterloesung-0f26be00.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/07-waermeleitung-dirichlet-randbedingungen-aufgaben-loesung-0f26be00.zip
 
 ## 08 Wärmeleitung: Robin-Randbedingungen
 
@@ -152,7 +152,7 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/08-waermeleitung-r
 
 **Musterlösung**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/08-waermeleitung-robin-randbedingungen-musterloesung-57338753.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/08-waermeleitung-robin-randbedingungen-aufgaben-loesung-57338753.zip
 
 ## 09 Wärmeleitung: Instationäre Probleme
 
@@ -166,4 +166,4 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/09-waermeleitung-i
 
 **Musterlösung**
 
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/09-waermeleitung-instationaere-probleme-musterloesung-e4167404.zip
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/09-waermeleitung-instationaere-probleme-aufgaben-loesung-e4167404.zip

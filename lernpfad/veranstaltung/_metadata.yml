@@ -1,8 +1,0 @@
-author:
-  - Matthias Baitsch
-
-resources:
-  - "*.zip"
-
-format:
-  tinh-slides-revealjs: default

@@ -4,8 +4,8 @@ Unterlagen zum Modul Numerik partieller Differentialgleichungen im Master Bau- u
 
 ## Veranstaltung
 
-- Einführung: [Folien](https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/01-einfuehrung.html)
-- Ordner für die Vorlesung einrichten: [Folien](https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/02-ordner-einrichten.html)
+- Einführung: [Folien](https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/einfuehrung.html)
+- Ordner für die Vorlesung einrichten: [Folien](https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/ordner-einrichten.html)
 
 ## Bohrpfahl
 
