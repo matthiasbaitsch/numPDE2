@@ -1,10 +1,11 @@
 title: tinh-slides
 author: Matthias Baitsch
-version: 0.7.1
+version: 0.9.0
 quarto-required: ">=1.8.0"
 contributes:
   formats:
     revealjs:
+      # Quartos Logo aus, stattdessen logo.lua
       logo: false
       filters:
         - logo.lua
@@ -19,21 +20,38 @@ contributes:
         url: "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"
       theme:
         - slides.scss
-        - titlepage.scss
     typst:
+      # Quartos Brand-Logo (page.typ), statt der Voreinstellung für A4 klein unten rechts
+      # (Seitenzahl links, siehe tinh-clean-theme in tinh-slides.typ)
+      logo:
+        location: right-bottom
+        width: 0.9cm
+        padding: 0.1cm
       lang: de
+      # Typsts eigene Hervorhebung, damit Codeblöcke raw-Blöcke bleiben (Größe in tinh-slides.typ)
+      syntax-highlighting: idiomatic
+      # touying-Bridge, eingebettet mit
+      # quarto add kazuyanagimoto/quarto-touying-typst --embed tinh-slides
+      # Pfade statt Name: die Bridge meldet Filter und Shortcodes nur in ihrem Format an
       shortcodes:
-        - shortcodes.lua
+        - _extensions/kazuyanagimoto/touying/shortcodes.lua
       filters:
-        - touying.lua
-        - environment.lua
-        - logo.lua
+        - _extensions/kazuyanagimoto/touying/touying.lua
+        - _extensions/kazuyanagimoto/touying/environment.lua
       template-partials:
-        - typst-template.typ
-        - typst-show.typ
-        - page.typ
+        - _extensions/kazuyanagimoto/touying/typst-template.typ
+        - _extensions/kazuyanagimoto/touying/typst-show.typ
+      # Befehle aus tinh-slides.typ für environment.lua der Bridge
+      commands:
+        - neuerbegriff
+        - ja
+        - nein
+        - down10
+        - down20
+        - down30
+        - down40
+        - down50
       include-in-header:
         - tinh-slides.typ
-      theme-typst: clean-theme
-      theme-title-slide: tinh-title-slide
+      theme-typst: tinh-clean-theme
       aspect-ratio: "16-9"

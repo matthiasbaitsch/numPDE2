@@ -106,7 +106,7 @@ $selection-bg: #26351c !default;
 .reveal {
   pre {
     font-weight: lighter !important;
-    font-size: 0.825em !important;
+    font-size: 0.75em !important;
   }
 
   code {
@@ -378,6 +378,15 @@ $selection-bg: #26351c !default;
   .slide-chalkboard-buttons>* {
     pointer-events: auto;
   }
+
+  // Mit Logo (unten rechts) setzt Quarto die Seitenzahl oben rechts, dort liegt aber das Menü.
+  // !important, weil Quartos footer.css nach dem Theme kommt
+  &.has-logo .slide-number {
+    top: initial !important;
+    right: initial !important;
+    bottom: 10px !important;
+    left: 10px !important;
+  }
 }
 
 // Hilfsklassen (ohne .reveal)
@@ -496,4 +505,8 @@ $selection-bg: #26351c !default;
     display: block;
     margin-top: #{$n}px;
   }
+}
+
+#title-slide .quarto-title-author-name {
+  font-size: 0.8em;
 }

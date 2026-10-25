@@ -1,4 +1,3 @@
-// Aus kazuyanagimoto/quarto-touying-typst (MIT, siehe LICENSE-touying).
 #import "@preview/touying:0.7.4": *
 
 // Inline helpers (theme-independent) -----------------------------------------

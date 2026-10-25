@@ -1,4 +1,3 @@
--- Aus kazuyanagimoto/quarto-touying-typst (MIT, siehe LICENSE-touying), für tinh um eigene Befehle ergänzt.
 -- Configurable Typst commands (inline spans) and environments (block divs).
 -- Ported from quarto-clean-typst. A `[x]{.cmd}` span becomes `#cmd()[x]` and a
 -- `::: {.env}` div becomes `#env()[ .. ]`; an `options` attribute is passed as
@@ -18,15 +17,6 @@ local classCommands = pandoc.MetaMap({
   ["small-cite"] = "small-cite",
   ["only"] = "only",
   ["uncover"] = "uncover",
-  -- tinh: Befehle aus tinh-slides.typ
-  ["neuerbegriff"] = "neuerbegriff",
-  ["ja"] = "ja",
-  ["nein"] = "nein",
-  ["down10"] = "down10",
-  ["down20"] = "down20",
-  ["down30"] = "down30",
-  ["down40"] = "down40",
-  ["down50"] = "down50",
 })
 
 -- helper that identifies arrays

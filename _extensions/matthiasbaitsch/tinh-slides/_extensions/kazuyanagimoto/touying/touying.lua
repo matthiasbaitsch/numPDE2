@@ -1,4 +1,3 @@
--- Aus kazuyanagimoto/quarto-touying-typst (MIT, siehe LICENSE-touying).
 -- Bridge filter: maps Quarto's presentation syntax onto Touying primitives.
 
 -- A Markdown horizontal rule (`---`) starts a new slide, matching Touying's

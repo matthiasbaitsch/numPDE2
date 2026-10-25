@@ -1,4 +1,3 @@
-// Aus kazuyanagimoto/quarto-touying-typst (MIT, siehe LICENSE-touying), für tinh um das Logo ergänzt.
 // PDF metadata ---------------------------------------------------------------
 #set document(
   $if(title)$ title: [$title$], $endif$
@@ -82,8 +81,6 @@ $endif$
   $endif$
   $if(date)$ date: [$date$], $endif$
   $if(institute)$ institution: [$institute$], $endif$
-  // tinh: Logo der Brand (logo.medium), gesetzt von logo.lua
-  $if(tinh-logo)$ logo: image("$tinh-logo$", height: 0.75em), $endif$
 )
 
 // Title slide ----------------------------------------------------------------

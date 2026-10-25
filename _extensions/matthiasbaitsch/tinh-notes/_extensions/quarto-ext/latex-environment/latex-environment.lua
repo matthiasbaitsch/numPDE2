@@ -1,4 +1,3 @@
--- Aus quarto-ext/latex-environment 1.2.1 (MIT, siehe LICENSE-latex-environment).
 -- environment.lua
 -- Copyright (C) 2020 by RStudio, PBC
 

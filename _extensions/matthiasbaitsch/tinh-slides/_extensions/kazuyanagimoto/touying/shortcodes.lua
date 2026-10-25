@@ -1,4 +1,3 @@
--- Aus kazuyanagimoto/quarto-touying-typst (MIT, siehe LICENSE-touying).
 -- Universal Touying animation shortcodes.
 -- These work with every Touying theme (the reducer is theme-independent).
 
