@@ -1,6 +1,6 @@
 ## Die Bibliothek MMJMesh
 
-Das Paket [MMJMesh](https://matthiasbaitsch.github.io/mmjmesh/guide) (*Matthias' und Minh's Julia Mesh Library*) stellt das Grundfunktionen für die Programmierung der Methode der finiten Elemente bereit. Für diesen Abschnitt benötigen wir die Bausteine `MMJMesh.Mathematics` mit mathematischen Funktionen und `MMJMesh.Plots` zum Plotten .
+Das Paket [MMJMesh](https://matthiasbaitsch.github.io/mmjmesh/guide) (*Matthias' und Minh's Julia Mesh Library*) stellt die Grundfunktionen für die Programmierung der Methode der finiten Elemente bereit. Für diesen Abschnitt benötigen wir die Bausteine `MMJMesh.Mathematics` mit mathematischen Funktionen und `MMJMesh.Plots` zum Plotten.
 
 ```{julia}
 using CairoMakie
@@ -50,11 +50,11 @@ fplot(u'' + u)
 ```
 :::
 
-## Randwertproblem Bohrpfahlproblem
+## Randwertproblem Bohrpfahl
 
 Randwertproblem Bohrpfahl (D): Gesucht ist eine Funktion $u: [0, l] \to \R$, die
 
-1. die Differentialgeichung
+1. die Differentialgleichung
 
     $$
         EA u''(x) - C u(x) = -n
@@ -125,7 +125,7 @@ fplot(EA * u', zero(x), npoints = 10)
 ```
 :::
 
-Kontrolle: Es muss $EA u'(x) - C u(x) + n = 0$ gelten
+Kontrolle: Es muss $EA u''(x) - C u(x) + n = 0$ gelten
 
 ::: {.solution}
 ```{julia}
@@ -140,7 +140,7 @@ Kontrolle Randbedingungen
 ::: {.solution}
 ```{julia}
 println(EA * u'(0) ≈ -F)
-println(abs(EA * u'(l) + S * u(l)) < 1e-9)
+println(EA * u'(l) ≈ -S * u(l))
 ```
 :::
 
@@ -160,7 +160,7 @@ Rechte Seite
 
 ::: {.solution}
 ```{julia}
-b(δu1) = n * integrate(δu1, 0 .. l) + F * δu1(0)
+b(δu) = n * integrate(δu, 0 .. l) + F * δu(0)
 
 println(b(δu1))
 println(b(δu3))
@@ -171,7 +171,7 @@ Linke Seite
 
 ::: {.solution}
 ```{julia}
-a(u, δu1) = EA * integrate(u' * δu1', 0 .. l) + C * integrate(u * δu1, 0 .. l) + S * u(l) * δu1(l)
+a(u, δu) = EA * integrate(u' * δu', 0 .. l) + C * integrate(u * δu, 0 .. l) + S * u(l) * δu(l)
 
 println(a(u, δu1))
 println(a(u, δu3))

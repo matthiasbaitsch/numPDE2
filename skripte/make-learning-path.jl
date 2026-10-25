@@ -106,13 +106,28 @@ function substitute_text(text::String, dict::Dict)
     return text
 end
 
-# Header and all .qmd files directly in source_folder as one text, with placeholders replaced; warns about
-# placeholders that are left (unknown or no notebook)
-function assemble_qmd(header::String, bb::BuildingBlock, source_folder::String)
+is_solution(f::String) = endswith(f, ".sol.qmd")
+
+# Only the title of an assignment: opening line of the div ::: {#exr-…} and heading, so the number stays the same
+function assignment_title(text::String)
+    lines = split(text, '\n')
+    return join([first(filter(l -> startswith(l, ":::"), lines)), first(filter(l -> startswith(l, "## "), lines)), ":::"], "\n")
+end
+
+# Header and all .qmd files directly in source_folder (except solutions x.sol.qmd) as one text, with placeholders
+# replaced; with_solution: instead of each assignment its title followed by the solution or "Keine Lösung"; warns
+# about placeholders that are left (unknown or no notebook)
+function assemble_qmd(header::String, bb::BuildingBlock, source_folder::String; with_solution::Bool=false)
     text = header
     text *= "\n"
-    for f ∈ filter(f -> endswith(f, ".qmd"), readdir(source_folder, join=true))
-        text *= read(f, String)
+    for f ∈ filter(f -> endswith(f, ".qmd") && !is_solution(f), readdir(source_folder, join=true))
+        if with_solution
+            solution = replace(f, r"\.qmd$" => ".sol.qmd")
+            text *= assignment_title(read(f, String)) * "\n\n"
+            text *= isfile(solution) ? read(solution, String) : "Keine Lösung\n"
+        else
+            text *= read(f, String)
+        end
         text *= "\n\n"
     end
     text = substitute_text(text, make_dict(bb))
@@ -207,7 +222,7 @@ function make_assignments(bb::BuildingBlock, assignments_folder::String, target_
 
     zip_project_notebooks(bb, assignments_folder, target_folder, "aufgaben", bb.target)
 
-    header = """
+    header(kind) = """
      ---
      number-offset: $(bb.number - 1)
      format:
@@ -216,10 +231,19 @@ function make_assignments(bb::BuildingBlock, assignments_folder::String, target_
            text: |
              #counter(heading).update($(bb.number - 1))
      ---
-     # $(bb.part): $(bb.title) (Aufgaben)
+     # $(bb.part): $(bb.title) ($kind)
      """
 
-    write(joinpath(target_folder, slug(bb) * "-aufgaben.qmd"), assemble_qmd(header, bb, assignments_folder))
+    write(joinpath(target_folder, slug(bb) * "-aufgaben.qmd"), assemble_qmd(header("Aufgaben"), bb, assignments_folder))
+
+    # Solution sheet (paper and pencil) if there are solutions, with the hash of the solution notebook
+    if any(is_solution, readdir(assignments_folder))
+        write(
+            joinpath(target_folder, "$(slug(bb))-aufgaben-loesung-$(solution_hash(bb)).qmd"),
+            assemble_qmd(header("Lösungen"), bb, assignments_folder; with_solution=true)
+        )
+    end
+
     copy_resources(assignments_folder, target_folder)
 end
 

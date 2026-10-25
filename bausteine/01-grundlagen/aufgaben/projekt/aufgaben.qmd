@@ -66,6 +66,8 @@ b(δw) = q * integrate(δw, 0 .. l)
 
 ### Variationsproblem auswerten
 
+Testfunktionen
+
 ::: {.solution}
 ```{julia}
 δw1 = sin(x) + x
@@ -76,6 +78,8 @@ b(δw) = q * integrate(δw, 0 .. l)
 fplot(δw1, δw2, δw3, δw4)
 ```
 :::
+
+Bedingung prüfen
 
 ::: {.solution}
 ```{julia}

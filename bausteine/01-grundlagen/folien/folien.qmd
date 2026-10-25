@@ -15,6 +15,14 @@
 #notiz("notizen/NP 1D 02 Strong form.pdf", 6)
 ```
 
+## Boundary conditions of the pile
+
+- Top, $x = 0$: $EA \cdot u'(0) = -F$\
+  Derivative prescribed: **Neumann BC**
+- Tip, $x = l$: $EA \cdot u'(l) + S \cdot u(l) = 0$\
+  Function value and derivative combined: **Robin BC**
+- No Dirichlet BC: the displacement is not prescribed anywhere
+
 ```{=typst}
 #notiz("notizen/NP 1D 03 Weak form.pdf", 1)
 #notiz("notizen/NP 1D 03 Weak form.pdf", 2)
@@ -29,6 +37,14 @@
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 1)
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 2)
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 3)
+```
+
+## Equivalence of (D) and (V)
+
+- (D) $\Rightarrow$ (V): we have shown this by multiplying with a test function, integrating and integrating by parts
+- (V) $\Rightarrow$ (D): the proof requires more mathematics than we have available here – in this course we accept it
+
+```{=typst}
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 4)
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 5)
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 6)
