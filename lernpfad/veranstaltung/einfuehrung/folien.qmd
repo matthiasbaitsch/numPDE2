@@ -1,7 +1,11 @@
 ---
 title: Einführung
 subtitle: Numerik partieller Differentialgleichungen
+format: 
+   tinh-slides-typst: default
 ---
+
+# Einführung
 
 ##
 
@@ -24,13 +28,13 @@ subtitle: Numerik partieller Differentialgleichungen
 
 ## DIANA FEA
 
-![](bilder/diana.jpg)
+![](bilder/diana.jpg){width=90% fig-align="center"}
 
 - Simulation einer Hohlkörperdecke mit Rissbildung (Dr. Denis Busch)
 
 ## SOFiSTiK
 
-![](bilder/sofistik.jpg)
+![](bilder/sofistik.jpg){width=70% fig-align="center"}
 
 - Berechnung Bürogebäude, BIM-Seminar (Stephan Seibel)
 
@@ -77,6 +81,8 @@ und Randbedingungen.
 - Näherungsverfahren für gewöhnliche und partielle DGLn
 - Vielfältigste Anwendungsmöglichkeiten
 - Unmenge an Literatur
+
+# Über dieses Modul
 
 ## Über dieses Modul
 
