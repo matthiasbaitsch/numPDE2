@@ -81,11 +81,6 @@ fplot(uh, u, npoints=100)
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 ```{julia}
 Nh = p.EA * uh'
@@ -93,19 +88,9 @@ fplot(Nh, N, npoints=100)
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 ```{julia}
 fplot(0 * x, u - uh, npoints=100)
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -125,11 +110,6 @@ fig
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 Normalkraft
 
 ::: {.solution}
@@ -143,11 +123,6 @@ for k = 2 .^ (1:5)
     fplot!(Nh, connect_jumps=true)
 end
 fig
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -172,19 +147,9 @@ end
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 ```{julia}
 scatterlines(hks, eks)
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -197,22 +162,12 @@ f
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 ```{julia}
 f = Figure()
 Axis(f[1, 1], xscale=log10, yscale=log10, title="Fehler in Prozent")
 scatterlines!(nes, eks)
 f
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -228,11 +183,6 @@ using MMJMesh.Plots
 using MMJMesh.Mathematics
 
 si(x, u) = ustrip(upreferred(x * uparse(u)))
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -263,11 +213,6 @@ V = M'
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 ```{julia}
 println(1000 * V(0) ≈ q * l / 2)
@@ -278,21 +223,11 @@ println(1000 * M(l / 2) ≈ q * l^2 / 8)
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 ```{julia}
 fig = Figure()
 fplot!(Axis(fig[1, 1], title="Displacement"), 1000 * w, zero(w), npoints=10)
 fplot!(Axis(fig[2, 1], title="Bending moment and shear force"), M, V, zero(w), npoints=10)
 fig
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::

@@ -2,8 +2,7 @@ using SHA
 using YAML
 using ZipArchives
 
-include("notebooks.jl")
-using .Notebooks
+include("filter-notebook.jl")
 
 # Published learning path, for absolute links (relative links do not work in PDF files)
 const SITE_URL = "https://matthiasbaitsch.github.io/numPDE2/lernpfad"
@@ -19,7 +18,7 @@ struct BuildingBlock
     number::Int
     title::String
     part::String
-    target::Union{Symbol,Nothing}    # target of the assignments notebook for the students (see notebooks.jl)
+    target::Union{Symbol,Nothing}    # target of the assignments notebook for the students (see filter-notebook.jl)
 end
 
 function BuildingBlock(folder::String)
@@ -139,13 +138,14 @@ function zip_folder(source_folder::String, zipfile::String)
     end
 end
 
-# Notebook from .qmd (see notebooks.jl) as zip. Zip because GitHub Pages serves .ipynb as text and browsers
+# Notebook from .qmd (see filter-notebook.jl) as zip. Zip because GitHub Pages serves .ipynb as text and browsers
 # display it when linked from other sites (Moodle)
 function zip_notebook(
-    source::String, zipfile::String, name::String=replace(basename(zipfile), r"\.zip$" => ".ipynb"); kwargs...
+    source::String, title::String, subtitle::String, target::Symbol, zipfile::String,
+    name::String=replace(basename(zipfile), r"\.zip$" => ".ipynb")
 )
     ipynb = joinpath(mktempdir(), name)
-    make_notebook(source, ipynb; kwargs...)
+    filter_notebook(source, title, subtitle, target, ipynb)
     mkpath(dirname(zipfile))
     ZipWriter(zipfile) do w
         zip_newfile(w, name; compress=true)
@@ -164,17 +164,17 @@ function zip_project_notebooks(
     subtitle = titlecase(kind)
 
     # Each notebook as zip and, for checking, as .qmd in c/_qmd (Quarto does not render folders starting with _)
-    function zip_with_check(zipfile, name; kwargs...)
-        zip_notebook(source, joinpath(target_folder, zipfile), name; kwargs...)
+    function zip_with_check(subtitle, target, zipfile, name)
+        zip_notebook(source, title, subtitle, target, joinpath(target_folder, zipfile), name)
         mkpath(joinpath(target_folder, "_qmd"))
-        make_notebook(source, joinpath(target_folder, "_qmd", replace(name, r"\.ipynb$" => ".qmd")); kwargs...)
+        filter_notebook(source, title, subtitle, target, joinpath(target_folder, "_qmd", replace(name, r"\.ipynb$" => ".qmd")))
     end
 
     solution = "$(slug(bb))-$kind-loesung"
-    zip_with_check("$solution-$(solution_hash(bb)).zip", "$solution.ipynb"; title, subtitle="$subtitle (Lösung)", target=:solution)
+    zip_with_check("$subtitle (Lösung)", :solution, "$solution-$(solution_hash(bb)).zip", "$solution.ipynb")
     isnothing(target) && return nothing
     notebook = "$(slug(bb))-$kind"
-    zip_with_check("$notebook.zip", "$notebook.ipynb"; title, subtitle, target)
+    zip_with_check(subtitle, target, "$notebook.zip", "$notebook.ipynb")
     return "$notebook.zip"
 end
 

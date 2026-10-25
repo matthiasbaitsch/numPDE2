@@ -31,11 +31,6 @@ p
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ### Approximation
 
 Funktion
@@ -47,11 +42,6 @@ phis = hatfunctions(nodes)
 uHat = h.(nodes)
 ha = uHat ⋅ phis
 fplot(ha, h)
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -81,11 +71,6 @@ error(4)
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 Approximationsfehler für $2, 4, 8, ..., 2^{10}$ Elemente
 
 ::: {.solution}
@@ -93,11 +78,6 @@ Approximationsfehler für $2, 4, 8, ..., 2^{10}$ Elemente
 Nes = 2 .^ (2:10)
 hs = 4π ./ Nes
 es = error.(Nes)
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -109,21 +89,11 @@ scatterlines(Nes, es)
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 Fehler über Elementgröße
 
 ::: {.solution}
 ```{julia}
 scatterlines(hs, es)
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -138,22 +108,12 @@ f
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 ```{julia}
 f = Figure()
 Axis(f[1, 1], xscale=log10, yscale=log10)
 scatterlines!(hs, es)
 f
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 

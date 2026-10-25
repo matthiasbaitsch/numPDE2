@@ -79,11 +79,6 @@ println(b(u + v) ≈ b(u) + b(v))
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 ```{julia}
 println(a(3 * u, v) ≈ 3 * a(u, v))            # Linearität im ersten Parameter
@@ -96,11 +91,6 @@ println(a(w, w) > 0)
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 Man kann sich überlegen, dass diese Eigenschaften für (fast) beliebige Funktionen $u, v, w$ erfüllt sind. Man sagt, $b$ ist eine Linearform, $a$ ein Skalarprodukt. Ein Skalarprodukt ist eine Bilinearform, die symmetrisch und positiv definit ist.
 
 Gegenbeispiel
@@ -109,10 +99,5 @@ Gegenbeispiel
 ```{julia}
 a3(u, δu) = integrate(u, 0 .. l)
 a3(u, 3 * δu) ≈ 3 * a3(u, δu)
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::

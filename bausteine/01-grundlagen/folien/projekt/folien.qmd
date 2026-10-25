@@ -21,10 +21,6 @@ h = (f + u) / 2
 fplot(f, u, h)
 ```
 :::
-::: {.scaffold}
-```{julia}
-```
-:::
 
 Ableitungen von Funktionen werden mit der in der Mathematik üblichen Schreibweise gebildet.
 
@@ -33,20 +29,12 @@ Ableitungen von Funktionen werden mit der in der Mathematik üblichen Schreibwei
 fplot(f', u', f'')
 ```
 :::
-::: {.scaffold}
-```{julia}
-```
-:::
 
 Mit `integrate` werden bestimmte Integrale berechnet, der zweite Parameter legt den Integrationsbereich fest.
 
 ::: {.solution}
 ```{julia}
 integrate(u, 0 .. 20)
-```
-:::
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -59,10 +47,6 @@ Gesucht ist eine beliebige Lösung der DGL $u''(x) + u(x) = 0$ für $0 < x < 4\p
 x = parameter(0 .. 4π)
 u = 3 * sin(x) + 6 * cos(x)
 fplot(u'' + u)
-```
-:::
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -140,10 +124,6 @@ Normalkraft
 fplot(EA * u', zero(x), npoints = 10)
 ```
 :::
-::: {.scaffold}
-```{julia}
-```
-:::
 
 Kontrolle: Es muss $EA u'(x) - C u(x) + n = 0$ gelten
 
@@ -154,10 +134,6 @@ ylims!(p.axis, [-0.001, 0.001])
 p.figure
 ```
 :::
-::: {.scaffold}
-```{julia}
-```
-:::
 
 Kontrolle Randbedingungen
 
@@ -165,10 +141,6 @@ Kontrolle Randbedingungen
 ```{julia}
 println(EA * u'(0) ≈ -F)
 println(abs(EA * u'(l) + S * u(l)) < 1e-9)
-```
-:::
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -194,10 +166,6 @@ println(b(δu1))
 println(b(δu3))
 ```
 :::
-::: {.scaffold}
-```{julia}
-```
-:::
 
 Linke Seite
 
@@ -207,10 +175,6 @@ a(u, δu1) = EA * integrate(u' * δu1', 0 .. l) + C * integrate(u * δu1, 0 .. l
 
 println(a(u, δu1))
 println(a(u, δu3))
-```
-:::
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -223,20 +187,12 @@ println(a(u, δu2) ≈ b(δu2))
 println(a(u, δu3) ≈ b(δu3))
 ```
 :::
-::: {.scaffold}
-```{julia}
-```
-:::
 
 Gegenprobe
 
 ::: {.solution}
 ```{julia}
 println(a(δu3, δu1) ≈ b(δu1))
-```
-:::
-::: {.scaffold}
-```{julia}
 ```
 :::
 

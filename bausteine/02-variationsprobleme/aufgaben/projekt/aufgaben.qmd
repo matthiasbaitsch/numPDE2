@@ -49,11 +49,6 @@ println("pd: ", a(u3, u3) > 0)
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 → Skalarprodukt
 :::
@@ -73,11 +68,6 @@ println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 → Keine Bilinearform
 :::
@@ -91,11 +81,6 @@ println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
 ::: {.solution}
 ```{julia}
 a(u, v) = 42
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 

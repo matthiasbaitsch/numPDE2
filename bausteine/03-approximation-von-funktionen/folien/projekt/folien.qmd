@@ -25,11 +25,6 @@ fplot(f, Tn)
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ## Stückweise lineare Funktionen - Hutfunktionen
 
 ::: {.solution}
@@ -39,21 +34,11 @@ fplot(φs[1], φs[3])
 ```
 :::
 
-::: {.scaffold}
-```{julia}
-```
-:::
-
 ::: {.solution}
 ```{julia}
 c = [1, 0.15, 0.75, 0.3, 0.9]
 f = c ⋅ φs
 fplot(f)
-```
-:::
-
-::: {.scaffold}
-```{julia}
 ```
 :::
 
@@ -70,8 +55,3 @@ fplot(us)
 
 ```{julia}
 ```
-
-::: {.scaffold}
-```{julia}
-```
-:::

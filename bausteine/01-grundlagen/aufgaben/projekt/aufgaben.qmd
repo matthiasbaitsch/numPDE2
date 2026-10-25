@@ -48,10 +48,6 @@ println(w(0))
 println(q * l / (2 * k))
 ```
 :::
-::: {.scaffold}
-```{julia}
-```
-:::
 
 ### Bilinearform und Linearform
 
@@ -80,10 +76,6 @@ b(δw) = q * integrate(δw, 0 .. l)
 fplot(δw1, δw2, δw3, δw4)
 ```
 :::
-::: {.scaffold}
-```{julia}
-```
-:::
 
 ::: {.solution}
 ```{julia}
@@ -94,10 +86,6 @@ println(a(w, δw4) ≈ b(δw4))
 ```
 
 Die Bedingung ist für alle untersuchten Testfunktionen erfüllt. Das spricht dafür, dass $w$ die Lösung ist, beweist es aber nicht: Dafür müsste die Bedingung für *alle* Testfunktionen gelten, und wir können nur endlich viele ausprobieren.
-:::
-::: {.scaffold}
-```{julia}
-```
 :::
 
 ### Randwertproblem
@@ -126,8 +114,4 @@ println(w''(l) ≈ 0)
 ```
 
 Differentialgleichung und Randbedingungen sind erfüllt, $w$ löst also das Randwertproblem.
-:::
-::: {.scaffold}
-```{julia}
-```
 :::
