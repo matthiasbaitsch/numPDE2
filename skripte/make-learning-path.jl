@@ -169,12 +169,12 @@ function zip_notebook(
     end
 end
 
-# Notebooks from projekt/<kind>.qmd: always the solution, for the students if target is set (returns the
+# Notebooks from projekt/notebook.qmd: always the solution, for the students if target is set (returns the
 # name of their zip file, otherwise nothing)
 function zip_project_notebooks(
     bb::BuildingBlock, source_folder::String, target_folder::String, kind::String, target::Union{Symbol,Nothing}
 )
-    source = joinpath(source_folder, "projekt", "$kind.qmd")
+    source = joinpath(source_folder, "projekt", "notebook.qmd")
     isfile(source) || return nothing
     title = "$(bb.part): $(bb.title)"
     subtitle = titlecase(kind)
