@@ -37,10 +37,12 @@ Plotten Sie darüber hinaus die Näherung für die Normalkraft $N_h$ sowie den F
     fplot!(Nh, connect_jumps=true)
     ```
 
-1. Fehler in max-Norm: Berechnen und plotten Sie den prozentualen Fehler
+1. Fehler in der Energienorm: Berechnen und plotten Sie den prozentualen Fehler
 
     $$
-    100 \cdot \frac{\|u - u_h\|_\mathrm{max}}{\|u\|_\mathrm{max}}
+    100 \cdot \frac{\lVert u - u_h \rVert_a}{\lVert u \rVert_a}
+    \quad \text{mit} \quad
+    \lVert v \rVert_a = \sqrt{a(v, v)}
     $$
 
     für $k = 2, 4, 8, \dots, 2^5$ Elemente.

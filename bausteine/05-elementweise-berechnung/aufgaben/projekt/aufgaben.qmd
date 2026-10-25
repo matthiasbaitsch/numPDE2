@@ -288,20 +288,20 @@ end
 fig
 ```
 
-Fehler in max-Norm
+Fehler in der Energienorm
 
 ```{julia}
 nn = 12
 hks = zeros(nn)
 eks = zeros(nn)
 
-maxnorm(u) = maximum(abs.(u.(range(domain(u), 1000))))
+energynorm(v) = sqrt(integrate(p.EA * v' * v' + p.C * v * v, p.Ω) + p.S * v(p.l)^2)
 
 for i in 1:nn
     k = 2^i
     uh = pile_fem(p, k)
     hks[i] = p.l / k
-    eks[i] = 100 * maxnorm(u - uh) / maxnorm(u)
+    eks[i] = 100 * energynorm(u - uh) / energynorm(u)
 end
 ```
 
@@ -311,7 +311,7 @@ scatterlines(hks, eks)
 
 ```{julia}
 f = Figure()
-Axis(f[1, 1], xscale=log10, yscale=log10, title="Fehler in Prozent")
+Axis(f[1, 1], xscale=log2, yscale=log10, title="Fehler in Prozent")
 scatterlines!(hks, eks)
 f
 ```
