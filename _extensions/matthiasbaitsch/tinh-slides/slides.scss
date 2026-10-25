@@ -78,6 +78,11 @@ $selection-bg: #26351c !default;
 .reveal {
   font-weight: lighter;
 
+  // Abschnittsfolien blau wie bei typst
+  h1 {
+    color: $accent;
+  }
+
   h2 {
     font-size: 1.4em;
   }
@@ -89,6 +94,12 @@ $selection-bg: #26351c !default;
 
   .slides section.smaller h3 {
     font-size: 1.3em;
+  }
+
+  // Abgesetzte Formeln linksbündig, 1em eingerückt (wie bei typst)
+  mjx-container[display="true"] {
+    text-align: left !important;
+    margin-left: 1em !important;
   }
 
   dl dt {
@@ -173,6 +184,22 @@ $selection-bg: #26351c !default;
 
   div.objective p {
     margin: 0 !important;
+  }
+
+  // Definition (::: {#def-...}) im Kasten wie bei tinh-notes
+  div.definition {
+    background-color: WhiteSmoke;
+    border: 2px solid;
+    border-radius: 5px;
+    padding: 5pt;
+  }
+
+  div.definition > :first-child {
+    margin-top: 0 !important;
+  }
+
+  div.definition > :last-child {
+    margin-bottom: 0 !important;
   }
 }
 
