@@ -1,5 +1,6 @@
+# Element by element: Assembly
+
 ```{=typst}
-#notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 1)
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 2)
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 3)
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 4)
@@ -20,8 +21,9 @@
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 19)
 ```
 
+# How good is the solution: Convergence
+
 ```{=typst}
-#notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 1)
 #notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 2)
 #notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 3)
 #notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 4)

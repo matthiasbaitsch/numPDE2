@@ -1,7 +1,10 @@
+# Functions are mathematical objects: Linear spaces
+
 ```{=typst}
-#notiz("notizen/NP 1D 05 Linear spaces.pdf", 1)
 #notiz("notizen/NP 1D 05 Linear spaces.pdf", 2)
 ```
+
+# Building blocks of the variational problem: Linear and bilinear forms
 
 ```{=typst}
 #notiz("notizen/NP 1D 06 Properties of a and b.pdf", 1)
@@ -10,8 +13,74 @@
 #notiz("notizen/NP 1D 06 Properties of a and b.pdf", 4)
 ```
 
+## Demo: Properties of a and b
+
+Notebook, sections *Exakte Lösung* and *Variationsformulierung Bohrpfahl*
+
+- We claimed: $b$ is a linear form, $a$ is a scalar product
+- Check the properties in Julia for some test functions
+- A counterexample shows that not every mapping $V \times V \to \mathbb{R}$ is bilinear
+
+# Measuring functions: Norms
+
+## Definition and examples
+
+::: {#def-norm}
+## Norm
+
+A [norm]{.neuerbegriff} on a linear space $V$ assigns to each $v \in V$ a nonnegative number $\lVert v \rVert$ such that
+
+1. $\lVert v \rVert = 0$ if and only if $v = 0$
+2. $\lVert \alpha v \rVert = |\alpha| \, \lVert v \rVert$
+3. $\lVert v + w \rVert \leq \lVert v \rVert + \lVert w \rVert$ (triangle inequality)
+:::
+
+[]{.down10}
+
+With a norm we can measure the distance $\lVert v - w \rVert$ between two functions
+
+[]{.down10}
+
+::: {.columns}
+::: {.column}
+Example 1: Max norm
+$$
+  \lVert v \rVert_{\infty} = \max_{0 \leq x \leq l} |v(x)|
+$$
+:::
+::: {.column}
+Example 2: $L_2$ norm 
+$$
+  \lVert v \rVert_{2} = \sqrt{\int_0^l v^2(x) \, dx}
+$$
+:::
+:::
+
+## Norms by scalar products
+
+::: {#def-induced-norm}
+## Induced norm
+
+Each scalar product $a$ defines the [induced norm]{.neuerbegriff}
+
+$$
+\lVert v \rVert_a = \sqrt{a(v, v)}
+$$
+:::
+
+Example 1: The $L_2$ norm from the scalar product $(v, w) = \int_0^l v \cdot w \, dx$
+$$
+\lVert v \rVert_2 = \sqrt{(v, v)} = \sqrt{\int_0^l v^2(x) \, dx}
+$$
+
+Example 2: The [energy norm]{.neuerbegriff} of the pile is related to the strain energy
+$$
+\lVert v \rVert_a = \sqrt{EA \int_0^l (v')^2 \, dx + C \int_0^l v^2 \, dx + S \cdot v(l)^2}
+$$
+
+# Unified representation: Abstract variational problem
+
 ```{=typst}
-#notiz("notizen/NP 1D 07 Abstract variational problem.pdf", 1)
 #notiz("notizen/NP 1D 07 Abstract variational problem.pdf", 2)
 #notiz("notizen/NP 1D 07 Abstract variational problem.pdf", 3)
 ```

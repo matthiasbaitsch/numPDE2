@@ -1,13 +1,23 @@
+# The model problem: Pile foundation
+
 ```{=typst}
-#notiz("notizen/NP 1D 01 Introduction.pdf", 1)
 #notiz("notizen/NP 1D 01 Introduction.pdf", 2)
 #notiz("notizen/NP 1D 01 Introduction.pdf", 3)
 #notiz("notizen/NP 1D 01 Introduction.pdf", 4)
 #notiz("notizen/NP 1D 01 Introduction.pdf", 5)
 ```
 
+## Demo: The MMJMesh library
+
+Notebook, sections *Die Bibliothek MMJMesh*, *Funktionen* and *Differentialgleichungen*
+
+- FEM works with functions: we differentiate, integrate and combine them
+- `MMJMesh` lets us do this in Julia, just like on paper
+- Check solutions of the pile problem now and program the FEM later
+
+# From mechanics to mathematics: Strong form
+
 ```{=typst}
-#notiz("notizen/NP 1D 02 Strong form.pdf", 1)
 #notiz("notizen/NP 1D 02 Strong form.pdf", 2)
 #notiz("notizen/NP 1D 02 Strong form.pdf", 3)
 #notiz("notizen/NP 1D 02 Strong form.pdf", 4)
@@ -23,8 +33,16 @@
   Function value and derivative combined: **Robin BC**
 - No Dirichlet BC: the displacement is not prescribed anywhere
 
+## Demo: Boundary value problem of the pile
+
+Notebook, sections *Randwertproblem Bohrpfahl* and *Exakte Lösung*
+
+- Plot the exact solution and the axial force
+- Check: does $u$ satisfy the differential equation and the boundary conditions?
+
+# Multiply and integrate: Weak form
+
 ```{=typst}
-#notiz("notizen/NP 1D 03 Weak form.pdf", 1)
 #notiz("notizen/NP 1D 03 Weak form.pdf", 2)
 #notiz("notizen/NP 1D 03 Weak form.pdf", 3)
 #notiz("notizen/NP 1D 03 Weak form.pdf", 4)
@@ -33,8 +51,9 @@
 #notiz("notizen/NP 1D 03 Weak form.pdf", 7)
 ```
 
+# Two formulations, one solution: Equivalence
+
 ```{=typst}
-#notiz("notizen/NP 1D 04 Properties of weak form.pdf", 1)
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 2)
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 3)
 ```
@@ -44,9 +63,18 @@
 - (D) $\Rightarrow$ (V): we have shown this by multiplying with a test function, integrating and integrating by parts
 - (V) $\Rightarrow$ (D): the proof requires more mathematics than we have available here – in this course we accept it
 
+# Ingredients of the variational problem: Functionals
+
 ```{=typst}
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 4)
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 5)
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 6)
 #notiz("notizen/NP 1D 04 Properties of weak form.pdf", 7)
 ```
+
+## Demo: Evaluating the variational problem
+
+Notebook, section *Variationsformulierung Bohrpfahl*
+
+- Evaluate $a(u, \delta u)$ and $b(\delta u)$ for some test functions
+- The exact solution satisfies (V), another function does not

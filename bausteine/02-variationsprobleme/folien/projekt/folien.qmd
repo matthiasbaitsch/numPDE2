@@ -40,7 +40,7 @@ u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
 fplot(u, zero(x), npoints=10)
 ```
 
-## Variationsformulierung Bohrpfahlproblem
+## Variationsformulierung Bohrpfahl
 
 Daten und Funktionen zum Testen
 

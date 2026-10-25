@@ -1,3 +1,5 @@
+# Calculus in 2D: Gradient and divergence
+
 ```{=typst}
 #notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 1)
 #notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 2)
@@ -12,8 +14,9 @@
 #notiz("notizen/NP 2D 00 Mathematische Grundlagen.pdf", 11)
 ```
 
+# From physics to mathematics: Strong form
+
 ```{=typst}
-#notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 1)
 #notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 2)
 #notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 3)
 #notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 4)
@@ -29,16 +32,18 @@
 #notiz("notizen/NP 2D 01 Heat conduction_ Boundary value problem.pdf", 14)
 ```
 
+# Multiply and integrate: Weak form
+
 ```{=typst}
-#notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 1)
 #notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 2)
 #notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 3)
 #notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 4)
 #notiz("notizen/NP 2D 02 Heat conduction_ Weak formulation.pdf", 5)
 ```
 
+# From functions to numbers: Finite element formulation
+
 ```{=typst}
-#notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 1)
 #notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 2)
 #notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 3)
 #notiz("notizen/NP 2D 03 Heat conduction_ Finite element formulation.pdf", 4)

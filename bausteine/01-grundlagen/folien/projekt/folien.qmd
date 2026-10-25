@@ -144,7 +144,7 @@ println(EA * u'(l) ≈ -S * u(l))
 ```
 :::
 
-## Variationsformulierung Bohrpfahlproblem
+## Variationsformulierung Bohrpfahl
 
 Drei Funktionen zum Testen
 

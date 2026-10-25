@@ -1,5 +1,6 @@
+# From functions to numbers: Discretization
+
 ```{=typst}
-#notiz("notizen/NP 1D 10 Numerical Solution.pdf", 1)
 #notiz("notizen/NP 1D 10 Numerical Solution.pdf", 2)
 #notiz("notizen/NP 1D 10 Numerical Solution.pdf", 3)
 #notiz("notizen/NP 1D 10 Numerical Solution.pdf", 4)
@@ -9,8 +10,9 @@
 #notiz("notizen/NP 1D 10 Numerical Solution.pdf", 8)
 ```
 
+# Putting it to work: Finite elements for the pile
+
 ```{=typst}
-#notiz("notizen/NP 1D 11.1 Numerical solution of pile foundation problem.pdf", 1)
 #notiz("notizen/NP 1D 11.1 Numerical solution of pile foundation problem.pdf", 2)
 #notiz("notizen/NP 1D 11.1 Numerical solution of pile foundation problem.pdf", 3)
 #notiz("notizen/NP 1D 11.1 Numerical solution of pile foundation problem.pdf", 4)

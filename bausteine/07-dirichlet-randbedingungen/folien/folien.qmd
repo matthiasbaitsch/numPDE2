@@ -1,12 +1,14 @@
+# Fixing values on the boundary: Dirichlet boundary conditions
+
 ```{=typst}
-#notiz("notizen/NP 2D 04 Heat conduction_ Dirichlet boundary conditions.pdf", 1)
 #notiz("notizen/NP 2D 04 Heat conduction_ Dirichlet boundary conditions.pdf", 2)
 #notiz("notizen/NP 2D 04 Heat conduction_ Dirichlet boundary conditions.pdf", 3)
 #notiz("notizen/NP 2D 04 Heat conduction_ Dirichlet boundary conditions.pdf", 4)
 ```
 
+# Discretizing the domain: Mesh generation
+
 ```{=typst}
-#notiz("notizen/NP 2D 05 Mesh generation.pdf", 1)
 #notiz("notizen/NP 2D 05 Mesh generation.pdf", 2)
 #notiz("notizen/NP 2D 05 Mesh generation.pdf", 3)
 #notiz("notizen/NP 2D 05 Mesh generation.pdf", 4)

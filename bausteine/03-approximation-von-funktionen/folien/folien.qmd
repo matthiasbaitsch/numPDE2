@@ -1,15 +1,45 @@
+# Building functions from pieces: Approximation
+
 ```{=typst}
-#notiz("notizen/NP 1D 08 Approximation of functions.pdf", 1)
 #notiz("notizen/NP 1D 08 Approximation of functions.pdf", 2)
 #notiz("notizen/NP 1D 08 Approximation of functions.pdf", 3)
+```
+
+## Demo: Combining functions
+
+Notebook, section *Kombination von Funktionen*
+
+- A Taylor polynomial combines basis functions $(x - x_0)^k$ with coefficients
+- In Julia: a vector of coefficients times a vector of functions
+- Same pattern as the finite element approximation $u_h$ later
+
+```{=typst}
 #notiz("notizen/NP 1D 08 Approximation of functions.pdf", 4)
 #notiz("notizen/NP 1D 08 Approximation of functions.pdf", 5)
 #notiz("notizen/NP 1D 08 Approximation of functions.pdf", 6)
 ```
 
+## Demo: Hat functions
+
+Notebook, section *Stückweise lineare Funktionen - Hutfunktionen*
+
+- `MMJMesh` creates the piecewise linear basis functions for given nodes
+- Combining them with the degrees of freedom $\hat{u}_i$ gives a piecewise linear function
+
+# All possible approximations: Subspaces and basis functions
+
 ```{=typst}
-#notiz("notizen/NP 1D 09 Subspaces.pdf", 1)
 #notiz("notizen/NP 1D 09 Subspaces.pdf", 2)
 #notiz("notizen/NP 1D 09 Subspaces.pdf", 3)
+```
+
+## Demo: Linear span
+
+Notebook, section *Lineare Hülle*
+
+- Random coefficients give random elements of $\mathrm{Lin}(\varphi_1, \dots, \varphi_N)$
+- All of them are piecewise linear: this is the set in which we look for $u_h$
+
+```{=typst}
 #notiz("notizen/NP 1D 09 Subspaces.pdf", 4)
 ```

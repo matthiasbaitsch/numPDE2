@@ -52,6 +52,3 @@ us = [rand(length(phis)) ⋅ phis for _ = 1:10]
 fplot(us)
 ```
 :::
-
-```{julia}
-```

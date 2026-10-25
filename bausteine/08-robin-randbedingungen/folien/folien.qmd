@@ -1,5 +1,6 @@
+# Heat exchange with the surroundings: Robin boundary conditions
+
 ```{=typst}
-#notiz("notizen/NP 2D 06 Robin boundary conditions.pdf", 1)
 #notiz("notizen/NP 2D 06 Robin boundary conditions.pdf", 2)
 #notiz("notizen/NP 2D 06 Robin boundary conditions.pdf", 3)
 #notiz("notizen/NP 2D 06 Robin boundary conditions.pdf", 4)
