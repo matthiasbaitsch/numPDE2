@@ -115,8 +115,9 @@ function assignment_title(text::String)
 end
 
 # Header and all .qmd files directly in source_folder (except solutions x.sol.qmd) as one text, with placeholders
-# replaced; with_solution: instead of each assignment its title followed by the solution or "Keine Lösung"; warns
-# about placeholders that are left (unknown or no notebook)
+# replaced; with_solution: instead of each assignment its title followed by the solution x.sol.qmd (each paper
+# assignment has one) or a note on the solution notebook; warns about placeholders that are left (unknown or no
+# notebook)
 function assemble_qmd(header::String, bb::BuildingBlock, source_folder::String; with_solution::Bool=false)
     text = header
     text *= "\n"
@@ -124,7 +125,7 @@ function assemble_qmd(header::String, bb::BuildingBlock, source_folder::String; 
         if with_solution
             solution = replace(f, r"\.qmd$" => ".sol.qmd")
             text *= assignment_title(read(f, String)) * "\n\n"
-            text *= isfile(solution) ? read(solution, String) : "Keine Lösung\n"
+            text *= isfile(solution) ? read(solution, String) : "Lösung im Lösungs-Notebook\n"
         else
             text *= read(f, String)
         end

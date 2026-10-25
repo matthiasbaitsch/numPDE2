@@ -19,8 +19,17 @@
   Unterschiede: Zip-Inhalte (C# bzw. Julia), `teil` in Folientitel und Buchteilen, `veranstaltung` nur hier,
   Duplikat-Check und dotnet nur in Informatik. Angehen, sobald dieselbe Verbesserung mehrfach in beiden Kopien
   nachgezogen werden muss. Mathe B bleibt außen vor (R-Pipeline mit Submodulen, zu verschieden).
-- [ ]  Folien zur Einführung (`lernpfad/veranstaltung/einfuehrung/folien.qmd`) zusätzlich als PDF
-  (`tinh-slides-typst` neben Reveal.js, mit `shift-heading-level-by: 0` wie bei den Bausteinfolien). Prüfen, wie
+- [X]  Folien zur Einführung (`lernpfad/veranstaltung/einfuehrung/folien.qmd`) zusätzlich als PDF
+  (`tinh-slides-typst` neben Reveal.js). Prüfen, wie
   revealjs-spezifische Klassen wie `.down80` im PDF wirken.
+- [ ]  `#notiz` in die Extension `tinh-slides-typst` übernehmen
+  (`~/sciebo/lehrveranstaltungen/quarto-tinh`, dann `make update-extension`). Danach die Definitionen in
+  `lernpfad/folien/_metadata.yml` und die Kopie in `bausteine/_metadata.yml` löschen. Vorteil: Folien lassen sich
+  direkt in `bausteine/` ansehen, und Informatik und Mathe B können die Funktion mitbenutzen.
+- [ ]  In der Extension zusätzlich eine Funktion, die eine PDF-Seite als Bild über die ganze Folienbreite einbindet
+  (normale Folie mit Titel, nicht randlos wie `#notiz`), z.B. für einzelne Ausschnitte aus Notizen oder Skizzen.
+- [ ]  In der Extension eine Funktion `#demo("…")` für Demo-Folien (einheitlich gestaltet, z.B. Notebook-Symbol
+  und farbiger Hintergrund). Bis dahin sind Demos normale Folien `## Demo: …` mit den Abschnitten im Folien-Notebook
+  (bisher nur in 01).
 - [ ]  Skript zur Veranstaltung schreiben und die Folien daraus ableiten. Bis dahin sind die Folien die
   handschriftlichen Notizen (`bausteine/*/folien/notizen/`, seitenweise eingebunden in `folien/folien.qmd`).

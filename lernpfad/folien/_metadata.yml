@@ -1,8 +1,5 @@
 
 
-# ## ist immer eine Folie, auch ohne #-Überschriften (Quarto macht sonst ## zu Ebene 1)
-shift-heading-level-by: 0
-
 # Seiten der handschriftlichen Notizen als Folien ohne Rand: #notiz("notizen/x.pdf", 3)
 format:
   tinh-slides-typst:

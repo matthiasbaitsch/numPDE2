@@ -1,0 +1,12 @@
+# Kopie aus lernpfad/folien/_metadata.yml, damit sich die Folien direkt in bausteine/ ansehen lassen:
+# quarto preview bausteine/NN-thema/folien/folien.qmd --to tinh-slides-typst
+# Änderungen in beiden Dateien machen
+
+# Seiten der handschriftlichen Notizen als Folien ohne Rand: #notiz("notizen/x.pdf", 3)
+format:
+  tinh-slides-typst:
+    include-in-header:
+      text: |
+        #let notiz(file, page) = slide(config: config-page(margin: 0pt, header: none, footer: none))[
+          #align(center + horizon, image(file, page: page, height: 100%))
+        ]
