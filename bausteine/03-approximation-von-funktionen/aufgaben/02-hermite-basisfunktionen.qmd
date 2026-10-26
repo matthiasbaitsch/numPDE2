@@ -10,7 +10,9 @@ deren Funktionswert oder deren Ableitung an den Enden entweder den Wert null ode
 Aufgaben:
 
 1. Warum ist es physikalisch nicht möglich, dass die Durchbiegung von Biegebalken (ohne Gelenke) einen Knick hat?
+
 1. Kombinieren Sie die Hermite-Polynome abschnittsweise zu geeigneten Basisfunktionen.
+
 1. Welche physikalische Interpretation besitzen dann die Koeffizienten $\hat{w}_i$ in der Linearkombination $w_h(x) = \sum \hat w_i \cdot \varphi_i(x)$?
 
 :::
