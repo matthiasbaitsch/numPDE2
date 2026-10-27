@@ -7,6 +7,10 @@ c
 *_files
 *.quarto_ipynb
 
+/Project.toml
+/Manifest.toml
+/_freeze/
+
 bausteine/*/*/projekt*/*.geo
 bausteine/*/*/projekt*/*.msh
 

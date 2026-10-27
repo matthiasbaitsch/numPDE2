@@ -102,6 +102,11 @@ $selection-bg: #26351c !default;
     margin-left: 1em !important;
   }
 
+  // Formeln grau, damit sie neben Roboto Light weniger fett wirken
+  mjx-container {
+    color: #444;
+  }
+
   dl dt {
     color: $accent2;
     font-weight: 400;

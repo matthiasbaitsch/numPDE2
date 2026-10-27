@@ -1,10 +1,15 @@
 title: tinh-notes
 author: Matthias Baitsch
-version: 0.3.1
+version: 0.5.0
 quarto-required: ">=1.8.0"
 contributes:
   formats:
     common:
+      # Makros aus tinh-macros (\SI, \R, ...), Bilder zentrieren aus tinh-common
+      filters:
+        - ../tinh-macros/macros.lua
+        - ../tinh-common/center-images.lua
+      fig-align: center
       number-depth: 3
     html:
       lang: de

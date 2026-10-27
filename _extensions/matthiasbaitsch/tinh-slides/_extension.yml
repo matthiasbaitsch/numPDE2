@@ -1,9 +1,15 @@
 title: tinh-slides
 author: Matthias Baitsch
-version: 0.11.1
+version: 0.14.0
 quarto-required: ">=1.8.0"
 contributes:
   formats:
+    common:
+      # Makros aus tinh-macros (\SI, \R, ...), Bilder zentrieren aus tinh-common
+      filters:
+        - ../tinh-macros/macros.lua
+        - ../tinh-common/center-images.lua
+      fig-align: center
     revealjs:
       # Quartos Logo aus, stattdessen logo.lua
       logo: false
@@ -17,7 +23,8 @@ contributes:
       code-line-numbers: false
       html-math-method:
         method: mathjax
-        url: "https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"
+        # MathJax 4 mit Latin Modern (dünner als die Voreinstellung mathjax-newcm)
+        url: "https://cdn.jsdelivr.net/npm/@mathjax/mathjax-modern-font@4/tex-mml-chtml-mathjax-modern.js"
       theme:
         - slides.scss
     typst:

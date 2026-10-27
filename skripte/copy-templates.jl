@@ -31,3 +31,10 @@ for bd = TARGET_ROOTS(), (path, dirs, files) = walkdir(bd)
         end
     end
 end
+
+# Julia environment for executed {julia} cells in the project root, found from bausteine and lernpfad/*/c
+# via --project=@. (not checked in)
+for f = ("Project.toml", "Manifest.toml")
+    println(f)
+    cp(joinpath("bausteine/00-templates", f), f, force=true)
+end

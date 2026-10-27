@@ -31,3 +31,4 @@ update-packages:
 clean:
 	rm -rf lernpfad/*/c
 	rm -rf __output
+	rm -rf _freeze

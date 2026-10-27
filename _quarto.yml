@@ -1,6 +1,13 @@
 lang: de
 engine: julia
 
+execute:
+  echo: false
+  daemon: 3600
+  freeze: auto
+
+fig-align: center
+
 author:
   - Matthias Baitsch
 

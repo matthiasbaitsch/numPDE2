@@ -1,0 +1,40 @@
+title: tinh-notebook
+author: Matthias Baitsch
+version: 0.1.0
+quarto-required: ">=1.8.0"
+contributes:
+  formats:
+    common:
+      # Lösung und Gerüst aus tinh-common, dann Code-Zellen (beide vor Quartos Filtern); Makros aus tinh-macros,
+      # Bilder zentrieren aus tinh-common
+      filters:
+        - path: ../tinh-common/solution-scaffold.lua
+          at: pre-ast
+        - path: notebook.lua
+          at: pre-ast
+        - ../tinh-macros/macros.lua
+        - ../tinh-common/center-images.lua
+      fig-align: center
+    ipynb:
+      # Absätze nicht umbrechen, eine Zeile pro Absatz wie im Editor
+      wrap: none
+    # HTML und Typst wie tinh-assignments
+    html:
+      lang: de
+      css:
+        - ../tinh-assignments/tinh-assignments.css
+      default-image-extension: svg
+    typst:
+      lang: de
+      # Literatur über pandoc wie bei tinh-assignments, Typsts eigene Literaturliste erscheint auch ohne Zitate
+      citeproc: true
+      mainfont: Libertinus Serif
+      page-numbering: false
+      margin:
+        x: 2.5cm
+        y: 2.5cm
+      logo:
+        location: right-top
+        padding: 1.25cm 1.25cm
+      template-partials:
+        - ../tinh-assignments/typst-template.typ

@@ -1,0 +1,24 @@
+/* Lösung und Gerüst ohne tinh-target: farbiger Rand links, Beschriftung aus data-label (solution-scaffold.lua) */
+.tinh-solution,
+.tinh-scaffold {
+  border-left: 3px solid var(--tinh-color);
+  padding-left: 0.8em;
+  margin-bottom: 1rem;
+}
+
+.tinh-solution {
+  --tinh-color: #4a8c4a;
+}
+
+.tinh-scaffold {
+  --tinh-color: #107895;
+}
+
+.tinh-solution::before,
+.tinh-scaffold::before {
+  content: attr(data-label);
+  display: block;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--tinh-color);
+}

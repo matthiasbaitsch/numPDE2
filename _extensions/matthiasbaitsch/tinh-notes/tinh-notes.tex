@@ -1,5 +1,8 @@
 % LaTeX-Präambel für tinh-notes (bisher _bcd-setup.tex in bcd-bausteine-statistik)
 \usepackage{siunitx}
+% Wie in HTML und Typst (tinh-macros): Zahlen unverändert übernehmen, z.B. \SI{35 \cdot 10^9}{\newton},
+% \per als Schrägstrich
+\sisetup{parse-numbers=false, per-mode=symbol}
 \usepackage{makeidx}
 \usepackage{pifont}
 
