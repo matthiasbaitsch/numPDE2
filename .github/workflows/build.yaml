@@ -35,11 +35,12 @@ jobs:
         run: julia --project -e 'using Pkg; Pkg.instantiate()'
         working-directory: skripte
 
-      # Environment for executed {julia} cells: copy of the template in the root folder (not checked in)
+      # Environment for executed {julia} cells: copy of the template in the root folder (not checked in), resolved
+      # for the Julia version installed here (Quarto stops if it differs from the one in the manifest)
       - name: Julia environment for executed cells
         run: |
           julia skripte/copy-templates.jl
-          julia --project=. -e 'using Pkg; Pkg.instantiate()'
+          julia --project=. -e 'using Pkg; Pkg.resolve(); Pkg.instantiate()'
 
       - name: Render and export PDF
         run: make render
