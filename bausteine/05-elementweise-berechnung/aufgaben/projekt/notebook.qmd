@@ -153,7 +153,6 @@ display(r)
 # Aufgabe 5.2b: Bohrpfahl elementweise
 
 ```{julia}
-using DotMaps
 using IntervalSets
 using MMJMesh.Plots
 using MMJMesh.Meshes
@@ -164,43 +163,35 @@ using CairoMakie: Figure, Axis, scatterlines, scatterlines!
 ## Problemparameter
 
 ```{julia}
-# Mehrfachvariable
-p = DotMap()
-
 # Basiswerte
-p.E = 35e9
-p.d = 0.8
-p.l = 20
-p.F = 2e6
-p.ρ = 2500
-p.g = 9.81
-p.S = 120e6
-p.c = 1.75e7
+E = 35e9
+d = 0.8
+l = 20
+F = 2e6
+ρ = 2500
+g = 9.81
+S = 120e6
+c = 1.75e7
 
 # Abgeleitete Werte
-p.Ω = 0 .. p.l
-p.C = p.c * π * p.d
-p.A = π * p.d^2 / 4
-p.EA = p.E * p.A
-p.n = p.ρ * p.g * p.A;
+Ω = 0 .. l
+C = c * π * d
+A = π * d^2 / 4
+EA = E * A
+n = ρ * g * A;
 ```
 
 ## Exakte Lösung
 
 ```{julia}
-a1 = 3 + 7π
-a2 = 7π - 3
-x = parameter(p.Ω)
+x = parameter(Ω)
+λ = sqrt(C / EA)
+D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
 
-u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
-    25000 * (a1 * ℯ^2 + a2 * exp(x / 10))
-    -
-    2943 * π * ℯ * (exp(x / 10) + 1)
-    +
-    981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
-)
+u = n / C * (1 - S * cosh(λ * x) / D) +
+    F / (EA * λ * D) * (EA * λ * cosh(λ * (l - x)) + S * sinh(λ * (l - x)))
 
-N = p.EA * u'
+N = EA * u'
 
 null = 0 * x
 
@@ -222,10 +213,10 @@ includet("src/pile.jl")
 
 ```{julia}
 m = Mesh(0 .. 20, 40)
-setdata!(group(m, :elements), :ke_func, pile_ke(p.EA, p.C))
-setdata!(group(m, :elements), :re_func, pile_re(p.n))
-setdata!(node(m, nnodes(m)), :ke_func, spring(p.S))
-setdata!(node(m, 1), :re_func, force(p.F))
+setdata!(group(m, :elements), :ke_func, pile_ke(EA, C))
+setdata!(group(m, :elements), :re_func, pile_re(n))
+setdata!(node(m, nnodes(m)), :ke_func, spring(S))
+setdata!(node(m, 1), :re_func, force(F))
 K, r = assemble_kr(m)
 u_hat = K \ r
 
@@ -235,24 +226,24 @@ mplot(m, u_hat, nodesvisible=false) |> mconf()
 ### Konvergenz
 
 ```{julia}
-function pile_fem(p, k)
-    m = Mesh(p.Ω, k)
-    setdata!(group(m, :elements), :ke_func, pile_ke(p.EA, p.C))
-    setdata!(group(m, :elements), :re_func, pile_re(p.n))
-    setdata!(node(m, nnodes(m)), :ke_func, spring(p.S))
-    setdata!(node(m, 1), :re_func, force(p.F))
+function pile_fem(k)
+    m = Mesh(Ω, k)
+    setdata!(group(m, :elements), :ke_func, pile_ke(EA, C))
+    setdata!(group(m, :elements), :re_func, pile_re(n))
+    setdata!(node(m, nnodes(m)), :ke_func, spring(S))
+    setdata!(node(m, 1), :re_func, force(F))
     K, r = assemble_kr(m)
     u_hat = K \ r
-    uh = sum(u_hat .* hatfunctions(range(p.Ω, k + 1)))
+    uh = sum(u_hat .* hatfunctions(range(Ω, k + 1)))
     return uh
 end
 
-uh = pile_fem(p, 3)
+uh = pile_fem(3)
 fplot(uh, u, npoints=100)
 ```
 
 ```{julia}
-Nh = p.EA * uh'
+Nh = EA * uh'
 fplot(Nh, N, npoints=100)
 ```
 
@@ -268,7 +259,7 @@ Fehlerfunktion
 fig = Figure()
 Axis(fig[1, 1])
 for k = 2 .^ (1:5)
-    uh = pile_fem(p, k)
+    uh = pile_fem(k)
     fplot!(u - uh, npoints=100)
 end
 fig
@@ -281,8 +272,8 @@ fig = Figure()
 Axis(fig[1, 1])
 fplot!(N)
 for k = 2 .^ (1:5)
-    uh = pile_fem(p, k)
-    Nh = p.EA * uh'
+    uh = pile_fem(k)
+    Nh = EA * uh'
     fplot!(Nh, connect_jumps=true)
 end
 fig
@@ -295,12 +286,12 @@ nn = 12
 hks = zeros(nn)
 eks = zeros(nn)
 
-energynorm(v) = sqrt(integrate(p.EA * v' * v' + p.C * v * v, p.Ω) + p.S * v(p.l)^2)
+energynorm(v) = sqrt(integrate(EA * v' * v' + C * v * v, Ω) + S * v(l)^2)
 
 for i in 1:nn
     k = 2^i
-    uh = pile_fem(p, k)
-    hks[i] = p.l / k
+    uh = pile_fem(k)
+    hks[i] = l / k
     eks[i] = 100 * energynorm(u - uh) / energynorm(u)
 end
 ```

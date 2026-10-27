@@ -13,7 +13,7 @@ using MMJMesh.Mathematics
 ```{julia}
 x = parameter(0 .. 4π)
 u = cos(x)
-v = 1 - x / (4π)
+v = 1 - x / 4π
 f = u * v
 
 fplot(u, v, f)
@@ -21,22 +21,22 @@ fplot(u, v, f)
 
 ### Funktionswerte
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 x = [1, 3, 7]
 y = f.(x)
 p = fplot(f)
-scatter!(x, y, color=:tomato)
+scatter!(x, y, color = :tomato)
 p
 ```
 :::
 
-::: {.scaffold}
+::: {.tinh-scaffold}
 ```{julia}
 x = [1, 3, 7]
 y = 0 * x
 p = fplot(f)
-scatter!(x, y, color=:tomato)
+scatter!(x, y, color = :tomato)
 p
 ```
 :::
@@ -45,7 +45,7 @@ p
 
 Funktion
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 nodes = range(0, 4π, 6)
 phis = hatfunctions(nodes)
@@ -64,7 +64,7 @@ fplot(e)
 
 ### Norm
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 norm2(u) = sqrt(integrate(u * u, domain(u)))
 
@@ -76,13 +76,13 @@ norm2(e)
 
 Funktion um Approximationsfehler zu berechnen
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 function approximation_error(Ne)
-    nodes = range(0, 4π, Ne + 1)
-    phis = hatfunctions(nodes)
-    fa = f.(nodes) ⋅ phis
-    return norm2(f - fa)
+	nodes = range(0, 4π, Ne + 1)
+	phis = hatfunctions(nodes)
+	fa = f.(nodes) ⋅ phis
+	return norm2(f - fa)
 end
 
 approximation_error(4)
@@ -91,7 +91,7 @@ approximation_error(4)
 
 Approximationsfehler für $4, 8, \dots, 2^{10}$ Elemente
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 Nes = 2 .^ (2:10)
 hs = 4π ./ Nes
@@ -101,7 +101,7 @@ es = approximation_error.(Nes)
 
 Fehler über Anzahl der Elemente
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 scatterlines(Nes, es)
 ```
@@ -109,7 +109,7 @@ scatterlines(Nes, es)
 
 Fehler über Elementgröße
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 scatterlines(hs, es)
 ```
@@ -117,19 +117,19 @@ scatterlines(hs, es)
 
 Mit loglog-Skala
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 fig = Figure()
-Axis(fig[1, 1], xscale=log2, yscale=log10)
+Axis(fig[1, 1], xscale = log2, yscale = log10)
 scatterlines!(Nes, es)
 fig
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 fig = Figure()
-Axis(fig[1, 1], xscale=log2, yscale=log10)
+Axis(fig[1, 1], xscale = log2, yscale = log10)
 scatterlines!(hs, es)
 fig
 ```
@@ -144,7 +144,7 @@ fplot(mks...)
 
 ```{julia}
 fig = Figure()
-Axis(fig[1, 1], xscale=log10, yscale=log10)
+Axis(fig[1, 1], xscale = log10, yscale = log10)
 fplot!(mks...)
 fig
 ```
@@ -153,16 +153,16 @@ fig
 
 Verhältnis aufeinanderfolgender Fehler (Halbierung von $h$)
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
-es[1:end-1] ./ es[2:end]
+es[1:(end-1)] ./ es[2:end]
 ```
 :::
 
 Steigung im loglog-Plot
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
-log2.(es[1:end-1] ./ es[2:end])
+log2.(es[1:(end-1)] ./ es[2:end])
 ```
 :::

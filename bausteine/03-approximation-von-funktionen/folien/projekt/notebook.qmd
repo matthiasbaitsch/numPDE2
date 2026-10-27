@@ -8,9 +8,11 @@ using MMJMesh.Mathematics
 
 ## Kombination von Funktionen
 
+Eine Linearkombination $\sum_i c_i b_i$ hat dieselbe Form wie das Skalarprodukt zweier Vektoren. In Julia schreibt man sie deshalb mit dem Skalarprodukt-Operator `⋅` (Eingabe `\cdot Tab`) als `c ⋅ b`, wobei `c` die Koeffizienten und `b` die Funktionen enthält.
+
 Taylorpolynom
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 x = parameter(0 .. π)
 f = sin(x)
@@ -27,14 +29,14 @@ fplot(f, Tn)
 
 ## Stückweise lineare Funktionen - Hutfunktionen
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 φs = hatfunctions([0, 1, 3, 4, 5])
 fplot(φs[1], φs[3])
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 c = [1, 0.15, 0.75, 0.3, 0.9]
 f = c ⋅ φs
@@ -44,7 +46,7 @@ fplot(f)
 
 ## Lineare Hülle
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 xs = range(0, 1, 6)
 phis = hatfunctions(xs)

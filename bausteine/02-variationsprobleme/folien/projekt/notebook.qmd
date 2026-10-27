@@ -29,13 +29,10 @@ n = ρ * A * g;
 
 ```{julia}
 x = parameter(0 .. l)
-a1 = 3 + 7 * π
-a2 = 7 * π - 3
-u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
-    25000 * (a1 * ℯ^2 + a2 * exp(x / 10)) 
-    - 2943 * π * ℯ * (exp(x / 10) + 1) 
-    +  981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
-)
+λ = sqrt(C / EA)
+D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
+u = n / C * (1 - S * cosh(λ * x) / D) +
+    F / (EA * λ * D) * (EA * λ * cosh(λ * (l - x)) + S * sinh(λ * (l - x)))
 
 fplot(u, zero(x), npoints=10)
 ```
@@ -72,14 +69,14 @@ println(a(u, w))
 
 Eigenschaften von $b$ und $a$
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 println(b(3 * u) ≈ 3 * b(u))                  # Linearität
 println(b(u + v) ≈ b(u) + b(v))
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 println(a(3 * u, v) ≈ 3 * a(u, v))            # Linearität im ersten Parameter
 println(a(u, 4 * v) ≈ 4 * a(u, v))
@@ -95,7 +92,7 @@ Man kann sich überlegen, dass diese Eigenschaften für (fast) beliebige Funktio
 
 Gegenbeispiel
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 a3(u, δu) = integrate(u, 0 .. l)
 a3(u, 3 * δu) ≈ 3 * a3(u, δu)

@@ -12,7 +12,7 @@ using MMJMesh.Mathematics
 
 Wir legen zunächst fest, dass `x` ein Funktionsparameter mit $0 \leq x \leq 7\pi$ ist. Die Funktionen $f$ und $u$ sind dadurch definiert, dass links der Funktionsname und rechts die Zuordnungsvorschrift steht. Die Schreibweise entspricht nicht der mathematischen Konvention, ist aber praktisch. Weiterhin ist es möglich, mit Funktionen zu rechnen, im Beispiel ist `h` die Funktion mit der Zuordnungsvorschrift $h(x) = (f(x) + u(x)) / 2$.
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 x = parameter(0 .. 7π)
 f = sin(x)
@@ -24,7 +24,7 @@ fplot(f, u, h)
 
 Ableitungen von Funktionen werden mit der in der Mathematik üblichen Schreibweise gebildet.
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 fplot(f', u', f'')
 ```
@@ -32,7 +32,7 @@ fplot(f', u', f'')
 
 Mit `integrate` werden bestimmte Integrale berechnet, der zweite Parameter legt den Integrationsbereich fest.
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 integrate(u, 0 .. 20)
 ```
@@ -42,7 +42,7 @@ integrate(u, 0 .. 20)
 
 Gesucht ist eine beliebige Lösung der DGL $u''(x) + u(x) = 0$ für $0 < x < 4\pi$.
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 x = parameter(0 .. 4π)
 u = 3 * sin(x) + 6 * cos(x)
@@ -91,35 +91,40 @@ n = ρ * A * g;
 
 ## Exakte Lösung
 
-::: {.solution}
+Mit $\lambda = \sqrt{C / EA}$ lautet die Differentialgleichung $u'' - \lambda^2 u = -n / EA$. Eine partikuläre Lösung ist die Konstante $n / C$, die homogene Lösung setzt man aus $\cosh(\lambda(l - x))$ und $\sinh(\lambda(l - x))$ zusammen. Die beiden Konstanten folgen aus den Randbedingungen:
+
+$$
+u(x) = \frac{n}{C}\left(1 - \frac{S \cosh(\lambda x)}{D}\right)
+     + \frac{F}{EA\,\lambda\,D}\Big(EA\,\lambda \cosh\big(\lambda(l - x)\big) + S \sinh\big(\lambda(l - x)\big)\Big)
+\quad \text{mit} \quad
+D = EA\,\lambda \sinh(\lambda l) + S \cosh(\lambda l)
+$$
+
+::: {.tinh-solution}
 ```{julia}
 x = parameter(0 .. l)
-a1 = 3 + 7 * π
-a2 = 7 * π - 3
-u = exp(-x/20)/(3500000*π*(a1*ℯ^2 - a2))*(
-    25000*(a1*ℯ^2 + a2*exp(x/10)) - 2943*π*ℯ*(exp(x/10) + 1) +
-        981*π*exp(x/20)*(a1*ℯ^2 - a2)
-)
+λ = sqrt(C / EA)
+D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
+u = n / C * (1 - S * cosh(λ * x) / D) +
+    F / (EA * λ * D) * (EA * λ * cosh(λ * (l - x)) + S * sinh(λ * (l - x)))
 
 fplot(u, zero(x), npoints=10)
 ```
 :::
-::: {.scaffold}
+::: {.tinh-scaffold}
 ```{julia}
 x = parameter(0 .. l)
-a1 = 3 + 7 * π
-a2 = 7 * π - 3
-u = exp(-x/20)/(3500000*π*(a1*ℯ^2 - a2))*(
-    25000*(a1*ℯ^2 + a2*exp(x/10)) - 2943*π*ℯ*(exp(x/10) + 1) +
-        981*π*exp(x/20)*(a1*ℯ^2 - a2)
-)
+λ = sqrt(C / EA)
+D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
+u = n / C * (1 - S * cosh(λ * x) / D) +
+    F / (EA * λ * D) * (EA * λ * cosh(λ * (l - x)) + S * sinh(λ * (l - x)))
 # ...
 ```
 :::
 
 Normalkraft
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 fplot(EA * u', zero(x), npoints = 10)
 ```
@@ -127,7 +132,7 @@ fplot(EA * u', zero(x), npoints = 10)
 
 Kontrolle: Es muss $EA u''(x) - C u(x) + n = 0$ gelten
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 p = fplot(EA * u'' - C * u + n, npoints = 100)
 ylims!(p.axis, [-0.001, 0.001])
@@ -137,7 +142,7 @@ p.figure
 
 Kontrolle Randbedingungen
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 println(EA * u'(0) ≈ -F)
 println(EA * u'(l) ≈ -S * u(l))
@@ -158,7 +163,7 @@ fplot(δu1, δu2, δu3, npoints = 10)
 
 Rechte Seite
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 b(δu) = n * integrate(δu, 0 .. l) + F * δu(0)
 
@@ -169,7 +174,7 @@ println(b(δu3))
 
 Linke Seite
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 a(u, δu) = EA * integrate(u' * δu', 0 .. l) + C * integrate(u * δu, 0 .. l) + S * u(l) * δu(l)
 
@@ -180,7 +185,7 @@ println(a(u, δu3))
 
 Kontrolle
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 println(a(u, δu1) ≈ b(δu1))
 println(a(u, δu2) ≈ b(δu2))
@@ -190,7 +195,7 @@ println(a(u, δu3) ≈ b(δu3))
 
 Gegenprobe
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 println(a(δu3, δu1) ≈ b(δu1))
 ```

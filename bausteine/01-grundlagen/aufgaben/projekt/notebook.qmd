@@ -8,7 +8,7 @@ using MMJMesh.Mathematics
 
 ### Systemparameter
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 l = 3.7
 EI = 2.2
@@ -16,7 +16,7 @@ k = 3.9
 q = 1.1
 ```
 :::
-::: {.scaffold}
+::: {.tinh-scaffold}
 ```{julia}
 l = 3.7
 # ...
@@ -25,7 +25,7 @@ l = 3.7
 
 ### Funktion $w$
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 x = parameter(0 .. l)
 w = q * (12*EI*l + k*l^3*x - 2*k*l*x^3 + k*x^4) / (24*EI*k)
@@ -33,14 +33,14 @@ w = q * (12*EI*l + k*l^3*x - 2*k*l*x^3 + k*x^4) / (24*EI*k)
 fplot(w, zero(x))
 ```
 :::
-::: {.scaffold}
+::: {.tinh-scaffold}
 ```{julia}
 x = parameter(0 .. l)
 # ...
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 Der Verlauf ist plausibel: Die Biegelinie ist symmetrisch, und an den Enden ist $w$ gleich der Federsenkung $w(0) = w(l) = \frac{ql}{2k}$, weil jede Feder die halbe Last trägt.
 
 ```{julia}
@@ -51,13 +51,13 @@ println(q * l / (2 * k))
 
 ### Bilinearform und Linearform
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 a(w, δw) = EI*integrate(w'' * δw'', 0 .. l) + k*w(0)*δw(0) + k*w(l)*δw(l)
 b(δw) = q * integrate(δw, 0 .. l)
 ```
 :::
-::: {.scaffold}
+::: {.tinh-scaffold}
 ```{julia}
 # a(w, δw) = 
 # b(δw) = 
@@ -68,7 +68,7 @@ b(δw) = q * integrate(δw, 0 .. l)
 
 Testfunktionen
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 δw1 = sin(x) + x
 δw2 = one(x)
@@ -81,7 +81,7 @@ fplot(δw1, δw2, δw3, δw4)
 
 Bedingung prüfen
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 println(a(w, δw1) ≈ b(δw1))
 println(a(w, δw2) ≈ b(δw2))
@@ -96,12 +96,12 @@ Die Bedingung ist für alle untersuchten Testfunktionen erfüllt. Das spricht da
 
 Differentialgleichung
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 fplot(EI * w'''' - q)
 ```
 :::
-::: {.scaffold}
+::: {.tinh-scaffold}
 ```{julia}
 # fplot
 ```
@@ -109,7 +109,7 @@ fplot(EI * w'''' - q)
 
 Randbedingungen
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 println(-EI * w'''(0) ≈ k * w(0))
 println(-EI * w'''(l) ≈ -k * w(l))
