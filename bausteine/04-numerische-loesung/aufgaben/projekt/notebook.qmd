@@ -1,7 +1,4 @@
-# Aufgabe 4.1 und 4.2: Bohrpfahl
-
 ```{julia}
-using DotMaps
 using CairoMakie
 using LinearAlgebra
 
@@ -9,46 +6,42 @@ using MMJMesh.Plots
 using MMJMesh.Mathematics
 ```
 
-## Problemparameter
+## Bohrpfahl: FE-Lösung
+
+### Ausgangspunkt
+
+Problemparameter
 
 ```{julia}
-# Mehrfachvariable
-p = DotMap()
-
 # Basiswerte
-p.E = 35e9
-p.d = 0.8
-p.l = 20
-p.F = 2e6
-p.ρ = 2500
-p.g = 9.81
-p.S = 120e6
-p.c = 1.75e7
+E = 35e9
+d = 0.8
+l = 20
+F = 2e6
+ρ = 2500
+g = 9.81
+S = 120e6
+c = 1.75e7
 
 # Abgeleitete Werte
-p.Ω = 0 .. p.l
-p.C = p.c * π * p.d
-p.A = π * p.d^2 / 4
-p.EA = p.E * p.A
-p.n = p.ρ * p.g * p.A;
+Ω = 0 .. l
+C = c * π * d
+A = π * d^2 / 4
+EA = E * A
+n = ρ * g * A;
 ```
 
-## Exakte Lösung
+Exakte Lösung
 
 ```{julia}
-a1 = 3 + 7π
-a2 = 7π - 3
-x = parameter(p.Ω)
+x = parameter(Ω)
+λ = sqrt(C / EA)
+D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
 
-u = exp(-x / 20) / (3500000 * π * (a1 * ℯ^2 - a2)) * (
-        25000 * (a1 * ℯ^2 + a2 * exp(x / 10))
-        -
-        2943 * π * ℯ * (exp(x / 10) + 1)
-        +
-        981 * π * exp(x / 20) * (a1 * ℯ^2 - a2)
-    )
+u = n / C * (1 - S * cosh(λ * x) / D) +
+    F / (EA * λ * D) * (EA * λ * cosh(λ * (l - x)) + S * sinh(λ * (l - x)))
 
-N = p.EA * u'
+N = EA * u'
 
 fig = Figure()
 fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, npoints=100)
@@ -56,54 +49,136 @@ fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, npoints=100)
 fig
 ```
 
-## Schwache Form
+Schwache Form
 
 ```{julia}
-a(u, δu) = integrate(p.EA * u' * δu' + p.C * u * δu, p.Ω) + p.S * u(p.l) * δu(p.l)
-b(δu) = integrate(p.n * δu, p.Ω) + p.F * δu(0)
+a(u, δu) = integrate(EA * u' * δu' + C * u * δu, Ω) + S * u(l) * δu(l)
+b(δu) = integrate(n * δu, Ω) + F * δu(0)
 ```
 
-## Numerische Lösung
+### Numerische Lösung
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
-function pile_fem(p, k)
-    phis = hatfunctions(range(p.Ω, k + 1))
-    K = [a(phiᵢ, phiⱼ) for phiᵢ = phis, phiⱼ = phis]
-    r = [b(phiᵢ) for phiᵢ = phis]
-    uHat = K \ r
-    uh = sum(uHat .* phis)
-    return uh
-end
-
-uh = pile_fem(p, 3)
+Ne = 4
+phis = hatfunctions(range(Ω, Ne + 1))
+K = [a(phiⱼ, phiᵢ) for phiᵢ = phis, phiⱼ = phis]
+r = [b(phiᵢ) for phiᵢ = phis]
+uHat = K \ r
+uh = uHat ⋅ phis
+fplot(uh, u, npoints=100)
+```
+:::
+::: {.tinh-scaffold}
+```{julia}
+Ne = 4
+phis = hatfunctions(range(Ω, Ne + 1))
+K = ...
+r = ...
+uHat = ...
+uh = uHat ⋅ phis
 fplot(uh, u, npoints=100)
 ```
 :::
 
-::: {.solution}
+Normalkraft
+
+::: {.tinh-solution}
 ```{julia}
-Nh = p.EA * uh'
+Nh = EA * uh'
 fplot(Nh, N, npoints=100)
 ```
 :::
 
-::: {.solution}
+Fehler
+
+::: {.tinh-solution}
 ```{julia}
 fplot(0 * x, u - uh, npoints=100)
 ```
 :::
 
-## Konvergenz
+### Struktur der Steifigkeitsmatrix
+
+```{julia}
+fplot(phis...)
+```
+
+::: {.tinh-solution}
+```{julia}
+display(K)
+display(r)
+```
+:::
+
+::: {.tinh-solution}
+1. $\mathbf{K}$ ist symmetrisch, weil die Bilinearform symmetrisch ist: $K_{ij} = a(\varphi_j, \varphi_i) = a(\varphi_i, \varphi_j) = K_{ji}$.
+
+1. Die Basisfunktionen $\varphi_i$ und $\varphi_j$ sind nur dann gleichzeitig von null verschieden, wenn $|i - j| \leq 1$ gilt. Für alle anderen Paare ist der Integrand der Bilinearform überall null, damit auch $K_{ij}$. Von null verschieden sind nur die Hauptdiagonale und die beiden Nebendiagonalen.
+
+1. Nur die letzte Basisfunktion ist bei $x = l$ von null verschieden, die Feder steckt deshalb nur in $K_{nn}$. Entsprechend ist nur die erste Basisfunktion bei $x = 0$ von null verschieden, die Kraft $F$ steckt nur in $r_1$.
+
+1. Bei $N_e = 1000$ Elementen gibt es $n = 1001$ Basisfunktionen. Von null verschieden sind $1001 + 2 \cdot 1000 = 3001$ der $1001^2 \approx 10^6$ Einträge.
+:::
+
+### Galerkin-Orthogonalität
+
+::: {.tinh-solution}
+```{julia}
+[a(u - uh, phiᵢ) / a(u, phiᵢ) for phiᵢ = phis]
+```
+:::
+
+Testfunktion, die keine Linearkombination der Basisfunktionen ist
+
+::: {.tinh-solution}
+```{julia}
+δu = sin(x)
+a(u - uh, δu) / a(u, δu)
+```
+:::
+
+## Bohrpfahl: Konvergenz
+
+### Funktion
+
+::: {.tinh-solution}
+```{julia}
+function pile_fem(Ne)
+    phis = hatfunctions(range(Ω, Ne + 1))
+    K = [a(phiⱼ, phiᵢ) for phiᵢ = phis, phiⱼ = phis]
+    r = [b(phiᵢ) for phiᵢ = phis]
+    uHat = K \ r
+    uh = uHat ⋅ phis
+    return uh
+end
+
+uh = pile_fem(4)
+fplot(uh, u, npoints=100)
+```
+:::
+::: {.tinh-scaffold}
+```{julia}
+function pile_fem(Ne)
+    # Code aus der vorigen Aufgabe
+    return uh
+end
+
+uh = pile_fem(4)
+fplot(uh, u, npoints=100)
+```
+:::
+
+### Fehlerfunktion und Normalkraft
 
 Fehlerfunktion
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 fig = Figure()
 Axis(fig[1, 1])
-for k = 2 .^ (1:5)
-    uh = pile_fem(p, k)
+for Ne = 2 .^ (1:5)
+    uh = pile_fem(Ne)
     fplot!(u - uh, npoints=100)
 end
 fig
@@ -112,90 +187,69 @@ fig
 
 Normalkraft
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 fig = Figure()
 Axis(fig[1, 1])
 fplot!(N)
-for k = 2 .^ (1:5)
-    uh = pile_fem(p, k)
-    Nh = p.EA * uh'
+for Ne = 2 .^ (1:5)
+    uh = pile_fem(Ne)
+    Nh = EA * uh'
     fplot!(Nh, connect_jumps=true)
 end
 fig
 ```
 :::
 
-Fehler in der Energienorm
+### Fehler in der Energienorm
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
-nn = 5
-hks = zeros(nn)
-eks = zeros(nn)
-nes = zeros(nn)
-
 energynorm(v) = sqrt(a(v, v))
 
-for i in 1:nn
-    k = 2^i
-    uh = pile_fem(p, k)
-    nes[i] = k
-    hks[i] = p.l / k
-    eks[i] = 100 * energynorm(u - uh) / energynorm(u)
-end
+Nes = 2 .^ (1:5)
+hs = l ./ Nes
+uhs = pile_fem.(Nes)
+es = [100 * energynorm(u - uh) / energynorm(u) for uh = uhs]
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
-scatterlines(hks, eks)
+scatterlines(hs, es)
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
-f = Figure()
-Axis(f[1, 1], xscale=log2, yscale=log10, title="Fehler in Prozent")
-scatterlines!(hks, eks)
-f
+fig = Figure()
+Axis(fig[1, 1], xscale=log2, yscale=log10, title="Fehler in Prozent")
+scatterlines!(hs, es)
+fig
 ```
 :::
 
-::: {.solution}
+Steigung im loglog-Plot
+
+::: {.tinh-solution}
 ```{julia}
-f = Figure()
-Axis(f[1, 1], xscale=log2, yscale=log10, title="Fehler in Prozent")
-scatterlines!(nes, eks)
-f
+log2.(es[1:end-1] ./ es[2:end])
 ```
 :::
 
-# Aufgabe 4.3: Elastisch gelagerter Balken
-
-::: {.solution}
-```{julia}
-using Unitful
-using CairoMakie
-using LinearAlgebra
-
-using MMJMesh.Plots
-using MMJMesh.Mathematics
-
-si(x, u) = ustrip(upreferred(x * uparse(u)))
-```
+::: {.tinh-solution}
+Der Fehler in der Energienorm halbiert sich mit der Elementgröße, die Näherung konvergiert mit der Ordnung 1.
 :::
 
-## Beispiel Aufgabenblatt 1, Aufgabe 3
+## Elastisch gelagerter Balken
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
-fromunit(a) = ustrip(upreferred(a))
-
-EI = si(210000, "N/mm^2") * si(8356, "cm^4")
-l = si(8, "m")
-q = si(50, "kN/m")
-k = si(100, "kN/cm")
+# Systemparameter in N und m
+EI = 2.1e11 * 8.356e-5
+l = 8
+q = 50e3
+k = 1e7
 
 a(w, δw) = EI * integrate(w'' * δw'', 0 .. l) + k * (w(0) * δw(0) + w(l) * δw(l))
 b(δw) = q * integrate(δw, 0 .. l)
@@ -213,7 +267,7 @@ V = M'
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 println(1000 * V(0) ≈ q * l / 2)
 println(1000 * V(l) ≈ -q * l / 2)
@@ -223,7 +277,7 @@ println(1000 * M(l / 2) ≈ q * l^2 / 8)
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 fig = Figure()
 fplot!(Axis(fig[1, 1], title="Displacement"), 1000 * w, zero(w), npoints=10)

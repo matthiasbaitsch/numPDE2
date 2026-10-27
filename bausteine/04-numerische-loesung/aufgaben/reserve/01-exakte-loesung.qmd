@@ -1,17 +1,3 @@
-\newcommand{\SI}[2]{#1\,#2}
-\newcommand{\si}[1]{#1}
-\newcommand{\num}[1]{#1}
-\newcommand{\newton}{\mathrm{N}}
-\newcommand{\metre}{\mathrm{m}}
-\newcommand{\centi}{\mathrm{c}}
-\newcommand{\milli}{\mathrm{m}}
-\newcommand{\per}{/}
-\newcommand{\squared}{^2}
-\newcommand{\kilo}{\mathrm{k}}
-\newcommand{\gram}{\mathrm{g}}
-\newcommand{\second}{\mathrm{s}}
-\newcommand{\tothe}[1]{^#1}
-
 ::: {#exr-bohrpfahl-exakte-loesung}
 ## Bohrpfahl: exakte Lösung
 

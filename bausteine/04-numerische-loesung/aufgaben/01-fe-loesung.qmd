@@ -1,0 +1,44 @@
+::: {#exr-bohrpfahl-fe-loesung}
+## Bohrpfahl: FE-Lösung
+
+### Ausgangspunkt
+
+Wir lösen das Bohrpfahlproblem mit der Finite-Elemente-Methode. Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Die Systemparameter, die exakte Lösung $u$, die Normalkraft $N = EA \cdot u'$ sowie die Bilinearform $a$ und die Linearform $b$ der schwachen Form sind dort bereits vorgegeben.
+
+### Numerische Lösung
+
+Berechnen Sie die Näherungslösung $u_h$ für $N_e = 4$ Elemente. Stellen Sie hierzu die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ auf und lösen Sie das lineare Gleichungssystem $\mathbf{K} \hat{\mathbf{u}} = \mathbf{r}$. Plotten Sie darüber hinaus die Näherung für die Normalkraft $N_h$ sowie den Fehler $e = u - u_h$.
+
+### Struktur der Steifigkeitsmatrix
+
+Plotten Sie die Basisfunktionen und lassen Sie sich die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ ausgeben. Beantworten Sie anhand der Basisfunktionen und der Bilinearform $a$ die folgenden Fragen:
+
+1. Warum ist $\mathbf{K}$ symmetrisch?
+
+1. Warum sind fast alle Einträge von $\mathbf{K}$ null? Welche Einträge sind von null verschieden?
+
+1. In welchem Eintrag von $\mathbf{K}$ steckt die Feder $S$, in welchem Eintrag von $\mathbf{r}$ die Kraft $F$?
+
+1. Wie viele von null verschiedene Einträge hat $\mathbf{K}$ bei $N_e = 1000$ Elementen?
+
+### Galerkin-Orthogonalität
+
+Für die exakte Lösung $u$ gilt $a(u, \delta u) = b(\delta u)$ für alle Testfunktionen, für die Näherungslösung $u_h$ gilt $a(u_h, \varphi_i) = b(\varphi_i)$ für alle Basisfunktionen. Daraus folgt
+
+$$
+    a(u - u_h, \varphi_i) = 0 \quad \text{für} \quad i = 1, \dots, n.
+$$
+
+Überprüfen Sie diese Gleichung für die Näherungslösung von oben. Da die Werte der Bilinearform sehr groß sind, bietet es sich an, $a(u - u_h, \varphi_i)$ mit $a(u, \varphi_i)$ zu vergleichen. Gilt die Gleichung auch für eine Testfunktion, die keine Linearkombination der Basisfunktionen ist, zum Beispiel $\delta u(x) = \sin x$?
+
+::: {.callout-tip title="Tipps für Julia"}
+```{.julia}
+[i + j for i = 1:3, j = 1:3]  # Matrix mit den Einträgen i + j
+[2 * i for i = 1:3]           # Vektor mit den Einträgen 2 * i
+[f(v) for v = vs]             # Vektor mit f(v) für alle Elemente v von vs
+K \ r                         # Lineares Gleichungssystem lösen
+fplot(phis...)                # Alle Funktionen im Vektor phis plotten
+```
+:::
+
+:::

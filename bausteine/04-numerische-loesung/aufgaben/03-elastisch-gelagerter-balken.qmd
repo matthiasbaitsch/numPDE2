@@ -1,12 +1,22 @@
 ::: {#exr-elastisch-gelagerter-balken}
 ## Elastisch gelagerter Balken
 
-Ermitteln Sie für den elastisch gelagerten Balken aus Aufgabe 1.2 mit
+Ermitteln Sie für den Balken aus der Aufgabe „Balken auf Federn“ im Baustein Grundlagen mit
 
 $$
   l = \SI{8}{\metre}, \quad q = \SI{50}{\kilo\newton\per\metre} \quad \text{und} \quad k = \SI{100}{\kilo\newton\per\centi\metre}
-$$ 
+$$
 
-eine FE-Lösung. Verwenden Sie ein IPE 300 Profil.
+eine FE-Lösung. Verwenden Sie ein IPE 300 Profil und rechnen Sie in den SI-Basiseinheiten Newton und Meter. Da in der Bilinearform die zweite Ableitung vorkommt, eignen sich Hutfunktionen nicht als Basisfunktionen – verwenden Sie stattdessen die Hermite-Funktionen aus der Aufgabe zu den Hermite-Basisfunktionen.
+
+::: {.callout-tip title="Tipps für Julia"}
+```{.julia}
+nodes = range(0, l, Ne + 1)     # Ne + 1 Knoten von 0 bis l
+phis = hermitefunctions(nodes)  # Hermite-Funktionen, zwei je Knoten
+fplot(phis...)                  # Basisfunktionen plotten
+```
+
+Die Basisfunktionen sind knotenweise sortiert: `phis[1]` hat im ersten Knoten den Wert 1, `phis[2]` dort die Steigung 1, `phis[3]` hat im zweiten Knoten den Wert 1 und so weiter. Entsprechend sind die Koeffizienten in $\hat{\mathbf{w}}$ abwechselnd Durchbiegungen und Verdrehungen in den Knoten.
+:::
 
 :::

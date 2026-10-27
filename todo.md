@@ -2,14 +2,24 @@
 
 ## Bis zum nächsten Termin
 
-* [ ]  MuLö Hermite
+* [X]  MuLö Hermite
 * [ ]  Abschnitt 04 fertigmachen
+  * [ ]  Elastisch gelagerter Balken: Die Musterlösung verwendet `hermitefunctions(…, midnode=true)`, der Tipp auf
+    dem Blatt `hermitefunctions(nodes)`. Entweder `midnode=true` in den Tipp oder die Lösung mit mehreren Elementen.
+  * [ ]  `aufgaben/reserve/01-exakte-loesung.qmd` enthält noch die alte Mathematica-Formel statt der geschlossenen
+    Lösung.
+* [ ]  Beim Rendern prüfen: Lösungsblätter 01 und 03 (Lösung in der Aufgabe, auf dem Aufgabenblatt nicht zu
+  sehen, Größe der neuen PNGs), Plotgröße in Typst (`is_typst()` in `_setup.jl`), `fig-align` bei Bildern ohne
+  Bildunterschrift.
+* [ ]  Baustein 05 überarbeiten: alte Überschriften (`# Aufgabe 5.2b`), `IntervalSets` fehlt in der Projektvorlage
+  (ohne ist `..` mehrdeutig), `DimensionMismatch` in `fem.jl:41` (vermutlich `nodeindices` eines Knotens leer in
+  der aktuellen MMJMesh-Version).
 
 ## Inhalte langfristig
 
 - [X]  Musterlösungen zu den Aufgaben auf Papier (Herleitungen, Skizzen, Handrechnungen) erstellen. Material:
   Musterlösungen zu den LaTeX-Übungsblättern in `../../numPDE/04-uebungsaufgaben/uebungsblatt-*/01-musterloesung`.
-  Erledigt für 01 und 03 (außer Hermite-Basisfunktionen, dort steht `TODO`).
+  Erledigt für 01 und 03.
 - [ ]  Baustein **Elastizität** anlegen. Inhalt: ebene Elastizität, Finite-Elemente-Formulierung mit mehreren
   Feldern. Material: Notizen NP 2D 08, Skript 1.0 Kapitel 3, Lösungs-Notebooks `11-elasticity2d*` und `cst.jl` in
   `../../numPDE_2.0/loesungen`.
@@ -30,9 +40,15 @@
 - [ ]  In der Extension eine Funktion `#demo("…")` für Demo-Folien (einheitlich gestaltet, z.B. Notebook-Symbol
   und farbiger Hintergrund). Bis dahin sind Demos normale Folien `## Demo: …` mit den Abschnitten im Folien-Notebook
   (bisher in 01 bis 03).
+- [ ]  Informatik und Mathe B wie hier auf `tinh-notebook` und `.tinh-solution`/`.tinh-scaffold` umstellen (siehe
+  `todo.md` in quarto-tinh); in Mathe B zusätzlich die `.sol.qmd` als `.tinh-solution` in die Aufgaben übernehmen.
 
 ## Lernpfad-Skript
 
+- [ ]  Prüfen, ob die Kopie von `_metadata.yml` nach `c/` (`copy_common_files`) nötig ist: Quarto liest die
+  `_metadata.yml` aller Ordner bis zur Projektwurzel, also auch `lernpfad/aufgaben/_metadata.yml` beim Rendern von
+  `c/`. Haken: relative Pfade (`bibliography`, `csl`) beziehen sich vermutlich auf den Ordner der
+  `_metadata.yml`. Gleiche Lösung wie in Informatik.
 - [ ]  Idee, nicht dringend: `skripte/make-learning-path.jl` mit dem Informatik-Projekt
   (`../../informatik-master_2.0/unterlagen/skripte/lernpfad-zusammenstellen.jl`) zusammenführen, z.B. als gemeinsames Repo analog zu `tinh`.
   Unterschiede: Zip-Inhalte (C# bzw. Julia), `teil` in Folientitel und Buchteilen, `veranstaltung` nur hier,
