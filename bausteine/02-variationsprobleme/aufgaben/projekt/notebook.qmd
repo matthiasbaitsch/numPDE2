@@ -32,19 +32,19 @@ println(" s: ", a(u1, u2) ≈ a(u2, u1))
 println("pd: ", a(u3, u3) > 0)
 ```
 
-::: {.solution}
+::: {.tinh-solution}
 → Symmetrische Bilinearform, aber nicht positiv definit: Für die konstante Funktion $u_3 \neq 0$ ist $a(u_3, u_3) = 0$, weil $u_3' = 0$.
 :::
 
-::: {.scaffold}
+::: {.tinh-scaffold}
 → ?
 :::
 
 ### Funktionale (b) bis (f)
 
-(b)
+Funktional (b)
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 a(u, v) = integrate(u + v, 0 .. l)
 
@@ -53,17 +53,17 @@ println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 → Keine Bilinearform
 :::
 
-::: {.scaffold}
+::: {.tinh-scaffold}
 → ?
 :::
 
-(c)
+Funktional (c)
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 a(u, v) = 42
 
@@ -71,17 +71,17 @@ println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 → Keine Bilinearform
 :::
 
-::: {.scaffold}
+::: {.tinh-scaffold}
 → ?
 :::
 
-(d)
+Funktional (d)
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 a(u, v) = u(0) * v(l)
 
@@ -93,17 +93,17 @@ println("pd: ", a(u2, u2) > 0)
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 → Bilinearform, aber nicht symmetrisch ($a(u_3, u_2) = l$, $a(u_2, u_3) = 0$) und nicht positiv definit ($a(u_2, u_2) = 0$ für $u_2 \neq 0$)
 :::
 
-::: {.scaffold}
+::: {.tinh-scaffold}
 → ?
 :::
 
-(e)
+Funktional (e)
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 a(u, v) = integrate(u * v, 0 .. l) + u(0) * v(l) - u(l) * v(0)
 
@@ -115,17 +115,17 @@ println("pd: ", a(u1, u1) > 0, " ", a(u2, u2) > 0, " ", a(u3, u3) > 0)
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 → Positiv definit, aber nicht symmetrisch: Für $u = v$ heben sich die Randterme auf, $a(v, v) = \int_0^l v^2 \, \mathrm{d}x > 0$ für $v \neq 0$. Für $u \neq v$ heben sie sich im Allgemeinen nicht auf, z.B. $a(u_3, u_2) = \frac{l^2}{2} + l$, aber $a(u_2, u_3) = \frac{l^2}{2} - l$.
 :::
 
-::: {.scaffold}
+::: {.tinh-scaffold}
 → ?
 :::
 
-(f)
+Funktional (f)
 
-::: {.solution}
+::: {.tinh-solution}
 ```{julia}
 a(u, v) = integrate(u' * v', 0 .. l) + u(0) * v(0)
 
@@ -137,17 +137,17 @@ println("pd: ", a(u3, u3) > 0)
 ```
 :::
 
-::: {.solution}
+::: {.tinh-solution}
 → Skalarprodukt: Anders als bei (a) ist auch für Konstanten $a(v, v) > 0$. $a(v, v) = 0$ gilt nur, wenn $v' = 0$ (also $v$ konstant) und $v(0) = 0$ ist, also nur für $v = 0$.
 :::
 
-::: {.scaffold}
+::: {.tinh-scaffold}
 → ?
 :::
 
 ### Zusammenfassung
 
-::: {.solution}
+::: {.tinh-solution}
 | | bilinear | symmetrisch | positiv definit | Skalarprodukt |
 |---|:-:|:-:|:-:|:-:|
 | (a) | ja | ja | nein | nein |
@@ -158,7 +158,7 @@ println("pd: ", a(u3, u3) > 0)
 | (f) | ja | ja | ja | ja |
 :::
 
-::: {.scaffold}
+::: {.tinh-scaffold}
 | | bilinear | symmetrisch | positiv definit | Skalarprodukt |
 |---|:-:|:-:|:-:|:-:|
 | (a) | ? | ? | ? | ? |
@@ -171,10 +171,10 @@ println("pd: ", a(u3, u3) > 0)
 
 ### Was zeigt die Überprüfung?
 
-::: {.solution}
+::: {.tinh-solution}
 Man kann Gegenbeispiele finden, aber um eine Eigenschaft nachzuweisen muss man mathematisch argumentieren.
 :::
 
-::: {.scaffold}
+::: {.tinh-scaffold}
 → ?
 :::

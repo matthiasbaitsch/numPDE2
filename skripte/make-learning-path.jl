@@ -2,10 +2,12 @@ using SHA
 using YAML
 using ZipArchives
 
-include("filter-notebook.jl")
-
 # Published learning path, for absolute links (relative links do not work in PDF files)
 const SITE_URL = "https://matthiasbaitsch.github.io/numPDE2/lernpfad"
+
+# Quarto project and its output folder (output-dir in _quarto.yml)
+const PROJECT_FOLDER = realpath(joinpath(@__DIR__, ".."))
+const OUTPUT_FOLDER = joinpath(PROJECT_FOLDER, "__output")
 
 # The work is done by make_learning_path, called at the end of this file
 
@@ -18,7 +20,7 @@ struct BuildingBlock
     number::Int
     title::String
     part::String
-    target::Union{Symbol,Nothing}    # target of the assignments notebook for the students (see filter-notebook.jl)
+    target::Union{Symbol,Nothing}    # target of the assignments notebook for the students (tinh-target)
 end
 
 function BuildingBlock(folder::String)
@@ -106,29 +108,19 @@ function substitute_text(text::String, dict::Dict)
     return text
 end
 
-is_solution(f::String) = endswith(f, ".sol.qmd")
+# .qmd files directly in folder
+qmd_files(folder::String) = filter(f -> endswith(f, ".qmd"), readdir(folder, join=true))
 
-# Only the title of an assignment: opening line of the div ::: {#exr-…} and heading, so the number stays the same
-function assignment_title(text::String)
-    lines = split(text, '\n')
-    return join([first(filter(l -> startswith(l, ":::"), lines)), first(filter(l -> startswith(l, "## "), lines)), ":::"], "\n")
-end
+# Solutions are blocks ::: {.tinh-solution} in the assignments
+has_solution(folder::String) = any(f -> occursin("{.tinh-solution}", read(f, String)), qmd_files(folder))
 
-# Header and all .qmd files directly in source_folder (except solutions x.sol.qmd) as one text, with placeholders
-# replaced; with_solution: instead of each assignment its title followed by the solution x.sol.qmd (each paper
-# assignment has one) or a note on the solution notebook; warns about placeholders that are left (unknown or no
-# notebook)
-function assemble_qmd(header::String, bb::BuildingBlock, source_folder::String; with_solution::Bool=false)
+# Header and all .qmd files directly in source_folder as one text, with placeholders replaced; warns about
+# placeholders that are left (unknown or no notebook)
+function assemble_qmd(header::String, bb::BuildingBlock, source_folder::String)
     text = header
     text *= "\n"
-    for f ∈ filter(f -> endswith(f, ".qmd") && !is_solution(f), readdir(source_folder, join=true))
-        if with_solution
-            solution = replace(f, r"\.qmd$" => ".sol.qmd")
-            text *= assignment_title(read(f, String)) * "\n\n"
-            text *= isfile(solution) ? read(solution, String) : "Lösung im Lösungs-Notebook\n"
-        else
-            text *= read(f, String)
-        end
+    for f ∈ qmd_files(source_folder)
+        text *= read(f, String)
         text *= "\n\n"
     end
     text = substitute_text(text, make_dict(bb))
@@ -154,19 +146,40 @@ function zip_folder(source_folder::String, zipfile::String)
     end
 end
 
-# Notebook from .qmd (see filter-notebook.jl) as zip. Zip because GitHub Pages serves .ipynb as text and browsers
-# display it when linked from other sites (Moodle)
-function zip_notebook(
-    source::String, title::String, subtitle::String, target::Symbol, zipfile::String,
-    name::String=replace(basename(zipfile), r"\.zip$" => ".ipynb")
+# Notebook name.ipynb from the source .qmd for target (solution, scaffold or blank) with the format tinh-notebook-ipynb
+# of the extension tinh (solution and scaffold, title cell), code is not executed. The source with header is
+# rendered in target_folder (in a folder starting with _ Quarto does not find the extension) and then moved to
+# target_folder/_qmd for checking (Quarto does not render folders starting with _). Returns the path of the .ipynb
+# in the output folder. author: [] keeps the author from _quarto.yml out of the title cell
+function render_notebook(
+    source::String, title::String, subtitle::String, target::Symbol, target_folder::String, name::String
 )
-    ipynb = joinpath(mktempdir(), name)
-    filter_notebook(source, title, subtitle, target, ipynb)
-    mkpath(dirname(zipfile))
+    header = """
+        ---
+        title: "$title"
+        subtitle: "$subtitle"
+        author: []
+        engine: markdown
+        tinh-target: $target
+        ---
+
+        """
+    qmd = joinpath(target_folder, "$name.notebook.qmd")
+    write(qmd, header * read(source, String))
+    run(`quarto render $qmd --to tinh-notebook-ipynb --quiet`)
+    mkpath(joinpath(target_folder, "_qmd"))
+    mv(qmd, joinpath(target_folder, "_qmd", "$name.qmd"))
+    return joinpath(OUTPUT_FOLDER, relpath(target_folder, PROJECT_FOLDER), "$name.notebook.ipynb")
+end
+
+# Notebook as zip with the name name.ipynb, then deleted from the output folder (would be published there). Zip
+# because GitHub Pages serves .ipynb as text and browsers display it when linked from other sites (Moodle)
+function zip_notebook(ipynb::String, zipfile::String, name::String)
     ZipWriter(zipfile) do w
-        zip_newfile(w, name; compress=true)
+        zip_newfile(w, "$name.ipynb"; compress=true)
         write(w, read(ipynb))
     end
+    rm(ipynb)
 end
 
 # Notebooks from projekt/notebook.qmd: always the solution, for the students if target is set (returns the
@@ -179,18 +192,17 @@ function zip_project_notebooks(
     title = "$(bb.part): $(bb.title)"
     subtitle = titlecase(kind)
 
-    # Each notebook as zip and, for checking, as .qmd in c/_qmd (Quarto does not render folders starting with _)
-    function zip_with_check(subtitle, target, zipfile, name)
-        zip_notebook(source, title, subtitle, target, joinpath(target_folder, zipfile), name)
-        mkpath(joinpath(target_folder, "_qmd"))
-        filter_notebook(source, title, subtitle, target, joinpath(target_folder, "_qmd", replace(name, r"\.ipynb$" => ".qmd")))
+    # Each notebook as zip, its source for checking in c/_qmd
+    function render_and_zip(subtitle, target, zipfile, name)
+        ipynb = render_notebook(source, title, subtitle, target, target_folder, name)
+        zip_notebook(ipynb, joinpath(target_folder, zipfile), name)
     end
 
     solution = "$(slug(bb))-$kind-loesung"
-    zip_with_check("$subtitle (Lösung)", :solution, "$solution-$(solution_hash(bb)).zip", "$solution.ipynb")
+    render_and_zip("$subtitle (Lösung)", :solution, "$solution-$(solution_hash(bb)).zip", solution)
     isnothing(target) && return nothing
     notebook = "$(slug(bb))-$kind"
-    zip_with_check(subtitle, target, "$notebook.zip", "$notebook.ipynb")
+    render_and_zip(subtitle, target, "$notebook.zip", notebook)
     return "$notebook.zip"
 end
 
@@ -223,9 +235,11 @@ function make_assignments(bb::BuildingBlock, assignments_folder::String, target_
 
     zip_project_notebooks(bb, assignments_folder, target_folder, "aufgaben", bb.target)
 
-    header(kind) = """
+    # Sheet with assignments (tinh-target blank) or with solutions (tinh-target solution)
+    header(kind, target) = """
      ---
      number-offset: $(bb.number - 1)
+     tinh-target: $target
      format:
        tinh-assignments-typst:
          include-in-header:
@@ -235,13 +249,13 @@ function make_assignments(bb::BuildingBlock, assignments_folder::String, target_
      # $(bb.part): $(bb.title) ($kind)
      """
 
-    write(joinpath(target_folder, slug(bb) * "-aufgaben.qmd"), assemble_qmd(header("Aufgaben"), bb, assignments_folder))
+    write(joinpath(target_folder, slug(bb) * "-aufgaben.qmd"), assemble_qmd(header("Aufgaben", :blank), bb, assignments_folder))
 
     # Solution sheet (paper and pencil) if there are solutions, with the hash of the solution notebook
-    if any(is_solution, readdir(assignments_folder))
+    if has_solution(assignments_folder)
         write(
             joinpath(target_folder, "$(slug(bb))-aufgaben-loesung-$(solution_hash(bb)).qmd"),
-            assemble_qmd(header("Lösungen"), bb, assignments_folder; with_solution=true)
+            assemble_qmd(header("Lösungen", :solution), bb, assignments_folder)
         )
     end
 

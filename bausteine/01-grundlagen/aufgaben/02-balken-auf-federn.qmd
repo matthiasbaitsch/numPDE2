@@ -51,4 +51,15 @@ x ≈ y                       # Vergleich mit Rundungstoleranz (\approx)
 ```
 :::
 
+::: {.tinh-solution}
+![](bilder/balken-auf-federn-loesung-1.png){width="60%" fig-align="center"}
+
+![](bilder/balken-auf-federn-loesung-2.png){width="60%" fig-align="center"}
+
+![](bilder/balken-auf-federn-loesung-3.png){width="60%" fig-align="center"}
+
+![](bilder/balken-auf-federn-loesung-4.png){width="60%" fig-align="center"}
+
+Die Lösung zum Teil "Mit Julia lösen" steht im Lösungs-Notebook.
+:::
 :::

@@ -122,6 +122,7 @@ t0 = zeros(nnodes(m));
 ### Solve initial value problem
 
 See
+
 - https://docs.sciml.ai/DiffEqDocs/latest/tutorials/faster_ode_example/
 - https://docs.sciml.ai/DiffEqDocs/latest/solvers/split_ode_solve/
 - https://docs.sciml.ai/DiffEqDocs/latest/tutorials/advanced_ode_example/

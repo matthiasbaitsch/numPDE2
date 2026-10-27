@@ -26,4 +26,10 @@ Aufgaben:
 1. Was können Sie hier über die Differenzierbarkeit von $u_h$ sagen?
 
 Tipp: Schauen Sie sich nochmal die Lagrange-Polynome an. Diese Aufgabe erfordert keinerlei Rechnungen, Skizze reicht!
+
+::: {.tinh-solution}
+![](bilder/quadratische-basisfunktionen-loesung-1.png){width="60%" fig-align="center"}
+
+![](bilder/quadratische-basisfunktionen-loesung-2.png){width="60%" fig-align="center"}
+:::
 :::

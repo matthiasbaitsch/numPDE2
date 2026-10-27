@@ -3,16 +3,37 @@
 
 Für die Berechnung von Balkentragwerken mit Finiten Elementen werden Basisfunktionen benötigt, deren Ableitungen stetig sind. Grundlage hierfür sind die so genannten Hermite-Polynome
 
-![](bilder/hermite.png){width="70%"}
+```{julia}
+include(joinpath(dirname(Base.active_project()), "_setup.jl"))
+fig = Figure(size = (500, 200))
+fplot!(Axis(fig[1, 1]), hermitefunctions([0, 6])...)
+fig
+```
 
-deren Funktionswert oder deren Ableitung an den Enden entweder den Wert null oder eins hat.
+deren Funktionswert oder deren Ableitung an den Enden entweder den Wert null oder eins hat (siehe @fish_first_2007, S. 260).
 
 Aufgaben:
 
 1. Warum ist es physikalisch nicht möglich, dass die Durchbiegung von Biegebalken (ohne Gelenke) einen Knick hat?
 
-1. Kombinieren Sie die Hermite-Polynome abschnittsweise zu geeigneten Basisfunktionen.
+1. Kombinieren Sie die Hermite-Polynome abschnittsweise zu geeigneten Basisfunktionen und skizzieren Sie den Verlauf.
+
+1. Skizzieren Sie zusätzlich noch die erste Ableitung der Basisfunktionen. Denken Sie daran, dass die Ableitung einer kubischen Funktion quadratisch ist.
 
 1. Welche physikalische Interpretation besitzen dann die Koeffizienten $\hat{w}_i$ in der Linearkombination $w_h(x) = \sum \hat w_i \cdot \varphi_i(x)$?
 
+::: {.tinh-solution}
+Teil 1
+
+Der Balken würde brechen.
+
+Teil 2 und 3
+
+![](bilder/hermite-basisfunktionen-loesung.png){width="60%" fig-align="center"}
+
+Teil 4
+
+Koeffizienten mit ungeradem Index entsprechen einer Verschiebung, Koeffizienten mit einem Geraden Index einer Verdrehung.
+
+:::
 :::

@@ -17,4 +17,11 @@ Konvergenzuntersuchungen werden meist doppelt-logarithmisch dargestellt, wie in 
 
     Tipp: `es[1:end-1] ./ es[2:end]` teilt jeden Eintrag des Vektors `es` durch den folgenden.
 
+::: {.tinh-solution}
+![](bilder/doppelt-logarithmisch-loesung.png){width="60%" fig-align="center"}
+
+Zu Teil 2: Für kleine $h$ ist die Steigung 2, der Fehler verhält sich also wie $C \cdot h^2$. Halbiert man $h$, wird der Fehler etwa um den Faktor $2^2 = 4$ kleiner. Bei sehr groben Netzen (wenige Elemente) gilt das noch nicht.
+
+Die Lösung zum Teil "Mit Julia lösen" steht im Lösungs-Notebook.
+:::
 :::

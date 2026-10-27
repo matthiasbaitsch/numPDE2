@@ -59,4 +59,7 @@ scatterlines(xs, ys)          # Verlauf mit Punkten und Linien plotten
 Wie man doppelt-logarithmische Plots liest, zeigt der Abschnitt "Zur Interpretation von loglog-Plots" am Ende des Notebooks.
 :::
 
+::: {.tinh-solution}
+Lösung im Lösungs-Notebook
+:::
 :::

@@ -1,7 +1,0 @@
-![](bilder/quadratische-basisfunktionen-loesung-1.png){width="60%" fig-align="center"}
-
-![](bilder/quadratische-basisfunktionen-loesung-2.png){width="60%" fig-align="center"}
-
-### Errata {-}
-
-- Die Nummerierung "Übungsblatt 2, Aufgabe 1" stammt aus einer früheren Fassung des Aufgabenblatts.
