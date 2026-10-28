@@ -34,7 +34,7 @@ D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
 u = n / C * (1 - S * cosh(λ * x) / D) +
     F / (EA * λ * D) * (EA * λ * cosh(λ * (l - x)) + S * sinh(λ * (l - x)))
 
-fplot(u, zero(x), npoints=10)
+fplot(u, zero(x))
 ```
 
 ## Variationsformulierung Bohrpfahl
@@ -46,7 +46,7 @@ Daten und Funktionen zum Testen
 v = sin(x)
 w = 1 - x^2 / l^2
 
-fplot(δu, v, w, npoints=10)
+fplot(δu, v, w)
 ```
 
 Rechte Seite

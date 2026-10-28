@@ -89,7 +89,7 @@ x = parameter(p.Ω)
 
 u = exp(x / 20) + exp(-x / 10)
 
-fplot(u, npoints=100)
+fplot(u)
 ```
 
 Plotten Sie zusätzlich die Normalkraft $N = EA \cdot u'$.

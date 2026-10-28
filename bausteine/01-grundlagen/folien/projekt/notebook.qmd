@@ -108,7 +108,7 @@ D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
 u = n / C * (1 - S * cosh(λ * x) / D) +
     F / (EA * λ * D) * (EA * λ * cosh(λ * (l - x)) + S * sinh(λ * (l - x)))
 
-fplot(u, zero(x), npoints=10)
+fplot(u, zero(x))
 ```
 :::
 ::: {.tinh-scaffold}
@@ -126,7 +126,7 @@ Normalkraft
 
 ::: {.tinh-solution}
 ```{julia}
-fplot(EA * u', zero(x), npoints = 10)
+fplot(EA * u', zero(x))
 ```
 :::
 
@@ -134,7 +134,7 @@ Kontrolle: Es muss $EA u''(x) - C u(x) + n = 0$ gelten
 
 ::: {.tinh-solution}
 ```{julia}
-p = fplot(EA * u'' - C * u + n, npoints = 100)
+p = fplot(EA * u'' - C * u + n)
 ylims!(p.axis, [-0.001, 0.001])
 p.figure
 ```
@@ -158,7 +158,7 @@ Drei Funktionen zum Testen
 δu2 = sin(x)
 δu3 = 1 - x^2 / l^2
 
-fplot(δu1, δu2, δu3, npoints = 10)
+fplot(δu1, δu2, δu3)
 ```
 
 Rechte Seite

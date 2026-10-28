@@ -15,7 +15,7 @@ eine FE-Lösung. Verwenden Sie ein IPE 300 Profil und rechnen Sie in den SI-Basi
 
 1. Randbedingungen: Wie gut erfüllt die Näherungslösung die Randbedingungen für Querkraft und Biegemoment an den Enden? Vergleichen Sie außerdem das Biegemoment in Feldmitte mit dem Wert $q l^2 / 8$ des Einfeldträgers. Wie erklären Sie die Abweichungen?
 
-1. Zusätzlicher Knoten: Mit `midnode=true` erhält jedes Element einen zusätzlichen Knoten in der Mitte und damit eine weitere Basisfunktion, die Näherung ist dann abschnittsweise ein Polynom vierten Grades. Berechnen Sie damit die Näherungslösung für $N_e = 2$ Elemente und prüfen Sie erneut Differentialgleichung und Randbedingungen. Was stellen Sie fest, und warum?
+1. Zusätzlicher Knoten: Mit `midnode=true` erhält jedes Element einen zusätzlichen Knoten in der Mitte und damit eine weitere Basisfunktion, die Näherung ist dann abschnittsweise ein Polynom vierten Grades. Plotten Sie die Basisfunktionen für $N_e = 2$ Elemente, berechnen Sie damit die Näherungslösung und prüfen Sie erneut Differentialgleichung und Randbedingungen. Was stellen Sie fest, und warum?
 
 ::: {.callout-tip title="Tipps für Julia"}
 ```{.julia}

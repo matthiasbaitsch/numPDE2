@@ -53,7 +53,7 @@ solution_hash(bb::BuildingBlock) = bytes2hex(sha1("87362-" * slug(bb)))[1:8]
 
 # All folders with about.yaml in source_folder
 building_blocks(source_folder::String) = [
-    BuildingBlock(d) for d ∈ readdir(source_folder, join=true) if isfile(joinpath(d, "about.yaml"))
+    BuildingBlock(d) for d = readdir(source_folder, join=true) if isfile(joinpath(d, "about.yaml"))
 ]
 
 
@@ -68,7 +68,7 @@ is_auxiliary(f::String) = occursin(r"\.(afdesign|af|graffle)$|~lock~$|^\.DS_Stor
 function copy_files(source_folder::String, target_folder::String)
     isdir(source_folder) || return
     mkpath(target_folder)
-    for f ∈ readdir(source_folder)
+    for f = readdir(source_folder)
         source_path = joinpath(source_folder, f)
         target_path = joinpath(target_folder, f)
         if isfile(source_path) && !is_auxiliary(f)
@@ -80,12 +80,12 @@ end
 
 # Images (bilder/) and handwritten notes (notizen/) of a source folder; each folder zip/<name> as <name>.zip
 function copy_resources(source_folder::String, target_folder::String)
-    for sub ∈ ("bilder", "notizen")
+    for sub = ("bilder", "notizen")
         copy_files(joinpath(source_folder, sub), joinpath(target_folder, sub))
     end
     zips_folder = joinpath(source_folder, "zip")
     isdir(zips_folder) || return
-    for name ∈ readdir(zips_folder)
+    for name = readdir(zips_folder)
         isdir(joinpath(zips_folder, name)) && zip_folder(joinpath(zips_folder, name), joinpath(target_folder, "$name.zip"))
     end
 end
@@ -95,7 +95,7 @@ end
 function copy_common_files(source_folder::String, target_folder::String)
     metadata = joinpath(dirname(target_folder), "_metadata.yml")
     isfile(metadata) && cp(metadata, joinpath(target_folder, "_metadata.yml"))
-    for f ∈ ("bibliographie.bib", "style.csl")
+    for f = ("bibliographie.bib", "style.csl")
         cp(joinpath(source_folder, f), joinpath(target_folder, f))
     end
 end
@@ -119,12 +119,12 @@ has_solution(folder::String) = any(f -> occursin("{.tinh-solution}", read(f, Str
 function assemble_qmd(header::String, bb::BuildingBlock, source_folder::String)
     text = header
     text *= "\n"
-    for f ∈ qmd_files(source_folder)
+    for f = qmd_files(source_folder)
         text *= read(f, String)
         text *= "\n\n"
     end
     text = substitute_text(text, make_dict(bb))
-    for m ∈ eachmatch(r"\$\{\w+\}", text)
+    for m = eachmatch(r"\$\{\w+\}", text)
         @warn "Placeholder $(m.match) not replaced in $source_folder"
     end
     return text
@@ -264,21 +264,21 @@ end
 
 
 function make_slides(blocks_folder::String, target_folder::String)
-    for bb ∈ building_blocks(blocks_folder)
+    for bb = building_blocks(blocks_folder)
         slides_folder = joinpath(bb.folder, "folien")
         isdir(slides_folder) && make_slides(bb, slides_folder, target_folder)
     end
 end
 
 function make_assignments(blocks_folder::String, target_folder::String)
-    for bb ∈ building_blocks(blocks_folder)
+    for bb = building_blocks(blocks_folder)
         assignments_folder = joinpath(bb.folder, "aufgaben")
         isdir(assignments_folder) && make_assignments(bb, assignments_folder, target_folder)
     end
 end
 
 function make_course(course_folder::String, target_folder::String)
-    for course_slides_folder ∈ filter(f -> isdir(f) && f != target_folder, readdir(course_folder, join=true))
+    for course_slides_folder = filter(f -> isdir(f) && f != target_folder, readdir(course_folder, join=true))
         name = basename(course_slides_folder)
         cp(joinpath(course_slides_folder, "folien.qmd"), joinpath(target_folder, "$name.qmd"))
         copy_resources(course_slides_folder, target_folder)
@@ -295,7 +295,7 @@ function make_learning_path(source::String, target::String)
         (make_course, joinpath(learning_path_folder, "veranstaltung"), "veranstaltung"),
     ]
 
-    for (make, source_folder, part) ∈ components
+    for (make, source_folder, part) = components
         target_folder = joinpath(learning_path_folder, part, "c")
         rm(target_folder, force=true, recursive=true)
         mkpath(target_folder)

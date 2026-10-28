@@ -11,6 +11,6 @@
 		},
 		"editor.formatOnSave": true,
 		"chat.disableAIFeatures": false,
-		"julia.environmentPath": "/Users/maba/sciebo/lehrveranstaltungen/numPDE_2.1/unterlagen/bausteine/03-approximation-von-funktionen/folien/projekt"
+		"julia.environmentPath": "/Users/maba/sciebo/lehrveranstaltungen/numPDE_2.1/unterlagen/bausteine/00-templates"
 	}
 }

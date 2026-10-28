@@ -40,8 +40,8 @@ u = n/C*(1 - S*cosh(λ*x)/D) + F/(EA*λ*D)*(EA*λ*cosh(λ*(l - x)) + S*sinh(λ*(
 N = EA * u'
 
 fig = Figure()
-fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, zero(x), npoints=100)
-fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, zero(x), npoints=100)
+fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, zero(x))
+fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, zero(x))
 fig
 ```
 
@@ -60,8 +60,8 @@ Berechnen
 ```{julia}
 Ne = 4
 phis = hatfunctions(range(0 .. l, Ne + 1))
-K = [a(phiⱼ, phiᵢ) for phiᵢ ∈ phis, phiⱼ ∈ phis]
-r = [b(phiᵢ) for phiᵢ ∈ phis]
+K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+r = [b(phi_i) for phi_i = phis]
 uHat = K \ r
 uh = uHat ⋅ phis
 fplot(uh, u)
@@ -112,7 +112,7 @@ display(K)
 
 ::: {.tinh-solution}
 ```{julia}
-[a(u - uh, phiᵢ) for phiᵢ ∈ phis]
+[a(u - uh, phi_i) for phi_i = phis]
 ```
 :::
 
@@ -131,15 +131,15 @@ a(u - uh, δu)
 ```{julia}
 function pile_fem(Ne)
     phis = hatfunctions(range(0 .. l, Ne + 1))
-    K = [a(phiⱼ, phiᵢ) for phiᵢ ∈ phis, phiⱼ ∈ phis]
-    r = [b(phiᵢ) for phiᵢ ∈ phis]
+    K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+    r = [b(phi_i) for phi_i = phis]
     uHat = K \ r
     uh = uHat ⋅ phis
     return uh
 end
 
 uh = pile_fem(4)
-fplot(uh, u, npoints=100)
+fplot(uh, u)
 ```
 :::
 
@@ -150,7 +150,7 @@ Näherungslösungen einmal berechnen
 ::: {.tinh-solution}
 ```{julia}
 Nes = 2 .^ (1:6)
-uhs = pile_fem.(Nes)
+uhs = pile_fem.(Nes);
 ```
 :::
 
@@ -160,8 +160,8 @@ Fehlerfunktion
 ```{julia}
 fig = Figure()
 Axis(fig[1, 1])
-for uh ∈ uhs
-    fplot!(u - uh, npoints=100)
+for uh = uhs
+    fplot!(u - uh)
 end
 fig
 ```
@@ -174,7 +174,7 @@ Normalkraft
 fig = Figure()
 Axis(fig[1, 1])
 fplot!(N)
-for uh ∈ uhs
+for uh = uhs
     Nh = EA * uh'
     fplot!(Nh, connect_jumps=true)
 end
@@ -191,7 +191,7 @@ Fehler in der Energienorm berechnen
 energynorm(v) = sqrt(a(v, v))
 
 hs = l ./ Nes
-es = [100 * energynorm(u - uh) / energynorm(u) for uh ∈ uhs]
+es = [100 * energynorm(u - uh) / energynorm(u) for uh = uhs]
 ```
 :::
 
@@ -247,8 +247,8 @@ Berechnen
 ```{julia}
 Ne = 8
 phis = hermitefunctions(range(0 .. l, Ne + 1))
-K = [a(phiⱼ, phiᵢ) for phiᵢ ∈ phis, phiⱼ ∈ phis]
-r = [b(phiᵢ) for phiᵢ ∈ phis]
+K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+r = [b(phi_i) for phi_i = phis]
 wHat = K \ r
 wh = wHat ⋅ phis
 Mh = -EI * wh''
@@ -261,8 +261,8 @@ Lösung plotten
 ::: {.tinh-solution}
 ```{julia}
 fig = Figure()
-fplot!(Axis(fig[1, 1], title = "Durchbiegung"), wh, zero(wh))
-fplot!(Axis(fig[2, 1], title = "Biegemoment und Querkraft"), Mh, Vh, zero(wh))
+fplot!(Axis(fig[1, 1], title="Durchbiegung"), wh, zero(wh))
+fplot!(Axis(fig[2, 1], title="Biegemoment und Querkraft"), Mh, Vh, zero(wh))
 fig
 ```
 :::
@@ -289,12 +289,22 @@ println("Mh(l/2) = ", Mh(l / 2), ", Einfeldträger ", q * l^2 / 8)
 
 ### Zusätzlicher Knoten
 
+Basisfunktionen
+
 ::: {.tinh-solution}
 ```{julia}
 Ne = 2
-phis = hermitefunctions(range(0 .. l, Ne + 1), midnode = true)
-K = [a(phiⱼ, phiᵢ) for phiᵢ ∈ phis, phiⱼ ∈ phis]
-r = [b(phiᵢ) for phiᵢ ∈ phis]
+phis = hermitefunctions(range(0 .. l, Ne + 1), midnode=true)
+fplot(phis...)
+```
+:::
+
+Näherungslösung und Prüfung
+
+::: {.tinh-solution}
+```{julia}
+K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+r = [b(phi_i) for phi_i = phis]
 wHat = K \ r
 wh = wHat ⋅ phis
 Mh = -EI * wh''
@@ -305,7 +315,10 @@ println("Vh(l) = ", Vh(l), ", soll ", -q * l / 2)
 println("Mh(0) = ", Mh(0), ", soll 0")
 println("Mh(l) = ", Mh(l), ", soll 0")
 println("Mh(l/2) = ", Mh(l / 2), ", Einfeldträger ", q * l^2 / 8)
+
 fplot(EI * wh'''' - q)
+ylims!(-1e-5, 1e-5)
+current_figure()
 ```
 :::
 

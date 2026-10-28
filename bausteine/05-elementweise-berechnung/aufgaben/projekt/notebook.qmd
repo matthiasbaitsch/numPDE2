@@ -196,8 +196,8 @@ N = EA * u'
 null = 0 * x
 
 fig = Figure()
-fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, null, npoints=100)
-fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, null, npoints=100)
+fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, null)
+fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, null)
 fig
 ```
 
@@ -239,16 +239,16 @@ function pile_fem(k)
 end
 
 uh = pile_fem(3)
-fplot(uh, u, npoints=100)
+fplot(uh, u)
 ```
 
 ```{julia}
 Nh = EA * uh'
-fplot(Nh, N, npoints=100)
+fplot(Nh, N)
 ```
 
 ```{julia}
-fplot(0 * x, u - uh, npoints=100)
+fplot(0 * x, u - uh)
 ```
 
 ## Konvergenz
@@ -260,7 +260,7 @@ fig = Figure()
 Axis(fig[1, 1])
 for k = 2 .^ (1:5)
     uh = pile_fem(k)
-    fplot!(u - uh, npoints=100)
+    fplot!(u - uh)
 end
 fig
 ```

@@ -96,7 +96,7 @@ mplot(m, θHat, edgesvisible=true, edgecolor=:black) |> mconf()
 ```
 
 ```{julia}
-θ = p.w / (4 * p.λ) * (p.r^2 .- [norm(coordinates(m, i))^2 for i ∈ 1:nnodes(m)]) 
+θ = p.w / (4 * p.λ) * (p.r^2 .- [norm(coordinates(m, i))^2 for i = 1:nnodes(m)]) 
 e = abs.(θHat - θ)
 println("Maximum error: ", maximum(e))
 mplot(m, e) |> mconf()
