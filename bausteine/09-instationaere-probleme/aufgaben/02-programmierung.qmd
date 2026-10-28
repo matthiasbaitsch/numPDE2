@@ -1,15 +1,15 @@
 ::: {#exr-programmierung}
 ## Programmierung
 
-### Element-Speichermatrix
+**Element-Speichermatrix**
 
 Implementieren Sie die Funktion `heat_me` analog zu `heat_ke`. 
 
-### Globale Speichermatrix 
+**Globale Speichermatrix**
 
 Erstellen Sie die Funktion `assemble_kmr` mit der die globalen Matrizen $\mathbf{K}$ und $\mathbf{M}$ sowie der Vektor $\mathbf{r}$ zusammengebaut werden.
 
-### Verifikation
+**Verifikation**
 
 Verifizieren Sie Ihren Code mit dem auf Moodle bereitgestellten Testproblem in `08-verifikation.ipynb`.
 

@@ -5,25 +5,19 @@ Gegeben ist der dargestellte Balken, der links und rechts auf Federn gelagert is
 
 ![](bilder/balken.png){width="90%" fig-align="center"}
 
-### Auf dem Papier lösen
+**Auf dem Papier lösen**
 
 1. Formulieren Sie das zugehörige Randwertproblem. In den Gleichungen soll als Unbekannte nur die Verschiebungsfunktion $w$ auftauchen.
 
 1. Überführen Sie das Randwertproblem in die schwache Formulierung. Sie müssen hierzu zweimal partiell integrieren.
 
-### Mit Julia lösen
+**Mit Julia lösen**
 
 In diesem Aufgabenteil sollen Sie überprüfen, ob die Funktion
 
 $$
   w(x) =
-  q \cdot \frac{
-    12 \cdot EI \cdot l 
-    +
-    k \cdot l^3 \cdot x - 2 k \cdot l \cdot x^3
-    +
-    k \cdot x^4
-  }
+  q \cdot \frac{12 \cdot EI \cdot l + k \cdot l^3 \cdot x - 2 k \cdot l \cdot x^3 + k \cdot x^4}
   {24 \cdot EI \cdot k} 
 $$
 
@@ -60,6 +54,6 @@ x ≈ y                       # Vergleich mit Rundungstoleranz (\approx)
 
 ![](bilder/balken-auf-federn-loesung-4.png){width="60%" fig-align="center"}
 
-Die Lösung zum Teil "Mit Julia lösen" steht im Lösungs-Notebook.
+Die Lösung zum Abschnitt "Mit Julia lösen" steht im Lösungs-Notebook.
 :::
 :::

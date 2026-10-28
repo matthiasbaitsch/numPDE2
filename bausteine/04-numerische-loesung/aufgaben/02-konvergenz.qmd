@@ -3,17 +3,17 @@
 
 Wir untersuchen, wie sich die Näherungslösung aus der vorigen Aufgabe verhält, wenn die Anzahl der Elemente erhöht wird.
 
-### Funktion
+**Funktion**
 
 Für die Untersuchung wird die Näherungslösung für viele verschiedene Anzahlen von Elementen benötigt. Damit Sie den Code nicht jedes Mal kopieren müssen, packen Sie ihn in eine Funktion `pile_fem(Ne)`, die für eine Anzahl von Elementen `Ne` die Näherungslösung $u_h$ zurückgibt. Überprüfen Sie, dass Sie für $N_e = 4$ dasselbe Ergebnis wie in der vorigen Aufgabe erhalten.
 
-### Fehlerfunktion und Normalkraft
+**Fehlerfunktion und Normalkraft**
 
 1. Fehlerfunktion: Plotten Sie die Fehlerfunktion $e = u - u_h$ für $N_e = 2, 4, 8, \dots, 2^5$ Elemente.
 
 1. Normalkraft: Stellen Sie in einem Plot die approximierte Normalkraft $N_h$ für $N_e = 2, 4, 8, \dots, 2^5$ Elemente zusammen mit der exakten Lösung $N$ dar. Wie erklären Sie sich den Verlauf?
 
-### Fehler in der Energienorm
+**Fehler in der Energienorm**
 
 Berechnen und plotten Sie den prozentualen Fehler
 

@@ -1,7 +1,7 @@
 ::: {#exr-programmierung}
 ## Programmierung
 
-### Vorbereitung
+**Vorbereitung**
 
 1. FE-Netz: Was macht dieser Code?
 
@@ -102,7 +102,7 @@
 
     Wie können Sie diese Idee für die Assemblierung des linearen Gleichungssystems nutzen?
 
-### Umsetzung
+**Umsetzung**
 
 Erstellen und testen Sie die Funktion `assemble_kr(m)`, die für ein Netz `m` die globale Steifigkeitsmatrix $\mathbf{K}$ und den globalen Lastvektor $\mathbf{r}$ zurück gibt. 
 

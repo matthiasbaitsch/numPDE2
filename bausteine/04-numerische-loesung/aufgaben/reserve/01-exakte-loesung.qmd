@@ -1,7 +1,7 @@
 ::: {#exr-bohrpfahl-exakte-loesung}
 ## Bohrpfahl: exakte Lösung
 
-### Systemparameter
+**Systemparameter**
 
 Wir lösen das Bohrpfahlproblem mit der Finite-Elemente-Methode für die folgenden Systemparameter:
 
@@ -25,7 +25,7 @@ $$
     \end{split}
 $$
 
-### Notebook einrichten
+**Notebook einrichten**
 
 Legen Sie ein Jupyter-Notebook für dieses Paket an und laden sie die folgenden Bibliotheken.
 
@@ -36,7 +36,7 @@ using MMJMesh.Plots
 using MMJMesh.Mathematics
 ```
 
-### Problemparameter
+**Problemparameter**
 
 Für die Programmierung bietet es sich an, die Systemparameter in einem Struct zu speichern. Das geht so:
 
@@ -56,7 +56,7 @@ p.Ω = 0 .. p.l
 
 Unter einem Struct kann man sich eine Mehrfachvariable vorstellen, die unter einem übergeordnetem Namen mehrere Werte speichert. Auf die Werte in dem Struct kann dann mit dem Punkt zugegriffen werden, so ist zum Beispiel `p.E` der E-Modul.
 
-### Exakte Lösung
+**Exakte Lösung**
 
 Für den Bohrpfahl lässt sich die Lösungsfunktion analytisch bestimmen, zum Beispiel mithilfe des Computeralgebrasystems Mathematica. Für die Parameter oben lautet die Verschiebungsfunktion 
 
@@ -94,11 +94,11 @@ fplot(u, npoints=100)
 
 Plotten Sie zusätzlich die Normalkraft $N = EA \cdot u'$.
 
-### Kontrolle starke Form
+**Kontrolle starke Form**
 
 Kontrollieren Sie, ob die Funktion $u$ wirklich das Randwertproblem löst. Plotten Sie hierzu das Residuum $EA u'' - C u + n$ und überprüfen Sie, ob die Randbedingungen erfüllt sind.
 
-### Schwache Form und Kontrolle
+**Schwache Form und Kontrolle**
 
 Geben Sie die Bilinear- und Linearform der schwachen Formulierung des Problems ein. Hier eine Idee, wie das funktioniert:
 

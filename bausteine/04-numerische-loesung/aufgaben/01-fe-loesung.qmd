@@ -1,15 +1,15 @@
 ::: {#exr-bohrpfahl-fe-loesung}
 ## Bohrpfahl: FE-Lösung
 
-### Ausgangspunkt
+**Ausgangspunkt**
 
 Wir lösen das Bohrpfahlproblem mit der Finite-Elemente-Methode. Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Die Systemparameter, die exakte Lösung $u$, die Normalkraft $N = EA \cdot u'$ sowie die Bilinearform $a$ und die Linearform $b$ der schwachen Form sind dort bereits vorgegeben.
 
-### Numerische Lösung
+**Numerische Lösung**
 
 Berechnen Sie die Näherungslösung $u_h$ für $N_e = 4$ Elemente. Stellen Sie hierzu die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ auf und lösen Sie das lineare Gleichungssystem $\mathbf{K} \hat{\mathbf{u}} = \mathbf{r}$. Plotten Sie darüber hinaus die Näherung für die Normalkraft $N_h$ sowie den Fehler $e = u - u_h$.
 
-### Struktur der Steifigkeitsmatrix
+**Struktur der Steifigkeitsmatrix**
 
 Plotten Sie die Basisfunktionen und lassen Sie sich die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ ausgeben. Beantworten Sie anhand der Basisfunktionen und der Bilinearform $a$ die folgenden Fragen:
 
@@ -21,7 +21,7 @@ Plotten Sie die Basisfunktionen und lassen Sie sich die Steifigkeitsmatrix $\mat
 
 1. Wie viele von null verschiedene Einträge hat $\mathbf{K}$ bei $N_e = 1000$ Elementen?
 
-### Galerkin-Orthogonalität
+**Galerkin-Orthogonalität**
 
 Für die exakte Lösung $u$ gilt $a(u, \delta u) = b(\delta u)$ für alle Testfunktionen, für die Näherungslösung $u_h$ gilt $a(u_h, \varphi_i) = b(\varphi_i)$ für alle Basisfunktionen. Daraus folgt
 
