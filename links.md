@@ -18,9 +18,7 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/ordner-einric
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/veranstaltung/c/numerik-partieller-dgln.zip
 
-## Folien
-
-### 01 Bohrpfahl: Grundlagen
+## 01 Bohrpfahl: Grundlagen
 
 **Folien (PDF)**
 
@@ -33,44 +31,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/01-bohrpfahl-grundla
 **Lösung Notebook zu den Folien (Zip)**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/01-bohrpfahl-grundlagen-folien-loesung-c683bb27.zip
-
-### 02 Bohrpfahl: Lineare Räume und Variationsprobleme
-
-**Folien (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme.pdf
-
-**Notebook zu den Folien (Zip)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-folien.zip
-
-**Lösung Notebook zu den Folien (Zip)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-folien-loesung-52068d50.zip
-
-### 03 Bohrpfahl: Approximation von Funktionen
-
-**Folien (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approximation-von-funktionen.pdf
-
-**Notebook zu den Folien (Zip)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approximation-von-funktionen-folien.zip
-
-**Lösung Notebook zu den Folien (Zip)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approximation-von-funktionen-folien-loesung-ed7ae60a.zip
-
-### 04 Bohrpfahl: Numerische Lösung
-
-**Folien (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/04-bohrpfahl-numerische-loesung.pdf
-
-## Aufgaben
-
-### 01 Bohrpfahl: Grundlagen
 
 **Aufgaben**
 
@@ -96,7 +56,19 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grund
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grundlagen-aufgaben-loesung-c683bb27.zip
 
-### 02 Bohrpfahl: Lineare Räume und Variationsprobleme
+## 02 Bohrpfahl: Lineare Räume und Variationsprobleme
+
+**Folien (PDF)**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme.pdf
+
+**Notebook zu den Folien (Zip)**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-folien.zip
+
+**Lösung Notebook zu den Folien (Zip)**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-folien-loesung-52068d50.zip
 
 **Aufgaben**
 
@@ -114,7 +86,19 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/02-bohrpfahl-linea
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-aufgaben-loesung-52068d50.zip
 
-### 03 Bohrpfahl: Approximation von Funktionen
+## 03 Bohrpfahl: Approximation von Funktionen
+
+**Folien (PDF)**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approximation-von-funktionen.pdf
+
+**Notebook zu den Folien (Zip)**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approximation-von-funktionen-folien.zip
+
+**Lösung Notebook zu den Folien (Zip)**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approximation-von-funktionen-folien-loesung-ed7ae60a.zip
 
 **Aufgaben**
 
@@ -140,7 +124,11 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-appro
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-approximation-von-funktionen-aufgaben-loesung-ed7ae60a.zip
 
-### 04 Bohrpfahl: Numerische Lösung
+## 04 Bohrpfahl: Numerische Lösung
+
+**Folien (PDF)**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/04-bohrpfahl-numerische-loesung.pdf
 
 **Aufgaben**
 
