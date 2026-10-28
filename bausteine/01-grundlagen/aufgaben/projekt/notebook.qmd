@@ -4,7 +4,7 @@ using MMJMesh.Plots
 using MMJMesh.Mathematics
 ```
 
-## Balken auf Federn
+## Balken auf zwei Federn
 
 ### Systemparameter
 

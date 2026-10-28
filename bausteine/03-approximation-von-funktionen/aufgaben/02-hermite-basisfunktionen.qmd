@@ -23,13 +23,17 @@ Aufgaben:
 1. Welche physikalische Interpretation besitzen dann die Koeffizienten $\hat{w}_i$ in der Linearkombination $w_h(x) = \sum \hat w_i \cdot \varphi_i(x)$?
 
 ::: {.tinh-solution}
-Zu Teil 1: Der Balken würde brechen.
+**Zu Punkt 1**
 
-Zu Teil 2 und 3:
+Der Balken würde brechen.
+
+**Zu Punkt 2 und 3**
 
 ![](bilder/hermite-basisfunktionen-loesung.png){width="60%" fig-align="center"}
 
-Zu Teil 4: Koeffizienten mit ungeradem Index entsprechen einer Verschiebung, Koeffizienten mit einem geraden Index einer Verdrehung.
+**Zu Punkt 4**
+
+Koeffizienten mit ungeradem Index entsprechen einer Verschiebung, Koeffizienten mit einem geraden Index einer Verdrehung.
 
 :::
 :::

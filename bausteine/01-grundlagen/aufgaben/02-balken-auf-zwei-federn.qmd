@@ -1,5 +1,5 @@
-::: {#exr-balken-auf-federn}
-## Balken auf Federn
+::: {#exr-balken-auf-zwei-federn}
+## Balken auf zwei Federn
 
 Gegeben ist der dargestellte Balken, der links und rechts auf Federn gelagert ist.
 
@@ -46,14 +46,14 @@ x ≈ y                       # Vergleich mit Rundungstoleranz (\approx)
 :::
 
 ::: {.tinh-solution}
-![](bilder/balken-auf-federn-loesung-1.png){width="60%" fig-align="center"}
-
-![](bilder/balken-auf-federn-loesung-2.png){width="60%" fig-align="center"}
-
-![](bilder/balken-auf-federn-loesung-3.png){width="60%" fig-align="center"}
-
-![](bilder/balken-auf-federn-loesung-4.png){width="60%" fig-align="center"}
-
 Die Lösung zum Abschnitt "Mit Julia lösen" steht im Lösungs-Notebook.
+
+![](bilder/balken-auf-zwei-federn-loesung-1.png){width="60%" fig-align="center"}
+
+![](bilder/balken-auf-zwei-federn-loesung-2.png){width="60%" fig-align="center"}
+
+![](bilder/balken-auf-zwei-federn-loesung-3.png){width="60%" fig-align="center"}
+
+![](bilder/balken-auf-zwei-federn-loesung-4.png){width="60%" fig-align="center"}
 :::
 :::
