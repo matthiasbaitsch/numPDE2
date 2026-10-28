@@ -10,12 +10,16 @@
 -- Bei scaffold steht nach einem .tinh-solution-Block mit Code ohne folgenden .tinh-scaffold-Block eine Code-Zelle
 -- "# ...". Markiert heißt: in HTML und Typst ein Block mit farbigem Rand und Beschriftung, sonst (z.B. ipynb) eine
 -- fette Beschriftung davor. Aufeinanderfolgende markierte Blöcke derselben Art werden zu einem zusammengefasst.
+--
+-- Mit tinh-target: solution und tinh-solution-task: title bleibt von jeder Aufgabe (::: {#exr-…}) nur der Titel und
+-- die Lösung, Aufgaben ohne Lösung bekommen eine Lösung "Keine Lösung." (Voreinstellung full: ganze Aufgabe).
 -- Läuft vor Quartos Filtern (pre-ast).
 local TARGETS = { solution = true, scaffold = true, blank = true }
+local TASKS = { full = true, title = true }
 local KINDS = { ["tinh-solution"] = "solution", ["tinh-scaffold"] = "scaffold" }
 local LABELS = {
-  de = { solution = "Lösung", scaffold = "Gerüst" },
-  en = { solution = "Solution", scaffold = "Scaffold" },
+  de = { solution = "Lösung", scaffold = "Gerüst", none = "Keine Lösung." },
+  en = { solution = "Solution", scaffold = "Scaffold", none = "No solution." },
 }
 local COLORS = { solution = "#4a8c4a", scaffold = "#107895" }
 
@@ -27,6 +31,36 @@ local function kind_of(block)
       end
     end
   end
+end
+
+local function has_solution(block)
+  if kind_of(block) == "solution" then
+    return true
+  end
+  local found = false
+  if block.t == "Div" then
+    block:walk({
+      Div = function(el)
+        found = found or kind_of(el) == "solution"
+      end,
+    })
+  end
+  return found
+end
+
+-- Aufgabe auf Titel und Lösung kürzen
+local function title_only(exercise, none)
+  local content = pandoc.Blocks({})
+  for _, block in ipairs(exercise.content) do
+    if block.t == "Header" or has_solution(block) then
+      content:insert(block)
+    end
+  end
+  if not exercise.content:find_if(has_solution) then
+    content:insert(pandoc.Div(pandoc.Para(pandoc.Emph(none)), { class = "tinh-solution" }))
+  end
+  exercise.content = content
+  return exercise
 end
 
 local function has_code(block)
@@ -73,7 +107,20 @@ function Pandoc(doc)
   if target and not TARGETS[target] then
     error("tinh-target muss solution, scaffold oder blank sein, nicht " .. target)
   end
+  local task = doc.meta["tinh-solution-task"] and pandoc.utils.stringify(doc.meta["tinh-solution-task"]) or "full"
+  if not TASKS[task] then
+    error("tinh-solution-task muss full oder title sein, nicht " .. task)
+  end
   local lang = doc.meta.lang and pandoc.utils.stringify(doc.meta.lang):match("^en") and "en" or "de"
+  if target == "solution" and task == "title" then
+    doc = doc:walk({
+      Div = function(el)
+        if el.identifier:match("^exr%-") then
+          return title_only(el, LABELS[lang].none)
+        end
+      end,
+    })
+  end
   local placeholder = pandoc.CodeBlock("# ...", { class = "{" .. language(doc.blocks) .. "}" })
 
   local mark_solution = target == nil or (target == "solution" and not quarto.doc.is_format("ipynb"))

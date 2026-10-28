@@ -235,27 +235,27 @@ function make_assignments(bb::BuildingBlock, assignments_folder::String, target_
 
     zip_project_notebooks(bb, assignments_folder, target_folder, "aufgaben", bb.target)
 
-    # Sheet with assignments (tinh-target blank) or with solutions (tinh-target solution)
-    header(kind, target) = """
+    # Sheet with assignments (tinh-target blank) or with solutions (tinh-target solution, of each assignment only
+    # the title), number of the sheet is the number of the building block, assignments are numbered within the sheet
+    header(title, target) = """
      ---
-     number-offset: $(bb.number - 1)
+     title: "$title"
+     subtitle: "$(bb.part): $(bb.title)"
      tinh-target: $target
-     format:
-       tinh-assignments-typst:
-         include-in-header:
-           text: |
-             #counter(heading).update($(bb.number - 1))
+     tinh-solution-task: title
      ---
-     # $(bb.part): $(bb.title) ($kind)
      """
 
-    write(joinpath(target_folder, slug(bb) * "-aufgaben.qmd"), assemble_qmd(header("Aufgaben", :blank), bb, assignments_folder))
+    write(
+        joinpath(target_folder, slug(bb) * "-aufgaben.qmd"),
+        assemble_qmd(header("Aufgabenblatt $(bb.number)", :blank), bb, assignments_folder)
+    )
 
     # Solution sheet (paper and pencil) if there are solutions, with the hash of the solution notebook
     if has_solution(assignments_folder)
         write(
             joinpath(target_folder, "$(slug(bb))-aufgaben-loesung-$(solution_hash(bb)).qmd"),
-            assemble_qmd(header("Lösungen", :solution), bb, assignments_folder)
+            assemble_qmd(header("Lösungen zu Aufgabenblatt $(bb.number)", :solution), bb, assignments_folder)
         )
     end
 
