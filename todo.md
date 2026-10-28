@@ -4,7 +4,7 @@
 
 * [X]  MuLö Hermite
 * [ ]  Abschnitt 04 fertigmachen
-  * [ ]  Elastisch gelagerter Balken: Die Musterlösung verwendet `hermitefunctions(…, midnode=true)`, der Tipp auf
+  * [X]  Elastisch gelagerter Balken: Die Musterlösung verwendet `hermitefunctions(…, midnode=true)`, der Tipp auf
     dem Blatt `hermitefunctions(nodes)`. Entweder `midnode=true` in den Tipp oder die Lösung mit mehreren Elementen.
   * [ ]  `aufgaben/reserve/01-exakte-loesung.qmd` enthält noch die alte Mathematica-Formel statt der geschlossenen
     Lösung.
@@ -13,7 +13,7 @@
   Bildunterschrift.
 * [ ]  Baustein 05 überarbeiten: alte Überschriften (`# Aufgabe 5.2b`), `IntervalSets` fehlt in der Projektvorlage
   (ohne ist `..` mehrdeutig), `DimensionMismatch` in `fem.jl:41` (vermutlich `nodeindices` eines Knotens leer in
-  der aktuellen MMJMesh-Version).
+  der aktuellen MMJMesh-Version), im Notebook `Ω` durch `0 .. l` ersetzen (wie in 04).
 
 ## Inhalte langfristig
 

@@ -1,0 +1,43 @@
+::: {#exr-balken-auf-zwei-federn}
+## Balken auf zwei Federn
+
+Ermitteln Sie für den Balken aus dem Baustein Grundlagen mit
+
+$$
+  l = \SI{8}{\metre}, \quad q = \SI{50}{\kilo\newton\per\metre} \quad \text{und} \quad k = \SI{100}{\kilo\newton\per\centi\metre}
+$$
+
+eine FE-Lösung. Verwenden Sie ein IPE 300 Profil und rechnen Sie in den SI-Basiseinheiten Newton und Meter. Für den Balken darf die Verschiebungsfunktion keinen Knick haben, verwenden Sie daher die Hermite-Basisfunktionen und $N_e = 8$ Elemente.
+
+1. Näherungslösung: Plotten Sie die Durchbiegung $w_h$ sowie das Biegemoment $M_h = -EI \cdot w_h''$ und die Querkraft $V_h = M_h'$.
+
+1. Differentialgleichung: Erfüllt die Näherungslösung die Differentialgleichung?
+
+1. Randbedingungen: Wie gut erfüllt die Näherungslösung die Randbedingungen für Querkraft und Biegemoment an den Enden? Vergleichen Sie außerdem das Biegemoment in Feldmitte mit dem Wert $q l^2 / 8$ des Einfeldträgers. Wie erklären Sie die Abweichungen?
+
+1. Zusätzlicher Knoten: Mit `midnode=true` erhält jedes Element einen zusätzlichen Knoten in der Mitte und damit eine weitere Basisfunktion, die Näherung ist dann abschnittsweise ein Polynom vierten Grades. Berechnen Sie damit die Näherungslösung für $N_e = 2$ Elemente und prüfen Sie erneut Differentialgleichung und Randbedingungen. Was stellen Sie fest, und warum?
+
+::: {.callout-tip title="Tipps für Julia"}
+```{.julia}
+nodes = range(0 .. l, Ne + 1)                 # Ne + 1 Knoten von 0 bis l
+phis = hermitefunctions(nodes)                # Hermite-Funktionen, zwei je Knoten
+phis = hermitefunctions(nodes, midnode=true)  # mit zusätzlichem Knoten in jedem Element
+fplot(phis...)                                # Basisfunktionen plotten
+```
+
+Die Basisfunktionen sind knotenweise sortiert: `phis[1]` hat im ersten Knoten den Wert 1, `phis[2]` dort die Steigung 1, `phis[3]` hat im zweiten Knoten den Wert 1 und so weiter. Entsprechend sind die Koeffizienten in $\hat{\mathbf{w}}$ abwechselnd Durchbiegungen und Verdrehungen in den Knoten.
+:::
+
+::: {.tinh-solution}
+Der Code zu allen Punkten steht im Lösungs-Notebook.
+
+**Zu Punkt 2 und 3 (Differentialgleichung und Randbedingungen)**
+
+Die Näherungslösung $w_h$ ist abschnittsweise kubisch, ihre vierte Ableitung ist null. Die Differentialgleichung $EI \cdot w'''' = q$ ist daher nicht einmal näherungsweise erfüllt. Auch die Randbedingungen für Querkraft und Biegemoment an den Enden gelten nur näherungsweise: Die Finite-Elemente-Methode erfüllt die schwache Form nur für die Basisfunktionen, nicht für alle Testfunktionen. Mit mehr Elementen werden die Abweichungen kleiner.
+
+**Zu Punkt 4 (Zusätzlicher Knoten)**
+
+Differentialgleichung und Randbedingungen sind jetzt bis auf Rundungsfehler erfüllt. Bei konstanter Last ist die exakte Lösung ein Polynom vierten Grades, sie lässt sich mit den Basisfunktionen also exakt darstellen. Die Finite-Elemente-Methode findet sie dann auch.
+:::
+
+:::

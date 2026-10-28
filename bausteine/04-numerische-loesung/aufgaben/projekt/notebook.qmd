@@ -6,7 +6,7 @@ using MMJMesh.Plots
 using MMJMesh.Mathematics
 ```
 
-## Bohrpfahl: FE-Lösung
+## Bohrpfahl
 
 ### Ausgangspunkt
 
@@ -24,7 +24,6 @@ S = 120e6
 c = 1.75e7
 
 # Abgeleitete Werte
-Ω = 0 .. l
 C = c * π * d
 A = π * d^2 / 4
 EA = E * A
@@ -34,50 +33,49 @@ n = ρ * g * A;
 Exakte Lösung
 
 ```{julia}
-x = parameter(Ω)
+x = parameter(0 .. l)
 λ = sqrt(C / EA)
 D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
-
-u = n / C * (1 - S * cosh(λ * x) / D) +
-    F / (EA * λ * D) * (EA * λ * cosh(λ * (l - x)) + S * sinh(λ * (l - x)))
-
+u = n/C*(1 - S*cosh(λ*x)/D) + F/(EA*λ*D)*(EA*λ*cosh(λ*(l - x)) + S*sinh(λ*(l - x)))
 N = EA * u'
 
 fig = Figure()
-fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, npoints=100)
-fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, npoints=100)
+fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, zero(x), npoints=100)
+fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, zero(x), npoints=100)
 fig
 ```
 
 Schwache Form
 
 ```{julia}
-a(u, δu) = integrate(EA * u' * δu' + C * u * δu, Ω) + S * u(l) * δu(l)
-b(δu) = integrate(n * δu, Ω) + F * δu(0)
+a(u, δu) = integrate(EA * u' * δu' + C * u * δu, 0 .. l) + S * u(l) * δu(l)
+b(δu) = integrate(n * δu, 0 .. l) + F * δu(0)
 ```
 
-### Numerische Lösung
+### Näherungslösung
+
+Berechnen
 
 ::: {.tinh-solution}
 ```{julia}
 Ne = 4
-phis = hatfunctions(range(Ω, Ne + 1))
-K = [a(phiⱼ, phiᵢ) for phiᵢ = phis, phiⱼ = phis]
-r = [b(phiᵢ) for phiᵢ = phis]
+phis = hatfunctions(range(0 .. l, Ne + 1))
+K = [a(phiⱼ, phiᵢ) for phiᵢ ∈ phis, phiⱼ ∈ phis]
+r = [b(phiᵢ) for phiᵢ ∈ phis]
 uHat = K \ r
 uh = uHat ⋅ phis
-fplot(uh, u, npoints=100)
+fplot(uh, u)
 ```
 :::
 ::: {.tinh-scaffold}
 ```{julia}
-Ne = 4
-phis = hatfunctions(range(Ω, Ne + 1))
-K = ...
-r = ...
-uHat = ...
-uh = uHat ⋅ phis
-fplot(uh, u, npoints=100)
+# Ne = 4
+# phis = ...
+# K = ...
+# r = ...
+# uHat = ...
+# uh = ...
+# fplot(...)
 ```
 :::
 
@@ -86,7 +84,7 @@ Normalkraft
 ::: {.tinh-solution}
 ```{julia}
 Nh = EA * uh'
-fplot(Nh, N, npoints=100)
+fplot(Nh, N)
 ```
 :::
 
@@ -94,11 +92,11 @@ Fehler
 
 ::: {.tinh-solution}
 ```{julia}
-fplot(0 * x, u - uh, npoints=100)
+fplot(0 * x, u - uh)
 ```
 :::
 
-### Struktur der Steifigkeitsmatrix
+### Steifigkeitsmatrix
 
 ```{julia}
 fplot(phis...)
@@ -107,25 +105,14 @@ fplot(phis...)
 ::: {.tinh-solution}
 ```{julia}
 display(K)
-display(r)
 ```
-:::
-
-::: {.tinh-solution}
-1. $\mathbf{K}$ ist symmetrisch, weil die Bilinearform symmetrisch ist: $K_{ij} = a(\varphi_j, \varphi_i) = a(\varphi_i, \varphi_j) = K_{ji}$.
-
-1. Die Basisfunktionen $\varphi_i$ und $\varphi_j$ sind nur dann gleichzeitig von null verschieden, wenn $|i - j| \leq 1$ gilt. Für alle anderen Paare ist der Integrand der Bilinearform überall null, damit auch $K_{ij}$. Von null verschieden sind nur die Hauptdiagonale und die beiden Nebendiagonalen.
-
-1. Nur die letzte Basisfunktion ist bei $x = l$ von null verschieden, die Feder steckt deshalb nur in $K_{nn}$. Entsprechend ist nur die erste Basisfunktion bei $x = 0$ von null verschieden, die Kraft $F$ steckt nur in $r_1$.
-
-1. Bei $N_e = 1000$ Elementen gibt es $n = 1001$ Basisfunktionen. Von null verschieden sind $1001 + 2 \cdot 1000 = 3001$ der $1001^2 \approx 10^6$ Einträge.
 :::
 
 ### Galerkin-Orthogonalität
 
 ::: {.tinh-solution}
 ```{julia}
-[a(u - uh, phiᵢ) / a(u, phiᵢ) for phiᵢ = phis]
+[a(u - uh, phiᵢ) for phiᵢ ∈ phis]
 ```
 :::
 
@@ -134,20 +121,18 @@ Testfunktion, die keine Linearkombination der Basisfunktionen ist
 ::: {.tinh-solution}
 ```{julia}
 δu = sin(x)
-a(u - uh, δu) / a(u, δu)
+a(u - uh, δu)
 ```
 :::
-
-## Bohrpfahl: Konvergenz
 
 ### Funktion
 
 ::: {.tinh-solution}
 ```{julia}
 function pile_fem(Ne)
-    phis = hatfunctions(range(Ω, Ne + 1))
-    K = [a(phiⱼ, phiᵢ) for phiᵢ = phis, phiⱼ = phis]
-    r = [b(phiᵢ) for phiᵢ = phis]
+    phis = hatfunctions(range(0 .. l, Ne + 1))
+    K = [a(phiⱼ, phiᵢ) for phiᵢ ∈ phis, phiⱼ ∈ phis]
+    r = [b(phiᵢ) for phiᵢ ∈ phis]
     uHat = K \ r
     uh = uHat ⋅ phis
     return uh
@@ -157,19 +142,17 @@ uh = pile_fem(4)
 fplot(uh, u, npoints=100)
 ```
 :::
-::: {.tinh-scaffold}
-```{julia}
-function pile_fem(Ne)
-    # Code aus der vorigen Aufgabe
-    return uh
-end
 
-uh = pile_fem(4)
-fplot(uh, u, npoints=100)
+### Fehler und Normalkraft
+
+Näherungslösungen einmal berechnen
+
+::: {.tinh-solution}
+```{julia}
+Nes = 2 .^ (1:6)
+uhs = pile_fem.(Nes)
 ```
 :::
-
-### Fehlerfunktion und Normalkraft
 
 Fehlerfunktion
 
@@ -177,8 +160,7 @@ Fehlerfunktion
 ```{julia}
 fig = Figure()
 Axis(fig[1, 1])
-for Ne = 2 .^ (1:5)
-    uh = pile_fem(Ne)
+for uh ∈ uhs
     fplot!(u - uh, npoints=100)
 end
 fig
@@ -192,8 +174,7 @@ Normalkraft
 fig = Figure()
 Axis(fig[1, 1])
 fplot!(N)
-for Ne = 2 .^ (1:5)
-    uh = pile_fem(Ne)
+for uh ∈ uhs
     Nh = EA * uh'
     fplot!(Nh, connect_jumps=true)
 end
@@ -201,24 +182,28 @@ fig
 ```
 :::
 
-### Fehler in der Energienorm
+### Konvergenz
+
+Fehler in der Energienorm berechnen
 
 ::: {.tinh-solution}
 ```{julia}
 energynorm(v) = sqrt(a(v, v))
 
-Nes = 2 .^ (1:5)
 hs = l ./ Nes
-uhs = pile_fem.(Nes)
-es = [100 * energynorm(u - uh) / energynorm(u) for uh = uhs]
+es = [100 * energynorm(u - uh) / energynorm(u) for uh ∈ uhs]
 ```
 :::
+
+Fehler plotten
 
 ::: {.tinh-solution}
 ```{julia}
 scatterlines(hs, es)
 ```
 :::
+
+Fehler in loglog-Skala plotten
 
 ::: {.tinh-solution}
 ```{julia}
@@ -233,15 +218,15 @@ Steigung im loglog-Plot
 
 ::: {.tinh-solution}
 ```{julia}
-log2.(es[1:end-1] ./ es[2:end])
+log2.(es[1:(end-1)] ./ es[2:end])
 ```
 :::
 
-::: {.tinh-solution}
-Der Fehler in der Energienorm halbiert sich mit der Elementgröße, die Näherung konvergiert mit der Ordnung 1.
-:::
+## Balken auf zwei Federn
 
-## Elastisch gelagerter Balken
+### Näherungslösung
+
+Schwache Form
 
 ::: {.tinh-solution}
 ```{julia}
@@ -253,35 +238,74 @@ k = 1e7
 
 a(w, δw) = EI * integrate(w'' * δw'', 0 .. l) + k * (w(0) * δw(0) + w(l) * δw(l))
 b(δw) = q * integrate(δw, 0 .. l)
-
-phis = hermitefunctions(range(0, l, length=2), midnode=true)
-
-K = [a(phii, phij) for phii = phis, phij = phis]
-r = [b(phii) for phii = phis]
-
-what = K \ r
-
-w = what ⋅ phis
-M = -EI * w'' / 1000
-V = M'
 ```
 :::
+
+Berechnen
 
 ::: {.tinh-solution}
 ```{julia}
-println(1000 * V(0) ≈ q * l / 2)
-println(1000 * V(l) ≈ -q * l / 2)
-println(abs(M(0)) < 1e-10)
-println(abs(M(l)) < 1e-10)
-println(1000 * M(l / 2) ≈ q * l^2 / 8)
+Ne = 8
+phis = hermitefunctions(range(0 .. l, Ne + 1))
+K = [a(phiⱼ, phiᵢ) for phiᵢ ∈ phis, phiⱼ ∈ phis]
+r = [b(phiᵢ) for phiᵢ ∈ phis]
+wHat = K \ r
+wh = wHat ⋅ phis
+Mh = -EI * wh''
+Vh = Mh'
 ```
 :::
+
+Lösung plotten
 
 ::: {.tinh-solution}
 ```{julia}
 fig = Figure()
-fplot!(Axis(fig[1, 1], title="Displacement"), 1000 * w, zero(w), npoints=10)
-fplot!(Axis(fig[2, 1], title="Bending moment and shear force"), M, V, zero(w), npoints=10)
+fplot!(Axis(fig[1, 1], title = "Durchbiegung"), wh, zero(wh))
+fplot!(Axis(fig[2, 1], title = "Biegemoment und Querkraft"), Mh, Vh, zero(wh))
 fig
 ```
 :::
+
+### Differentialgleichung
+
+::: {.tinh-solution}
+```{julia}
+fplot(EI * wh'''' - q)
+```
+:::
+
+### Randbedingungen
+
+::: {.tinh-solution}
+```{julia}
+println("Vh(0) = ", Vh(0), ", soll ", q * l / 2)
+println("Vh(l) = ", Vh(l), ", soll ", -q * l / 2)
+println("Mh(0) = ", Mh(0), ", soll 0")
+println("Mh(l) = ", Mh(l), ", soll 0")
+println("Mh(l/2) = ", Mh(l / 2), ", Einfeldträger ", q * l^2 / 8)
+```
+:::
+
+### Zusätzlicher Knoten
+
+::: {.tinh-solution}
+```{julia}
+Ne = 2
+phis = hermitefunctions(range(0 .. l, Ne + 1), midnode = true)
+K = [a(phiⱼ, phiᵢ) for phiᵢ ∈ phis, phiⱼ ∈ phis]
+r = [b(phiᵢ) for phiᵢ ∈ phis]
+wHat = K \ r
+wh = wHat ⋅ phis
+Mh = -EI * wh''
+Vh = Mh'
+
+println("Vh(0) = ", Vh(0), ", soll ", q * l / 2)
+println("Vh(l) = ", Vh(l), ", soll ", -q * l / 2)
+println("Mh(0) = ", Mh(0), ", soll 0")
+println("Mh(l) = ", Mh(l), ", soll 0")
+println("Mh(l/2) = ", Mh(l / 2), ", Einfeldträger ", q * l^2 / 8)
+fplot(EI * wh'''' - q)
+```
+:::
+

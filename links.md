@@ -142,6 +142,14 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numer
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben.zip
 
+**Lösung**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben-loesung-9d2e7d9f.html
+
+**Lösung (PDF)**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben-loesung-9d2e7d9f.pdf
+
 **Lösung Notebook zu den Aufgaben (Zip)**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben-loesung-9d2e7d9f.zip
