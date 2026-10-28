@@ -153,3 +153,9 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numer
 **Lösung Notebook zu den Aufgaben (Zip)**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben-loesung-9d2e7d9f.zip
+
+## 05 Bohrpfahl: Elementweise Berechnung
+
+**Folien (PDF)**
+
+https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/05-bohrpfahl-elementweise-berechnung.pdf

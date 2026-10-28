@@ -7,7 +7,6 @@
 #notiz("notizen/NP 1D 10 Numerical Solution.pdf", 5)
 #notiz("notizen/NP 1D 10 Numerical Solution.pdf", 6)
 #notiz("notizen/NP 1D 10 Numerical Solution.pdf", 7)
-#notiz("notizen/NP 1D 10 Numerical Solution.pdf", 8)
 ```
 
 # Putting it to work: Finite elements for the pile

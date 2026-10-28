@@ -24,9 +24,6 @@
 # How good is the solution: Convergence
 
 ```{=typst}
-#notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 2)
-#notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 3)
-#notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 4)
 #notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 5)
 #notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 6)
 #notiz("notizen/NP 1D 13 Summary and discussion of results.pdf", 7)

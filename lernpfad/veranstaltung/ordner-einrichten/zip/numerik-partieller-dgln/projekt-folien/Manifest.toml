@@ -1289,7 +1289,7 @@ version = "5.8.0+0"
 
 [[deps.MMJMesh]]
 deps = ["DomainSets", "FiniteDifferences", "Gmsh", "IntervalSets", "Latexify", "Lerche", "LinearAlgebra", "Makie", "MultivariatePolynomials", "Polynomials", "PrecompileTools", "Preferences", "PrettyTables", "Printf", "QuadGK", "Random", "Reexport", "StaticArrays", "SymbolicUtils", "Symbolics", "Tables"]
-git-tree-sha1 = "a0e0b8ce83e53b10962e819925b98f7220f074ba"
+git-tree-sha1 = "1e58e14d9c36905132e13384106449d1226b1871"
 repo-rev = "main"
 repo-url = "https://github.com/matthiasbaitsch/mmjmesh.git"
 uuid = "010ee2c9-7ff8-468a-b3f6-2ff8c4732c90"

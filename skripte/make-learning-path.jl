@@ -34,7 +34,7 @@ function BuildingBlock(folder::String)
     )
 end
 
-# Number, part and title, e.g. "09-waermeleitung-instationaere-probleme"
+# Number, part and title, e.g. "10-waermeleitung-instationaere-probleme"
 function slug(bb::BuildingBlock)
     s = lowercase(bb.part * " " * bb.title)
     s = replace(s, "ä" => "ae", "ö" => "oe", "ü" => "ue", "ß" => "ss")
