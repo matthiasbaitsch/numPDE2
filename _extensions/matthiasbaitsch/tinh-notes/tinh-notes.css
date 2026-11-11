@@ -2,7 +2,11 @@
 .neuerbegriff { 
     color: rgba(177, 52, 52); 
     font-weight: bolder;
-} 
+}
+
+.eng {
+    font-style: italic;
+}
 
 .ja::before {
     content: "✓";

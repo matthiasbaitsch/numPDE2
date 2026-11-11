@@ -429,6 +429,11 @@ $selection-bg: #26351c !default;
   font-weight: 400;
 }
 
+// Englischer Begriff, z. B. [range]{.eng}
+.eng {
+  font-style: italic;
+}
+
 .alert {
   color: $accent2;
 }

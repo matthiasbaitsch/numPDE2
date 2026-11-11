@@ -4,8 +4,13 @@
 --   ohne Markierung      ja                 ja             ja         ja
 --   ::: {.tinh-solution} ja, markiert       ja, markiert*  nein       nein
 --   ::: {.tinh-scaffold} ja, markiert       nein           ja         nein
+--   ::: {.tinh-work}     ja                 nein           nein       nein
 --
 -- * im ipynb nicht markiert, das ganze Notebook ist die Lösung.
+--
+-- .tinh-work ist für die Arbeitsfassung, z.B. Code, der Pakete und Daten lädt, damit sich Lösungen testen lassen.
+-- Code darin läuft aber auch bei gesetztem tinh-target (vor dem Filter), soll er das nicht, muss die Zelle vorher
+-- deaktiviert werden.
 --
 -- Bei scaffold steht nach einem .tinh-solution-Block mit Code ohne folgenden .tinh-scaffold-Block eine Code-Zelle
 -- "# ...". Markiert heißt: in HTML und Typst ein Block mit farbigem Rand und Beschriftung, sonst (z.B. ipynb) eine
@@ -16,7 +21,7 @@
 -- Läuft vor Quartos Filtern (pre-ast).
 local TARGETS = { solution = true, scaffold = true, blank = true }
 local TASKS = { full = true, title = true }
-local KINDS = { ["tinh-solution"] = "solution", ["tinh-scaffold"] = "scaffold" }
+local KINDS = { ["tinh-solution"] = "solution", ["tinh-scaffold"] = "scaffold", ["tinh-work"] = "work" }
 local LABELS = {
   de = { solution = "Lösung", scaffold = "Gerüst", none = "Keine Lösung." },
   en = { solution = "Solution", scaffold = "Scaffold", none = "No solution." },
@@ -138,7 +143,12 @@ function Pandoc(doc)
 
     for i, block in ipairs(blocks) do
       local kind = kind_of(block)
-      if kind == nil then
+      if kind == "work" then
+        if target == nil then
+          flush()
+          result:extend(block.content)
+        end
+      elseif kind == nil then
         flush()
         result:insert(block)
       elseif target == nil or (kind == "solution" and mark_solution) then

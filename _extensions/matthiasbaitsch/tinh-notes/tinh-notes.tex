@@ -14,6 +14,7 @@
 % Befehle
 \renewcommand{\descriptionlabel}[1]{\hspace{\labelsep}\textit{#1}}
 \newcommand{\neuerbegriff}[1]{\textcolor{BrickRed}{#1}\index{#1}}
+\newcommand{\eng}[1]{\textit{#1}}
 \newcommand{\ja}[1]{\textcolor{green!60!black}{\ding{51}}}
 \newcommand{\nein}[1]{\textcolor{red}{\ding{55}}}
 
@@ -21,13 +22,16 @@
 % Quarto legt die Umgebungen erst nach include-in-header an (quarto-dev/quarto-cli#13991), daher
 % \AtBeginDocument, und nur, wenn das Dokument sie enthält.
 \usepackage[breakable,skins]{tcolorbox}
+% Gleitumgebungen (z.B. Tabellen von gt und tinytable) gehen in Kästen nicht, dort an Ort und Stelle (float, H)
+\usepackage{float}
+\newcommand{\tinhnofloats}{\floatplacement{table}{H}\floatplacement{figure}{H}}
 \definecolor{tinh-beispiel}{RGB}{233,150,122} % darksalmon
 \AtBeginDocument{\ifcsname definition\endcsname
   \tcolorboxenvironment{definition}{breakable, colback=black!4, colframe=black, boxrule=1pt, arc=2pt,
-    left=1mm, right=1mm, top=0mm}
+    left=1mm, right=1mm, top=0mm, before upper=\tinhnofloats}
 \fi
 \ifcsname example\endcsname
   \tcolorboxenvironment{example}{breakable, blanker, borderline west={1.5mm}{0pt}{tinh-beispiel},
-    left=3mm}
+    left=3mm, before upper=\tinhnofloats}
 \fi}
 

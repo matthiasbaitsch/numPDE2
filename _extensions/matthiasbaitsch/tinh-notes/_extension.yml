@@ -1,6 +1,6 @@
 title: tinh-notes
 author: Matthias Baitsch
-version: 0.5.0
+version: 0.9.0
 quarto-required: ">=1.8.0"
 contributes:
   formats:
@@ -8,9 +8,12 @@ contributes:
       # Makros aus tinh-macros (\SI, \R, ...), Bilder zentrieren aus tinh-common
       filters:
         - ../tinh-macros/macros.lua
-        - ../tinh-common/center-images.lua
+        - path: ../tinh-common/center-images.lua
+          at: pre-ast
       fig-align: center
       number-depth: 3
+      # Chicago author-date auf Deutsch, auch für die Literaturseite eines Books (dort kommt lang nicht an)
+      csl: chicago-author-date-de.csl
     html:
       lang: de
       toc: true
@@ -23,10 +26,32 @@ contributes:
       # eingebettet mit quarto add quarto-ext/latex-environment --embed tinh-notes
       filters:
         - latex-environment
-      commands: [neuerbegriff, ja, nein]
+      commands: [neuerbegriff, eng, ja, nein]
       include-in-header:
         - tinh-notes.tex
       include-after-body:
         text: |
           \printindex
       default-image-extension: pdf
+    # Book mit orange-book (Primärfarbe der Brand). Quarto nimmt orange-book nur bei format: typst, bei einem
+    # Format aus einer Extension nicht, deshalb eingebettet mit
+    # quarto add quarto-ext/orange-book --embed tinh-notes
+    # Pfade statt Name wie bei tinh-slides. Nur für Books (project: type: book)
+    typst:
+      lang: de
+      toc: true
+      template-partials:
+        - _extensions/quarto-ext/orange-book/numbering.typ
+        - _extensions/quarto-ext/orange-book/page.typ
+        - _extensions/quarto-ext/orange-book/typst-show.typ
+      # Zitate und Literatur mit Pandoc (Chicago author-date) wie bei LaTeX und tinh-slides statt Typsts eigener
+      # Literaturliste, die bei einem Book zusätzlich als Kapitel „Bibliografie“ erscheint
+      citeproc: true
+      link-citations: true
+      filters:
+        - commands.lua
+        - path: _extensions/quarto-ext/orange-book/orange-book.lua
+          at: post-quarto
+      include-before-body:
+        - tinh-notes.typ
+      default-image-extension: svg

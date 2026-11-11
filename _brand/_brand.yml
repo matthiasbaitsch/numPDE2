@@ -5,8 +5,7 @@ meta:
   name: Hochschule Bochum
   link: https://www.hochschule-bochum.de
 
-# Logos unverändert aus dem Download der Hochschule (Logos_2025, RGB, SVG). Das Handbuch erlaubt nur die
-# Verwendung der Downloads in unveränderter Form.
+# Logos aus dem Download der Hochschule (Logos_2025, RGB, SVG); nur der leere Rand im viewBox ist zugeschnitten.
 logo:
   images:
     quer:

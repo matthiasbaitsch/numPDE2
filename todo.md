@@ -2,16 +2,18 @@
 
 ## Bis zum nächsten Termin
 
+* [ ]  Abschnitt 05 fertig machen
+  * [ ]  Aufgabenblatt
 * [X]  MuLö Hermite
-* [ ]  Abschnitt 04 fertigmachen
+* [X]  Abschnitt 04 fertigmachen
   * [X]  Elastisch gelagerter Balken: Die Musterlösung verwendet `hermitefunctions(…, midnode=true)`, der Tipp auf
     dem Blatt `hermitefunctions(nodes)`. Entweder `midnode=true` in den Tipp oder die Lösung mit mehreren Elementen.
-  * [ ]  `aufgaben/reserve/01-exakte-loesung.qmd` enthält noch die alte Mathematica-Formel statt der geschlossenen
+  * [X]  `aufgaben/reserve/01-exakte-loesung.qmd` enthält noch die alte Mathematica-Formel statt der geschlossenen
     Lösung.
-* [ ]  Beim Rendern prüfen: Lösungsblätter 01 und 03 (Lösung in der Aufgabe, auf dem Aufgabenblatt nicht zu
+* [X]  Beim Rendern prüfen: Lösungsblätter 01 und 03 (Lösung in der Aufgabe, auf dem Aufgabenblatt nicht zu
   sehen, Größe der neuen PNGs), Plotgröße in Typst (`is_typst()` in `_setup.jl`), `fig-align` bei Bildern ohne
   Bildunterschrift.
-* [ ]  Baustein 05 überarbeiten: alte Überschriften (`# Aufgabe 5.2b`), `IntervalSets` fehlt in der Projektvorlage
+* [X]  Baustein 05 überarbeiten: alte Überschriften (`# Aufgabe 5.2b`), `IntervalSets` fehlt in der Projektvorlage
   (ohne ist `..` mehrdeutig), `DimensionMismatch` in `fem.jl:41` (vermutlich `nodeindices` eines Knotens leer in
   der aktuellen MMJMesh-Version), im Notebook `Ω` durch `0 .. l` ersetzen (wie in 04).
 
@@ -28,23 +30,28 @@
   1.0 Kapitel 4, `../../numPDE/07-matlab/05-nonlinear-structural-mechanics`.
 - [ ]  Skript zur Veranstaltung schreiben und die Folien daraus ableiten. Bis dahin sind die Folien die
   handschriftlichen Notizen (`bausteine/*/folien/notizen/`, seitenweise eingebunden in `folien/folien.qmd`).
+- [ ]  In den Aufgaben Abschnitte als `###`-Überschriften statt fett gesetzter Absätze (`**Auf dem Papier
+  lösen**`, `**Zu Punkt 1**`, …), weil sie eine logische Gliederung sind. So ist es in Mathe B; die Größe der
+  `###` kommt aus `tinh-assignments`.
 
 ## Extension `tinh`
 
+- [ ]  Informatik und Mathe B wie hier auf `tinh-notebook` und `.tinh-solution`/`.tinh-scaffold` umstellen (siehe
+  `todo.md` in quarto-tinh); in Mathe B zusätzlich die `.sol.qmd` als `.tinh-solution` in die Aufgaben übernehmen.
+- [ ]  In der Extension eine Funktion `#demo("…")` für Demo-Folien (einheitlich gestaltet, z.B. Notebook-Symbol
+  und farbiger Hintergrund). Bis dahin sind Demos normale Folien `## Demo: …` mit den Abschnitten im Folien-Notebook
+  (bisher in 01 bis 03).
 - [ ]  `#notiz` in die Extension `tinh-slides-typst` übernehmen
   (`~/sciebo/lehrveranstaltungen/quarto-tinh`, dann `make update-extension`). Danach die Definitionen in
   `lernpfad/folien/_metadata.yml` und die Kopie in `bausteine/_metadata.yml` löschen. Vorteil: Folien lassen sich
   direkt in `bausteine/` ansehen, und Informatik und Mathe B können die Funktion mitbenutzen.
 - [ ]  In der Extension zusätzlich eine Funktion, die eine PDF-Seite als Bild über die ganze Folienbreite einbindet
   (normale Folie mit Titel, nicht randlos wie `#notiz`), z.B. für einzelne Ausschnitte aus Notizen oder Skizzen.
-- [ ]  In der Extension eine Funktion `#demo("…")` für Demo-Folien (einheitlich gestaltet, z.B. Notebook-Symbol
-  und farbiger Hintergrund). Bis dahin sind Demos normale Folien `## Demo: …` mit den Abschnitten im Folien-Notebook
-  (bisher in 01 bis 03).
-- [ ]  Informatik und Mathe B wie hier auf `tinh-notebook` und `.tinh-solution`/`.tinh-scaffold` umstellen (siehe
-  `todo.md` in quarto-tinh); in Mathe B zusätzlich die `.sol.qmd` als `.tinh-solution` in die Aufgaben übernehmen.
 
 ## Lernpfad-Skript
 
+- [ ]  Videos wie in numMat (`../../numMat_2.1/unterlagen`) im Feld `videos` in `about.yaml` des jeweiligen
+  Bausteins festhalten (Liste mit `titel`, `dauer`, `link`) statt in `videos.md`; danach `videos.md` löschen.
 - [ ]  Prüfen, ob die Kopie von `_metadata.yml` nach `c/` (`copy_common_files`) nötig ist: Quarto liest die
   `_metadata.yml` aller Ordner bis zur Projektwurzel, also auch `lernpfad/aufgaben/_metadata.yml` beim Rendern von
   `c/`. Haken: relative Pfade (`bibliography`, `csl`) beziehen sich vermutlich auf den Ordner der
@@ -54,6 +61,8 @@
   Unterschiede: Zip-Inhalte (C# bzw. Julia), `teil` in Folientitel und Buchteilen, `veranstaltung` nur hier,
   Duplikat-Check und dotnet nur in Informatik. Angehen, sobald dieselbe Verbesserung mehrfach in beiden Kopien
   nachgezogen werden muss. Mathe B bleibt außen vor (R-Pipeline mit Submodulen, zu verschieden).
+
+- [ ]  Im Skript „assignment“ durch „exercise“ ersetzen (Bezeichnung wie in loi-moi: exercise = Aufgabe).
 
 ## Erledigt
 

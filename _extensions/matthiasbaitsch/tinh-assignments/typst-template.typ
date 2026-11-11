@@ -17,6 +17,9 @@
   set text(font: font) if font != none
   set par(justify: true, leading: 0.65em)
   show heading: set block(below: 1em)
+  // Abschnitte in Aufgaben (###) nicht größer als der Titel der Aufgabe. Quarto verschiebt die Ebenen in Typst,
+  // ### kommt daher als Ebene 2 an
+  show heading.where(level: 2).or(heading.where(level: 3)): set text(size: fontsize)
 
   if title != none {
     block(inset: (y: 0em), below: 3em)[

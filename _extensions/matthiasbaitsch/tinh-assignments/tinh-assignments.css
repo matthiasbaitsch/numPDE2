@@ -1,5 +1,12 @@
 /* Stil für tinh-assignments */
 
+/* Abschnitte in Aufgaben (###) nicht größer als der Titel der Aufgabe */
+h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+}
+
 /* Niedrigere Tabellenzeilen: Markdown-Tabellen (Bootstrap) und gt-Tabellen */
 body .table > :not(caption) > * > * {
   padding-top: 0.2rem;
