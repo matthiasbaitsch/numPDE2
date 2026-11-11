@@ -1,0 +1,5 @@
+::: {#exr-bohrpfahl}
+## Bohrpfahl elementweise
+
+Kopieren Sie die Funktion `pile_fem` aus Ihrem Notebook zum vorigen Aufgabenblatt. Schreiben Sie eine Funktion `pile_fem_elementwise(Ne)`, die die Näherungslösung $u_h$ mithilfe von `assemble_kr` berechnet. Überprüfen Sie für einige Werte von $N_e$, dass Sie dieselbe Näherungslösung erhalten wie mit `pile_fem`.
+:::

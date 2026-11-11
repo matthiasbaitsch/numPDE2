@@ -1,0 +1,41 @@
+## Abstraktion
+
+::: {#exr-funktion-gleichungssystem}
+## Funktion für das Gleichungssystem
+
+In der vorigen Aufgabe stehen Feder und Einzellast fest im Code. Damit eine Funktion das Gleichungssystem für beliebige Netze aufstellen kann, speichern wir die Funktionen für Elemente und Knoten im Netz.
+
+1. Programmieren Sie nach dem Muster von `pile_ke` und `pile_re` die Funktionen `spring(S)` und `force(F)`, deren Rückgabe für einen Knoten die Federsteifigkeit $S$ bzw. die Einzellast $F$ liefert. Testen Sie die Funktionen an einem Knoten eines Netzes.
+
+1. Funktion mit zwei Rückgabewerten
+
+    ```{.julia}
+    function test(x)
+        return x, x^2
+    end
+
+    y1, y2 = test(2)
+    println("y1 = ", y1, ", y2 = ", y2)
+    ```
+
+1. Funktion mit Bestandteilen des FE-Netzes assoziieren
+
+    ```{.julia}
+    m = Mesh(0 .. 20, 4)
+
+    setdata!(group(m, :elements), :test, sqrt)
+    setdata!(node(m, 1), :test, exp)
+
+    f = data(element(m, 3), :test)
+    println(f(4))
+    f = data(node(m, 1), :test)
+    println(f(1))
+    hasdata(node(m, 2), :test)
+    ```
+
+    Wie können Sie diese Idee für die Assemblierung des linearen Gleichungssystems nutzen?
+
+1. Erstellen Sie die Funktion `assemble_kr(m)`, die für ein Netz `m` die globale Steifigkeitsmatrix $\mathbf{K}$ und den globalen Lastvektor $\mathbf{r}$ zurückgibt. Die Funktionen für Elemente und Knoten sind im Netz unter den Namen `:ke_func` und `:re_func` gespeichert; Elemente und Knoten ohne gespeicherte Funktion tragen nichts bei. Überprüfen Sie, dass Sie für den Bohrpfahl mit $N_e = 4$ Elementen dasselbe $\hat{\mathbf{u}}$ erhalten wie mit der globalen Integration.
+
+1. Verschieben Sie die Funktionen für den Bohrpfahl in eine Datei `pile.jl` und die Funktion für das Gleichungssystem in eine Datei `fem.jl`. Stellen Sie sicher, dass Ihr Notebook nach wie vor ausgeführt werden kann.
+:::

@@ -1,0 +1,13 @@
+## Assemblierung
+
+::: {#exr-assemblierungsmatrizen}
+## Assemblierungsmatrizen
+
+Elemente und Knoten müssen nicht zwangsläufig fortlaufend nummeriert sein. Stellen Sie für das (originell nummerierte) Netz
+
+![](bilder/mesh.svg)
+
+die Assemblierungsmatrizen $\mathbf{A}^e, \; e = 1, \dots, 4$ auf. Skizzieren Sie hierfür die Basisfunktionen $\varphi_i, \; i = 1, \dots, 5$ und die Elementfunktionen $N^e_k, \; k = 1, 2$.
+
+Können Sie das Schema erkennen, nach dem die Einsen in den Matrizen platziert werden? Schreiben Sie hierzu für jedes Element in einem Spaltenvektor die Knotennummern neben die Matrix.
+:::

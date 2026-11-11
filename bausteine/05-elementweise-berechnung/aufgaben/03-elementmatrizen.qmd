@@ -1,0 +1,7 @@
+## Elementmatrizen
+
+::: {#exr-elementmatrizen}
+## Elementsteifigkeitsmatrix und Elementlastvektor
+
+Bestimmen Sie für den Bohrpfahl die Elementsteifigkeitsmatrix $\mathbf{K}^e$ und den Elementlastvektor $\mathbf{r}^e$ für ein Element der Länge $h$.
+:::

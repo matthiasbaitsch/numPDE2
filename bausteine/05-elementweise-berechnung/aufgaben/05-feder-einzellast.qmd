@@ -1,0 +1,7 @@
+## Gleichungssystem
+
+::: {#exr-feder-einzellast}
+## Feder und Einzellast
+
+Nach welchem Schema können eine Feder und eine Einzellast im linearen Gleichungssystem berücksichtigt werden?
+:::

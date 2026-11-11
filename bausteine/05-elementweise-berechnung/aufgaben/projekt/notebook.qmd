@@ -1,25 +1,81 @@
-# Aufgabe 5.2a: Element und Gleichungssystem
-
 ```{julia}
-using IntervalSets
+using Revise
+using LinearAlgebra
+import CairoMakie
+
+using MMJMesh
 using MMJMesh.Plots
 using MMJMesh.Meshes
+using MMJMesh.Mathematics
 ```
 
-Netz zum Testen
+## Assemblierung in Julia
 
-## Berechnung für ein Element
+FE-Netz
 
-### Vorbereitung
-
-1. Netz
-
+::: {.tinh-solution}
 ```{julia}
-m = Mesh(0 .. 20, 4)
+m = Mesh(0 .. 20, 25)
 mplot(m) |> mconf()
 ```
+:::
 
-1. Parametrisierte Funktion
+Ein Element des FE-Netzes
+
+::: {.tinh-solution}
+```{julia}
+e22 = element(m, 22)
+println(e22)
+println(length(e22))
+```
+:::
+
+Schleife über die Elemente des FE-Netzes
+
+::: {.tinh-solution}
+```{julia}
+m = Mesh(0 .. 20, 4)
+for e = elements(m)
+    println(e)
+    println(nodeindices(e))
+end
+```
+:::
+
+Addition einer Untermatrix mit Indexvektor
+
+::: {.tinh-solution}
+```{julia}
+I = [4, 1]
+K = reshape(collect(1:16), 4, 4)
+Ke = [100 200; 300 400]
+
+display(K)
+display(Ke)
+display(K[I, I])
+
+K[I, I] += Ke
+
+display(K)
+```
+:::
+
+Dasselbe mit einer Assemblierungsmatrix
+
+::: {.tinh-solution}
+```{julia}
+K = reshape(collect(1:16), 4, 4)
+Ke = [100 200; 300 400]
+Ae = [0 0 0 1; 1 0 0 0]
+K += Ae' * Ke * Ae
+
+display(K)
+```
+:::
+
+## Elementfunktionen in Julia
+
+Parametrisierte Funktion
 
 ```{julia}
 function bsin(b)
@@ -35,90 +91,134 @@ f2 = bsin(5)
 println("f1(π/2) = ", f1(π / 2), ", f2(π/2) = ", f2(π / 2))
 ```
 
-1. Element eines FE-Netzes
+Elementsteifigkeitsmatrix und Elementlastvektor
 
+::: {.tinh-solution}
 ```{julia}
-e2 = element(m, 2)
-println(e2)
-println(length(e2))
+includet("src/pile.jl")
+
+m = Mesh(0 .. 20, 23)
+e8 = element(m, 8)
+
+ke_func = pile_ke(3.2, 8.9)
+re_func = pile_re(1.8)
+
+display(ke_func(e8))
+display(re_func(e8))
 ```
+:::
 
-### Umsetzung
+## Gleichungssystem in Julia
 
+Systemparameter vom vorigen Aufgabenblatt
+
+::: {.tinh-solution}
 ```{julia}
-using Revise
+# Basiswerte
+E = 35e9
+d = 0.8
+l = 20
+F = 2e6
+ρ = 2500
+g = 9.81
+S = 120e6
+c = 1.75e7
+
+# Abgeleitete Werte
+C = c * π * d
+A = π * d^2 / 4
+EA = E * A
+n = ρ * g * A;
+```
+:::
+
+Globale Integration vom vorigen Aufgabenblatt
+
+::: {.tinh-solution}
+```{julia}
+a(u, δu) = integrate(EA * u' * δu' + C * u * δu, 0 .. l) + S * u(l) * δu(l)
+b(δu) = integrate(n * δu, 0 .. l) + F * δu(0)
+
+Ne = 4
+phis = hatfunctions(range(0, l, Ne + 1))
+K_global = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+r_global = [b(phi_i) for phi_i = phis]
+uHat_global = K_global \ r_global;
+```
+:::
+
+Elementweise Berechnung
+
+::: {.tinh-solution}
+```{julia}
+includet("src/pile.jl")
+
+m = Mesh(0 .. l, Ne)
+ke_func = pile_ke(EA, C)
+re_func = pile_re(n)
+
+K = zeros(nnodes(m), nnodes(m))
+r = zeros(nnodes(m))
+for e = elements(m)
+    I = nodeindices(e)
+    K[I, I] += ke_func(e)
+    r[I] += re_func(e)
+end
+
+K[end, end] += S
+r[1] += F;
+```
+:::
+
+Näherungslösung
+
+::: {.tinh-solution}
+```{julia}
+uHat = K \ r
+uh = uHat ⋅ phis
+fplot(uh)
+```
+:::
+
+Vergleich mit der globalen Integration
+
+::: {.tinh-solution}
+```{julia}
+[uHat uHat_global]
+```
+:::
+
+## Funktion für das Gleichungssystem
+
+Feder und Einzellast
+
+::: {.tinh-solution}
+```{julia}
 includet("src/pile.jl")
 
 m = Mesh(0 .. 20, 23)
 n4 = node(m, 4)
-e8 = element(m, 8)
 
-f1 = force(18.2)
-re_func = pile_re(1.8)
-ke_func = pile_ke(3.2, 8.9)
 s1 = spring(121.4)
+f1 = force(18.2)
 
-display(f1(n4))
-display(re_func(e8))
-display(ke_func(e8))
 display(s1(n4))
+display(f1(n4))
 ```
+:::
 
-## Lineares Gleichungssystem
-
-### Vorbereitung
-
-1. Funktion mit zwei Rückgabewerten
+Funktion mit zwei Rückgabewerten
 
 ```{julia}
 function test(x)
     return x, x^2
 end
 
-a, b = test(2)
-println("a = ", a, ", b = ", b)
+y1, y2 = test(2)
+println("y1 = ", y1, ", y2 = ", y2)
 ```
 
-1. Addition einer Untermatrix
-
-    Indexvektor
-
-```{julia}
-I = [4, 1]
-K = reshape(collect(1:16), 4, 4)
-Ke = [100 200; 300 400]  
-
-display(K)
-display(Ke)
-display(K[I, I])
-
-K[I, I] += Ke
-
-display(K)
-```
-
-    Assemblierungsmatrix
-
-```{julia}
-K = reshape(collect(1:16), 4, 4)
-Ke = [100 200; 300 400]  
-Ae = [0 0 0 1; 1 0 0 0]
-K += Ae' * Ke * Ae
-
-display(K)
-```
-
-1. Schleife über Bestandteile des FE-Netzes
-
-```{julia}
-m = Mesh(0 .. 20, 4)
-for e = entities(m)
-    println(e)
-    println(nodeindices(e))
-end
-```
-
-1. Funktion mit Bestandteilen des Netzes assoziieren
+Funktion mit Bestandteilen des FE-Netzes assoziieren
 
 ```{julia}
 m = Mesh(0 .. 20, 4)
@@ -133,176 +233,73 @@ println(f(1))
 hasdata(node(m, 2), :test)
 ```
 
-### Umsetzung
+Gleichungssystem für den Bohrpfahl
 
+::: {.tinh-solution}
 ```{julia}
-using Revise
-includet("src/fem.jl")
-
-m = Mesh(0 .. 20, 4)
-setdata!(group(m, :elements), :ke_func, pile_ke(8.1, 9.2))
-setdata!(group(m, :elements), :re_func, pile_re(68))
-setdata!(node(m, nnodes(m)), :ke_func, spring(66000))
-setdata!(node(m, 1), :re_func, force(20000))
-
-K, r = assemble_kr(m)
-display(K)
-display(r)
-```
-
-# Aufgabe 5.2b: Bohrpfahl elementweise
-
-```{julia}
-using IntervalSets
-using MMJMesh.Plots
-using MMJMesh.Meshes
-using MMJMesh.Mathematics
-using CairoMakie: Figure, Axis, scatterlines, scatterlines!
-```
-
-## Problemparameter
-
-```{julia}
-# Basiswerte
-E = 35e9
-d = 0.8
-l = 20
-F = 2e6
-ρ = 2500
-g = 9.81
-S = 120e6
-c = 1.75e7
-
-# Abgeleitete Werte
-Ω = 0 .. l
-C = c * π * d
-A = π * d^2 / 4
-EA = E * A
-n = ρ * g * A;
-```
-
-## Exakte Lösung
-
-```{julia}
-x = parameter(Ω)
-λ = sqrt(C / EA)
-D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
-
-u = n / C * (1 - S * cosh(λ * x) / D) +
-    F / (EA * λ * D) * (EA * λ * cosh(λ * (l - x)) + S * sinh(λ * (l - x)))
-
-N = EA * u'
-
-null = 0 * x
-
-fig = Figure()
-fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, null)
-fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, null)
-fig
-```
-
-## Numerische Lösung
-
-```{julia}
-using Revise
-includet("src/fem.jl")
 includet("src/pile.jl")
-```
+includet("src/fem.jl")
 
-### Ein Netz
-
-```{julia}
-m = Mesh(0 .. 20, 40)
+m = Mesh(0 .. l, 4)
 setdata!(group(m, :elements), :ke_func, pile_ke(EA, C))
 setdata!(group(m, :elements), :re_func, pile_re(n))
 setdata!(node(m, nnodes(m)), :ke_func, spring(S))
 setdata!(node(m, 1), :re_func, force(F))
+
 K, r = assemble_kr(m)
-u_hat = K \ r
-
-mplot(m, u_hat, nodesvisible=false) |> mconf()
+uHat = K \ r
+[uHat uHat_global]
 ```
+:::
 
-### Konvergenz
+## Bohrpfahl elementweise
 
+Funktion vom vorigen Aufgabenblatt
+
+::: {.tinh-solution}
 ```{julia}
-function pile_fem(k)
-    m = Mesh(Ω, k)
+function pile_fem(Ne)
+    phis = hatfunctions(range(0, l, Ne + 1))
+    K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+    r = [b(phi_i) for phi_i = phis]
+    uHat = K \ r
+    uh = uHat ⋅ phis
+    return uh
+end
+```
+:::
+
+Elementweise Berechnung
+
+::: {.tinh-solution}
+```{julia}
+includet("src/pile.jl")
+includet("src/fem.jl")
+
+function pile_fem_elementwise(Ne)
+    m = Mesh(0 .. l, Ne)
     setdata!(group(m, :elements), :ke_func, pile_ke(EA, C))
     setdata!(group(m, :elements), :re_func, pile_re(n))
     setdata!(node(m, nnodes(m)), :ke_func, spring(S))
     setdata!(node(m, 1), :re_func, force(F))
     K, r = assemble_kr(m)
-    u_hat = K \ r
-    uh = sum(u_hat .* hatfunctions(range(Ω, k + 1)))
+    uHat = K \ r
+    uh = uHat ⋅ hatfunctions(range(0, l, Ne + 1))
     return uh
 end
-
-uh = pile_fem(3)
-fplot(uh, u)
 ```
+:::
 
+Vergleich
+
+::: {.tinh-solution}
 ```{julia}
-Nh = EA * uh'
-fplot(Nh, N)
-```
-
-```{julia}
-fplot(0 * x, u - uh)
-```
-
-## Konvergenz
-
-Fehlerfunktion
-
-```{julia}
-fig = Figure()
-Axis(fig[1, 1])
-for k = 2 .^ (1:5)
-    uh = pile_fem(k)
-    fplot!(u - uh)
-end
-fig
-```
-
-Normalkraft
-
-```{julia}
-fig = Figure()
-Axis(fig[1, 1])
-fplot!(N)
-for k = 2 .^ (1:5)
-    uh = pile_fem(k)
-    Nh = EA * uh'
-    fplot!(Nh, connect_jumps=true)
-end
-fig
-```
-
-Fehler in der Energienorm
-
-```{julia}
-nn = 12
-hks = zeros(nn)
-eks = zeros(nn)
-
-energynorm(v) = sqrt(integrate(EA * v' * v' + C * v * v, Ω) + S * v(l)^2)
-
-for i in 1:nn
-    k = 2^i
-    uh = pile_fem(k)
-    hks[i] = l / k
-    eks[i] = 100 * energynorm(u - uh) / energynorm(u)
+for Ne = [2, 8, 32]
+    xs = range(0, l, Ne + 1)
+    uh_global = pile_fem(Ne)
+    uh_elementwise = pile_fem_elementwise(Ne)
+    println("Ne = ", Ne, ": größte Differenz an den Knoten ",
+        maximum(abs.(uh_global.(xs) - uh_elementwise.(xs))))
 end
 ```
-
-```{julia}
-scatterlines(hks, eks)
-```
-
-```{julia}
-f = Figure()
-Axis(f[1, 1], xscale=log2, yscale=log10, title="Fehler in Prozent")
-scatterlines!(hks, eks)
-f
-```
+:::
