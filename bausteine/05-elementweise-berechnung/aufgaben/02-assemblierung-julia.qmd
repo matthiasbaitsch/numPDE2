@@ -1,7 +1,7 @@
 ::: {#exr-assemblierung-julia}
 ## Assemblierung in Julia
 
-Kopieren Sie die Code-Blöcke in Ihr Notebook und führen Sie sie aus.
+Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Kopieren Sie die Code-Blöcke in das Notebook und führen Sie sie aus.
 
 1. FE-Netz: Was macht dieser Code?
 
