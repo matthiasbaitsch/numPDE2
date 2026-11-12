@@ -188,9 +188,7 @@ Vergleich mit der globalen Integration
 ```
 :::
 
-## Funktion für das Gleichungssystem
-
-Feder und Einzellast
+## Funktionen für Feder und Einzellast
 
 ::: {.tinh-solution}
 ```{julia}
@@ -207,18 +205,7 @@ display(f1(n4))
 ```
 :::
 
-Funktion mit zwei Rückgabewerten
-
-```{julia}
-function test(x)
-    return x, x^2
-end
-
-y1, y2 = test(2)
-println("y1 = ", y1, ", y2 = ", y2)
-```
-
-Funktion mit Bestandteilen des FE-Netzes assoziieren
+## Funktionen im Netz speichern
 
 ```{julia}
 m = Mesh(0 .. 20, 4)
@@ -231,6 +218,19 @@ println(f(4))
 f = data(node(m, 1), :test)
 println(f(1))
 hasdata(node(m, 2), :test)
+```
+
+## Funktion für das Gleichungssystem
+
+Funktion mit zwei Rückgabewerten
+
+```{julia}
+function test(x)
+    return x, x^2
+end
+
+y1, y2 = test(2)
+println("y1 = ", y1, ", y2 = ", y2)
 ```
 
 Gleichungssystem für den Bohrpfahl
@@ -250,6 +250,12 @@ K, r = assemble_kr(m)
 uHat = K \ r
 [uHat uHat_global]
 ```
+:::
+
+## Code in Dateien auslagern
+
+::: {.tinh-solution}
+Die Funktionen für den Bohrpfahl stehen in `src/pile.jl`, die Funktion für das Gleichungssystem in `src/fem.jl`.
 :::
 
 ## Bohrpfahl elementweise

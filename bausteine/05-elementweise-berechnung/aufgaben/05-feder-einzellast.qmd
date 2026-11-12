@@ -1,4 +1,4 @@
-## Gleichungssystem
+## Lineares Gleichungssystem
 
 ::: {#exr-feder-einzellast}
 ## Feder und Einzellast

@@ -1,4 +1,4 @@
-## Elementmatrizen
+## Formulierung für ein Element
 
 ::: {#exr-elementmatrizen}
 ## Elementsteifigkeitsmatrix und Elementlastvektor

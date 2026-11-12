@@ -1,0 +1,17 @@
+
+::: {#exr-funktion-gleichungssystem}
+## Funktion für das Gleichungssystem
+
+1. Funktion mit zwei Rückgabewerten
+
+    ```{.julia}
+    function test(x)
+        return x, x^2
+    end
+
+    y1, y2 = test(2)
+    println("y1 = ", y1, ", y2 = ", y2)
+    ```
+
+1. Erstellen Sie die Funktion `assemble_kr(m)`, die für ein Netz `m` die globale Steifigkeitsmatrix $\mathbf{K}$ und den globalen Lastvektor $\mathbf{r}$ zurückgibt. Die Funktionen für Elemente und Knoten sind im Netz unter den Namen `:ke_func` und `:re_func` gespeichert; Elemente und Knoten ohne gespeicherte Funktion tragen nichts bei. Überprüfen Sie, dass Sie für den Bohrpfahl mit $N_e = 4$ Elementen dasselbe $\hat{\mathbf{u}}$ erhalten wie mit der globalen Integration.
+:::

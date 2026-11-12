@@ -1,0 +1,9 @@
+## Abstraktion
+
+::: {#exr-funktionen-feder-einzellast}
+## Funktionen für Feder und Einzellast
+
+In der vorigen Aufgabe stehen Feder und Einzellast fest im Code. Damit eine Funktion das Gleichungssystem für beliebige Netze aufstellen kann, speichern wir die Funktionen für Elemente und Knoten im Netz.
+
+Programmieren Sie nach dem Muster von `pile_ke` und `pile_re` die Funktionen `spring(S)` und `force(F)`, deren Rückgabe für einen Knoten die Federsteifigkeit $S$ bzw. die Einzellast $F$ liefert. Testen Sie die Funktionen an einem Knoten eines Netzes.
+:::

@@ -1,0 +1,25 @@
+
+::: {#exr-daten-im-netz-julia}
+## Funktionen im Netz speichern
+
+Kopieren Sie den Code-Block in Ihr Notebook und führen Sie ihn aus. Er assoziiert Funktionen mit Bestandteilen des FE-Netzes.
+
+```{.julia}
+m = Mesh(0 .. 20, 4)
+
+setdata!(group(m, :elements), :test, sqrt)
+setdata!(node(m, 1), :test, exp)
+
+f = data(element(m, 3), :test)
+println(f(4))
+f = data(node(m, 1), :test)
+println(f(1))
+hasdata(node(m, 2), :test)
+```
+
+Wie können Sie diese Idee für die Assemblierung des linearen Gleichungssystems nutzen?
+
+::: {.tinh-solution}
+Im Netz werden für die Elemente die Funktionen für die Elementsteifigkeitsmatrix und den Elementlastvektor gespeichert, für die Knoten die Funktionen für Feder und Einzellast. Die Assemblierung läuft über alle Elemente und alle Knoten, fragt mit `hasdata` ab, ob eine Funktion gespeichert ist, ruft sie gegebenenfalls auf und addiert das Ergebnis an den Stellen der zugehörigen Knotennummern zu $\mathbf{K}$ bzw. $\mathbf{r}$. Die Funktion für die Assemblierung enthält damit nichts mehr, was speziell zum Bohrpfahl gehört: Welche Beiträge wo anfallen, steht allein im Netz. Sie lässt sich deshalb für beliebige Netze und Probleme verwenden.
+:::
+:::

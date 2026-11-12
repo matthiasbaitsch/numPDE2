@@ -1,4 +1,4 @@
-## Assemblierung
+## Assemblierung des linearen Gleichungssystems
 
 ::: {#exr-assemblierungsmatrizen}
 ## Assemblierungsmatrizen
