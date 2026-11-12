@@ -7,25 +7,7 @@
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 5)
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 7)
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 8)
-#notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 9)
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 10)
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 11)
-#notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 12)
 #notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 13)
-#notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 14)
-#notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 15)
-#notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 16)
-#notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 17)
-#notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 18)
-#notiz("notizen/NP 1D 12 Element-wise computation of K and r.pdf", 19)
-```
-
-# How good is the solution: Convergence
-
-```{=typst}
-#notiz("notizen/NP 1D 13.2 Convergence.pdf", 2)
-#notiz("notizen/NP 1D 13.2 Convergence.pdf", 3)
-#notiz("notizen/NP 1D 13.2 Convergence.pdf", 4)
-#notiz("notizen/NP 1D 13.2 Convergence.pdf", 5)
-#notiz("notizen/NP 1D 13.2 Convergence.pdf", 6)
 ```

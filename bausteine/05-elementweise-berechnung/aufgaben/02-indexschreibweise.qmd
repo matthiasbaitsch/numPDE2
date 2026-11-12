@@ -1,0 +1,40 @@
+
+::: {#exr-indexschreibweise}
+## Assemblierung in Indexschreibweise
+
+Für die Einträge der globalen Steifigkeitsmatrix gilt (ohne Feder)
+
+$$
+K_{ij} = \sum_{e=1}^{N_e} \sum_{k=1}^{2} \sum_{l=1}^{2} A^e_{ki} \, K^e_{kl} \, A^e_{lj}
+\quad \text{mit} \quad
+K^e_{kl} = a^e(N^e_k, N^e_l).
+$$
+
+1. Schreiben Sie das Matrixprodukt $(\mathbf{A}^e)^\top \mathbf{K}^e \mathbf{A}^e$ in Indexschreibweise und zeigen Sie damit, dass $\mathbf{K} = \sum_{e=1}^{N_e} (\mathbf{A}^e)^\top \mathbf{K}^e \mathbf{A}^e$ gilt.
+
+1. Welche Einträge von $(\mathbf{A}^e)^\top \mathbf{K}^e \mathbf{A}^e$ sind von null verschieden? Verwenden Sie die Knotennummern der Elemente aus der vorigen Aufgabe.
+
+::: {.tinh-solution}
+**Zu Punkt 1 (Indexschreibweise)**
+
+Mit $\mathbf{B} = \mathbf{K}^e \mathbf{A}^e$ ist $B_{kj} = \sum_{l=1}^{2} K^e_{kl} A^e_{lj}$. Wegen $\left((\mathbf{A}^e)^\top\right)_{ik} = A^e_{ki}$ folgt
+
+$$
+\left((\mathbf{A}^e)^\top \mathbf{K}^e \mathbf{A}^e\right)_{ij}
+= \sum_{k=1}^{2} A^e_{ki} B_{kj}
+= \sum_{k=1}^{2} \sum_{l=1}^{2} A^e_{ki} \, K^e_{kl} \, A^e_{lj}.
+$$
+
+Das ist die Doppelsumme in der Darstellung von $K_{ij}$. Summiert man über die Elemente, erhält man $\mathbf{K} = \sum_{e=1}^{N_e} (\mathbf{A}^e)^\top \mathbf{K}^e \mathbf{A}^e$.
+
+**Zu Punkt 2 (Einträge ungleich null)**
+
+Sind $I^e_1$ und $I^e_2$ die Knotennummern von Element $e$, so ist $A^e_{ki} = 1$ für $i = I^e_k$ und sonst null. In der Doppelsumme ist ein Summand also nur für $i = I^e_k$ und $j = I^e_l$ von null verschieden, und dann ist er gleich $K^e_{kl}$. Die Matrix $(\mathbf{A}^e)^\top \mathbf{K}^e \mathbf{A}^e$ hat deshalb nur in den Zeilen und Spalten $I^e_1, I^e_2$ Einträge ungleich null, dort stehen die Einträge von $\mathbf{K}^e$:
+
+$$
+\left((\mathbf{A}^e)^\top \mathbf{K}^e \mathbf{A}^e\right)_{I^e_k I^e_l} = K^e_{kl}.
+$$
+
+Statt mit den Assemblierungsmatrizen zu multiplizieren, kann man $\mathbf{K}^e$ also direkt an diesen Stellen zu $\mathbf{K}$ addieren.
+:::
+:::

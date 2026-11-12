@@ -1,9 +1,9 @@
 ::: {#exr-gleichungssystem-julia}
 ## Gleichungssystem in Julia
 
-Auf dem vorigen Aufgabenblatt haben Sie die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ für den Bohrpfahl durch Integration der Basisfunktionen über das ganze Gebiet aufgestellt. Jetzt berechnen Sie sie elementweise. Kopieren Sie hierfür die Systemparameter und die Berechnung von $\hat{\mathbf{u}}$ für $N_e = 4$ Elemente aus Ihrem Notebook zum vorigen Aufgabenblatt.
+Auf dem vorigen Aufgabenblatt haben Sie die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ für den Bohrpfahl durch Integration der Basisfunktionen über das ganze Gebiet aufgestellt. Jetzt berechnen Sie sie elementweise. Die Systemparameter und die Berechnung von $\hat{\mathbf{u}}$ für $N_e = 4$ Elemente durch globale Integration sind im Notebook bereits vorgegeben.
 
-1. Erzeugen Sie ein Netz mit $N_e = 4$ Elementen und legen Sie $\mathbf{K}$ und $\mathbf{r}$ mit Nullen an. Addieren Sie in einer Schleife über die Elemente die Elementsteifigkeitsmatrizen und die Elementlastvektoren mithilfe von `pile_ke` und `pile_re`. Berücksichtigen Sie anschließend Feder und Einzellast.
+1. Berechnen Sie für $N_e = 4$ Elemente gleicher Länge $h$ die Elementsteifigkeitsmatrix $\mathbf{K}^e$ und den Elementlastvektor $\mathbf{r}^e$ aus der Aufgabe "Elementsteifigkeitsmatrix und Elementlastvektor". Legen Sie $\mathbf{K}$ und $\mathbf{r}$ mit Nullen an und addieren Sie in einer Schleife über die Elemente $\mathbf{K}^e$ und $\mathbf{r}^e$ an den Stellen der Knotennummern. Bei fortlaufender Nummerierung hat Element $e$ die Knoten $e$ und $e + 1$. Berücksichtigen Sie anschließend Feder und Einzellast.
 
 1. Lösen Sie das lineare Gleichungssystem und plotten Sie die Näherungslösung.
 

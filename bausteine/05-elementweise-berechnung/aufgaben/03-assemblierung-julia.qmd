@@ -3,36 +3,11 @@
 
 Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Kopieren Sie die Code-Blöcke in das Notebook und führen Sie sie aus.
 
-1. FE-Netz: Was macht dieser Code?
-
-    ```{.julia}
-    m = Mesh(0 .. 20, 25)
-    mplot(m) |> mconf()
-    ```
-
-1. Ein Element des FE-Netzes
-
-    ```{.julia}
-    e22 = element(m, 22)
-    println(e22)
-    println(length(e22))
-    ```
-
-1. Schleife über die Elemente des FE-Netzes
-
-    ```{.julia}
-    m = Mesh(0 .. 20, 4)
-    for e = elements(m)
-        println(e)
-        println(nodeindices(e))
-    end
-    ```
-
 1. Addition einer Untermatrix mit Indexvektor:
 
     ```{.julia}
     I = [4, 1]
-    K = reshape(collect(1:16), 4, 4)
+    K = reshape(collect(1:16), 4, 4)  # veränderbar mit collect
     Ke = [100 200; 300 400]
 
     display(K)
@@ -47,7 +22,7 @@ Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} 
 1. Passen Sie die Matrix `Ae` so an, dass Sie für `K` dasselbe Ergebnis wie oben erhalten:
 
     ```{.julia}
-    K = reshape(collect(1:16), 4, 4)
+    K = reshape(1:16, 4, 4)
     Ke = [100 200; 300 400]
     Ae = [0 0 0 0; 0 0 0 0]
     K += Ae' * Ke * Ae

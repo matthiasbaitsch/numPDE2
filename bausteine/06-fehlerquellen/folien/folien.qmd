@@ -5,3 +5,13 @@
 #notiz("notizen/NP 1D 13.1 Sources of error.pdf", 3)
 #notiz("notizen/NP 1D 13.1 Sources of error.pdf", 4)
 ```
+
+# How good is the solution: Convergence
+
+```{=typst}
+#notiz("notizen/NP 1D 13.2 Convergence.pdf", 2)
+#notiz("notizen/NP 1D 13.2 Convergence.pdf", 3)
+#notiz("notizen/NP 1D 13.2 Convergence.pdf", 4)
+#notiz("notizen/NP 1D 13.2 Convergence.pdf", 5)
+#notiz("notizen/NP 1D 13.2 Convergence.pdf", 6)
+```

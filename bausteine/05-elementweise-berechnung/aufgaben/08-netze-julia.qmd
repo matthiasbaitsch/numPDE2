@@ -1,0 +1,32 @@
+## Abstraktion
+
+::: {#exr-netze-julia}
+## Netze in Julia
+
+In der vorigen Aufgabe stehen die Elementlänge und die Knotennummern der Elemente fest im Code. Ein FE-Netz stellt diese Informationen für beliebige Netze bereit. Kopieren Sie die Code-Blöcke in Ihr Notebook und führen Sie sie aus.
+
+1. FE-Netz: Was macht dieser Code?
+
+    ```{.julia}
+    m = Mesh(0 .. 20, 25)
+    mplot(m) |> mconf()
+    ```
+
+1. Ein Element des FE-Netzes
+
+    ```{.julia}
+    e22 = element(m, 22)
+    println(e22)
+    println(length(e22))
+    ```
+
+1. Schleife über die Elemente des FE-Netzes
+
+    ```{.julia}
+    m = Mesh(0 .. 20, 4)
+    for e = elements(m)
+        println(e)
+        println(nodeindices(e))
+    end
+    ```
+:::

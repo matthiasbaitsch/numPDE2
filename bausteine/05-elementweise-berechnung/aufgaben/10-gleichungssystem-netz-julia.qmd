@@ -1,0 +1,6 @@
+
+::: {#exr-gleichungssystem-netz-julia}
+## Gleichungssystem mit Netz
+
+Berechnen Sie $\mathbf{K}$ und $\mathbf{r}$ für den Bohrpfahl wie in der Aufgabe "Gleichungssystem in Julia", jetzt aber mit einem Netz. Erzeugen Sie ein Netz mit $N_e = 4$ Elementen und legen Sie $\mathbf{K}$ und $\mathbf{r}$ mit Nullen an. Addieren Sie in einer Schleife über die Elemente des Netzes die Elementsteifigkeitsmatrizen und die Elementlastvektoren mithilfe von `pile_ke` und `pile_re`. Berücksichtigen Sie anschließend Feder und Einzellast, lösen Sie das lineare Gleichungssystem und vergleichen Sie $\hat{\mathbf{u}}$ mit dem Ergebnis der globalen Integration.
+:::

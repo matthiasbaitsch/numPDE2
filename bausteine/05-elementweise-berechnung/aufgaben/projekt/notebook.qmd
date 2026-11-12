@@ -11,6 +11,116 @@ using MMJMesh.Mathematics
 
 ## Assemblierung in Julia
 
+Addition einer Untermatrix mit Indexvektor
+
+::: {.tinh-solution}
+```{julia}
+I = [4, 1]
+K = reshape(collect(1:16), 4, 4)  # veränderbar mit collect
+Ke = [100 200; 300 400]
+
+display(K)
+display(Ke)
+display(K[I, I])
+
+K[I, I] += Ke
+
+display(K)
+```
+:::
+
+Dasselbe mit einer Assemblierungsmatrix
+
+::: {.tinh-solution}
+```{julia}
+K = reshape(1:16, 4, 4)
+Ke = [100 200; 300 400]
+Ae = [0 0 0 1; 1 0 0 0]
+K += Ae' * Ke * Ae
+
+display(K)
+```
+:::
+
+## Gleichungssystem in Julia
+
+Systemparameter vom vorigen Aufgabenblatt
+
+```{julia}
+# Basiswerte
+E = 35e9
+d = 0.8
+l = 20
+F = 2e6
+ρ = 2500
+g = 9.81
+S = 120e6
+c = 1.75e7
+
+# Abgeleitete Werte
+C = c * π * d
+A = π * d^2 / 4
+EA = E * A
+n = ρ * g * A;
+```
+
+Globale Integration vom vorigen Aufgabenblatt
+
+```{julia}
+a(u, δu) = integrate(EA * u' * δu' + C * u * δu, 0 .. l) + S * u(l) * δu(l)
+b(δu) = integrate(n * δu, 0 .. l) + F * δu(0)
+
+Ne = 4
+phis = hatfunctions(range(0, l, Ne + 1))
+K_global = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+r_global = [b(phi_i) for phi_i = phis]
+uHat_global = K_global \ r_global;
+```
+
+Elementweise Berechnung
+
+::: {.tinh-solution}
+```{julia}
+N = Ne + 1
+h = l / Ne
+
+Ke = EA / h * [1 -1; -1 1] + C * h / 6 * [2 1; 1 2]
+re = n * h / 2 * [1, 1]
+
+K = zeros(N, N)
+r = zeros(N)
+
+for e = 1:Ne
+    Ie = [e, e + 1]
+    K[Ie, Ie] += Ke
+    r[Ie] += re
+end
+
+r[1] += F
+K[end, end] += S;
+```
+:::
+
+Näherungslösung
+
+::: {.tinh-solution}
+```{julia}
+uHat = K \ r
+uh = uHat ⋅ phis
+fplot(uh)
+```
+:::
+
+Vergleich mit der globalen Integration
+
+::: {.tinh-solution}
+```{julia}
+[uHat uHat_global]
+```
+:::
+
+## Netze in Julia
+
 FE-Netz
 
 ::: {.tinh-solution}
@@ -39,37 +149,6 @@ for e = elements(m)
     println(e)
     println(nodeindices(e))
 end
-```
-:::
-
-Addition einer Untermatrix mit Indexvektor
-
-::: {.tinh-solution}
-```{julia}
-I = [4, 1]
-K = reshape(collect(1:16), 4, 4)
-Ke = [100 200; 300 400]
-
-display(K)
-display(Ke)
-display(K[I, I])
-
-K[I, I] += Ke
-
-display(K)
-```
-:::
-
-Dasselbe mit einer Assemblierungsmatrix
-
-::: {.tinh-solution}
-```{julia}
-K = reshape(collect(1:16), 4, 4)
-Ke = [100 200; 300 400]
-Ae = [0 0 0 1; 1 0 0 0]
-K += Ae' * Ke * Ae
-
-display(K)
 ```
 :::
 
@@ -108,46 +187,9 @@ display(re_func(e8))
 ```
 :::
 
-## Gleichungssystem in Julia
+## Gleichungssystem mit Netz
 
-Systemparameter vom vorigen Aufgabenblatt
-
-::: {.tinh-solution}
-```{julia}
-# Basiswerte
-E = 35e9
-d = 0.8
-l = 20
-F = 2e6
-ρ = 2500
-g = 9.81
-S = 120e6
-c = 1.75e7
-
-# Abgeleitete Werte
-C = c * π * d
-A = π * d^2 / 4
-EA = E * A
-n = ρ * g * A;
-```
-:::
-
-Globale Integration vom vorigen Aufgabenblatt
-
-::: {.tinh-solution}
-```{julia}
-a(u, δu) = integrate(EA * u' * δu' + C * u * δu, 0 .. l) + S * u(l) * δu(l)
-b(δu) = integrate(n * δu, 0 .. l) + F * δu(0)
-
-Ne = 4
-phis = hatfunctions(range(0, l, Ne + 1))
-K_global = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
-r_global = [b(phi_i) for phi_i = phis]
-uHat_global = K_global \ r_global;
-```
-:::
-
-Elementweise Berechnung
+Elementweise Berechnung mit Netz
 
 ::: {.tinh-solution}
 ```{julia}
@@ -170,20 +212,11 @@ r[1] += F;
 ```
 :::
 
-Näherungslösung
-
-::: {.tinh-solution}
-```{julia}
-uHat = K \ r
-uh = uHat ⋅ phis
-fplot(uh)
-```
-:::
-
 Vergleich mit der globalen Integration
 
 ::: {.tinh-solution}
 ```{julia}
+uHat = K \ r
 [uHat uHat_global]
 ```
 :::

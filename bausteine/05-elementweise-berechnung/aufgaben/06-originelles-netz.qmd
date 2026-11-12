@@ -1,0 +1,38 @@
+
+::: {#exr-originelles-netz}
+## Originell nummeriertes Netz
+
+Stellen Sie für den Bohrpfahl mit dem originell nummerierten Netz aus der Aufgabe "Assemblierungsmatrizen" die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ auf. Alle Elemente haben die Länge $h$. Verwenden Sie die Elementsteifigkeitsmatrix und den Elementlastvektor aus der Aufgabe "Elementsteifigkeitsmatrix und Elementlastvektor" in der Form
+
+$$
+\mathbf{K}^e = \begin{bmatrix} \alpha & \beta \\ \beta & \alpha \end{bmatrix},
+\qquad
+\mathbf{r}^e = \frac{nh}{2} \begin{bmatrix} 1 \\ 1 \end{bmatrix}.
+$$
+
+Die Einzellast $F$ greift am linken Ende des Pfahls an, die Feder $S$ am rechten Ende. Vergleichen Sie mit der fortlaufenden Nummerierung.
+
+::: {.tinh-solution}
+Mit den Knotennummern der Elemente $\mathbf{I}^1 = [1, 4]^\top$, $\mathbf{I}^2 = [5, 2]^\top$, $\mathbf{I}^3 = [4, 5]^\top$ und $\mathbf{I}^4 = [3, 1]^\top$ werden die Einträge von $\mathbf{K}^e$ und $\mathbf{r}^e$ an den entsprechenden Stellen addiert. Das linke Ende ist Knoten 3, das rechte Knoten 2:
+
+$$
+\mathbf{K} =
+\begin{bmatrix}
+2\alpha & 0 & \beta & \beta & 0 \\
+0 & \alpha + S & 0 & 0 & \beta \\
+\beta & 0 & \alpha & 0 & 0 \\
+\beta & 0 & 0 & 2\alpha & \beta \\
+0 & \beta & 0 & \beta & 2\alpha
+\end{bmatrix},
+\qquad
+\mathbf{r} =
+\begin{bmatrix}
+nh \\ nh/2 \\ nh/2 + F \\ nh \\ nh
+\end{bmatrix}
+$$
+
+mit $\alpha = \frac{EA}{h} + \frac{Ch}{3}$ und $\beta = -\frac{EA}{h} + \frac{Ch}{6}$.
+
+Gegenüber der fortlaufenden Nummerierung (Knoten von links nach rechts in der Reihenfolge 3, 1, 4, 5, 2) sind nur Zeilen und Spalten vertauscht. $\mathbf{K}$ ist nach wie vor symmetrisch, die Bandstruktur geht aber verloren. Die Lösung $\hat{\mathbf{u}}$ enthält dieselben Werte in anderer Reihenfolge.
+:::
+:::

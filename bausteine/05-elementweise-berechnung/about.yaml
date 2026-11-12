@@ -4,7 +4,6 @@ titel: Elementweise Berechnung
 inhalt:
   - Elementsteifigkeitsmatrix und Elementlastvektor
   - Assemblierung
-  - Diskussion der Ergebnisse
 
 dauer: 1
 target: scaffold

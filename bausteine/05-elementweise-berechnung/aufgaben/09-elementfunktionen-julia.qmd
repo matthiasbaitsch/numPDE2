@@ -1,0 +1,21 @@
+::: {#exr-elementfunktionen-julia}
+## Elementfunktionen in Julia
+
+1. Parametrisierte Funktion: Was macht dieser Code?
+
+    ```{.julia}
+    function bsin(b)
+        function f(x)
+            return b * sin(x)
+        end
+        return f
+    end
+
+    f1 = bsin(1)
+    f2 = bsin(5)
+
+    println("f1(π/2) = ", f1(π / 2), ", f2(π/2) = ", f2(π / 2))
+    ```
+
+1. Programmieren Sie nach diesem Muster die Funktionen `pile_ke(EA, C)` und `pile_re(n)`. Sie geben jeweils eine Funktion zurück, die für ein Element `e` die Elementsteifigkeitsmatrix $\mathbf{K}^e$ bzw. den Elementlastvektor $\mathbf{r}^e$ aus der Aufgabe "Elementsteifigkeitsmatrix und Elementlastvektor" berechnet. Testen Sie die Funktionen an einem Element eines Netzes.
+:::

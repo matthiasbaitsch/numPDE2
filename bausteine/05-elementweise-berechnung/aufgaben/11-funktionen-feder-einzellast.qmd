@@ -1,4 +1,3 @@
-## Abstraktion
 
 ::: {#exr-funktionen-feder-einzellast}
 ## Funktionen für Feder und Einzellast
