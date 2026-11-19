@@ -36,10 +36,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/01-bohrpfahl-grundla
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grundlagen-aufgaben.html
 
-**Aufgaben (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grundlagen-aufgaben.pdf
-
 **Notebook zu den Aufgaben (Zip)**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grundlagen-aufgaben.zip
@@ -47,10 +43,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grund
 **Lösung**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grundlagen-aufgaben-loesung-c683bb27.html
-
-**Lösung (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/01-bohrpfahl-grundlagen-aufgaben-loesung-c683bb27.pdf
 
 **Lösung Notebook zu den Aufgaben (Zip)**
 
@@ -73,10 +65,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/02-bohrpfahl-lineare
 **Aufgaben**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-aufgaben.html
-
-**Aufgaben (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/02-bohrpfahl-lineare-raeume-und-variationsprobleme-aufgaben.pdf
 
 **Notebook zu den Aufgaben (Zip)**
 
@@ -104,10 +92,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/03-bohrpfahl-approxi
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-approximation-von-funktionen-aufgaben.html
 
-**Aufgaben (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-approximation-von-funktionen-aufgaben.pdf
-
 **Notebook zu den Aufgaben (Zip)**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-approximation-von-funktionen-aufgaben.zip
@@ -115,10 +99,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-appro
 **Lösung**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-approximation-von-funktionen-aufgaben-loesung-ed7ae60a.html
-
-**Lösung (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/03-bohrpfahl-approximation-von-funktionen-aufgaben-loesung-ed7ae60a.pdf
 
 **Lösung Notebook zu den Aufgaben (Zip)**
 
@@ -134,10 +114,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/04-bohrpfahl-numeris
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben.html
 
-**Aufgaben (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben.pdf
-
 **Notebook zu den Aufgaben (Zip)**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben.zip
@@ -145,10 +121,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numer
 **Lösung**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben-loesung-9d2e7d9f.html
-
-**Lösung (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/04-bohrpfahl-numerische-loesung-aufgaben-loesung-9d2e7d9f.pdf
 
 **Lösung Notebook zu den Aufgaben (Zip)**
 
@@ -164,10 +136,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/folien/c/05-bohrpfahl-element
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/05-bohrpfahl-elementweise-berechnung-aufgaben.html
 
-**Aufgaben (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/05-bohrpfahl-elementweise-berechnung-aufgaben.pdf
-
 **Notebook zu den Aufgaben (Zip)**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/05-bohrpfahl-elementweise-berechnung-aufgaben.zip
@@ -175,10 +143,6 @@ https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/05-bohrpfahl-eleme
 **Lösung**
 
 https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/05-bohrpfahl-elementweise-berechnung-aufgaben-loesung-d49f06fb.html
-
-**Lösung (PDF)**
-
-https://matthiasbaitsch.github.io/numPDE2/lernpfad/aufgaben/c/05-bohrpfahl-elementweise-berechnung-aufgaben-loesung-d49f06fb.pdf
 
 **Lösung Notebook zu den Aufgaben (Zip)**
 
