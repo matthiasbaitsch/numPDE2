@@ -1,7 +1,6 @@
 import { existsSync } from "jsr:@std/fs@1";
 import { join, relative } from "jsr:@std/path@1";
 import { QuartoFile } from "./actions/quarto-file.ts";
-import { BuildingBlockTree } from "./building-block-tree.ts";
 import { CollectionConfiguration } from "./collection-configuration.ts";
 import { replacePlaceholders } from "./utilities.ts";
 
@@ -24,11 +23,9 @@ interface CollectionLinks {
 // Pages with the links to the products of all collections, for the teacher, not published
 export class LinkPages {
   readonly learningMaterialFolder: string;
-  readonly tree: BuildingBlockTree;
 
-  constructor(learningMaterialFolder: string, tree: BuildingBlockTree) {
+  constructor(learningMaterialFolder: string) {
     this.learningMaterialFolder = learningMaterialFolder;
-    this.tree = tree;
   }
 
   // Links into the rendered output, relative to the learning material folder
@@ -85,7 +82,7 @@ ${sections.join("\n\n")}
 
   private collection(name: string): CollectionLinks {
     const collectionFolder = join(this.learningMaterialFolder, name);
-    const configuration = new CollectionConfiguration(collectionFolder, this.tree);
+    const configuration = new CollectionConfiguration(collectionFolder);
     const linked = configuration.recipe().actions.filter((action): action is QuartoFile =>
       action instanceof QuartoFile && action.link !== undefined
     );

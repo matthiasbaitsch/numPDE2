@@ -1,0 +1,10 @@
+# Replacements in the code of executable cells, per processing step and language of the cell; all steps or all
+# languages if missing
+
+replacements:
+  # Julia: Quarto runs `include`; in the work files, Revise's `includet`, commented out until the student has the file
+  - scope:
+      steps: [exercise-scaffold]
+      languages: [julia]
+    replace: 'include("src/'
+    with: '# includet("src/'

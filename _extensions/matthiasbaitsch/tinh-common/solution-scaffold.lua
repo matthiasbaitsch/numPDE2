@@ -21,7 +21,11 @@
 -- Läuft vor Quartos Filtern (pre-ast).
 local TARGETS = { solution = true, scaffold = true, blank = true }
 local TASKS = { full = true, title = true }
-local KINDS = { ["tinh-solution"] = "solution", ["tinh-scaffold"] = "scaffold", ["tinh-work"] = "work" }
+local KINDS = {
+  ["tinh-solution"] = "solution",
+  ["tinh-scaffold"] = "scaffold",
+  ["tinh-work"] = "work",
+}
 local LABELS = {
   de = { solution = "Lösung", scaffold = "Gerüst", none = "Keine Lösung." },
   en = { solution = "Solution", scaffold = "Scaffold", none = "No solution." },
@@ -53,11 +57,11 @@ local function has_solution(block)
   return found
 end
 
--- Aufgabe auf Titel und Lösung kürzen
+-- Aufgabe auf Titel (##) und Lösung kürzen, Abschnitte (###) außerhalb der Lösung fallen weg
 local function title_only(exercise, none)
   local content = pandoc.Blocks({})
   for _, block in ipairs(exercise.content) do
-    if block.t == "Header" or has_solution(block) then
+    if (block.t == "Header" and block.level <= 2) or has_solution(block) then
       content:insert(block)
     end
   end

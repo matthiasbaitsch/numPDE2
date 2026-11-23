@@ -1,6 +1,6 @@
 title: tinh-notes
 author: Matthias Baitsch
-version: 0.9.0
+version: 0.9.2
 quarto-required: ">=1.8.0"
 contributes:
   formats:

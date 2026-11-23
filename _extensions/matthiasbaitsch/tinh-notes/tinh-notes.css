@@ -46,3 +46,10 @@ dd {
   margin: 0.5rem 0 0 0;
   padding-left: 1rem;
 }
+
+/* Markdown-Tabellen (Bootstrap) nur so breit wie ihr Inhalt statt über die ganze Breite, zentriert */
+body .table {
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+}

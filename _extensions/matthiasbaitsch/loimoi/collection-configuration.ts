@@ -1,8 +1,10 @@
-import { basename, dirname, join } from "jsr:@std/path@1";
+import { existsSync } from "jsr:@std/fs@1";
+import { basename, dirname, isAbsolute, join } from "jsr:@std/path@1";
 import { BuildingBlockTree } from "./building-block-tree.ts";
+import { CodeReplacement } from "./code-replacement.ts";
 import { ProductConfiguration, ProductNaming } from "./product-configuration.ts";
 import { Recipe } from "./recipe.ts";
-import { configFile, conventions, gitHubPages, mergeYamlAlongPath, readYaml, Yaml } from "./utilities.ts";
+import { configFile, conventions, gitHubPages, mergeYamlAlongPath, readYaml, resolve, Yaml } from "./utilities.ts";
 
 export class CollectionConfiguration {
   private readonly collectionFolder: string;
@@ -13,9 +15,9 @@ export class CollectionConfiguration {
   private readonly firstNumber: number;
   private readonly outputFolderName: string;
   private readonly productNaming: ProductNaming;
-  private readonly tree: BuildingBlockTree;
+  readonly tree: BuildingBlockTree;
 
-  constructor(collectionFolder: string, tree: BuildingBlockTree) {
+  constructor(collectionFolder: string) {
     this.collectionFolder = collectionFolder;
     this.conventions = conventions();
     this.settings = mergeYamlAlongPath(this.learningMaterialFolder(), this.collectionFolderName(), "loimoi.yml");
@@ -25,7 +27,7 @@ export class CollectionConfiguration {
     if (this.productNaming !== "path" && this.productNaming !== "titles") {
       throw new Error(`product-naming must be path or titles, not ${this.productNaming}`);
     }
-    this.tree = tree;
+    this.tree = new BuildingBlockTree(this.buildingBlocksFolder());
   }
 
   outputFolder(): string {
@@ -39,7 +41,8 @@ export class CollectionConfiguration {
   recipe(): Recipe {
     const file = configFile(`recipes/${this.recipeName()}.yml`, this.learningMaterialFolder());
     const options = (this.settings.options ?? {}) as Record<string, string>;
-    return Recipe.read(file, options, this.outputFolder());
+    const replacements = CodeReplacement.read(configFile("code-replacements.yml", this.learningMaterialFolder()));
+    return Recipe.read(file, options, this.outputFolder(), replacements);
   }
 
   // Words for recipes and steps from `words/<language>.yml`; the language from `lang` in `loimoi.yml`, otherwise
@@ -90,6 +93,15 @@ export class CollectionConfiguration {
 
   private learningMaterialFolder(): string {
     return dirname(this.collectionFolder);
+  }
+
+  // `building-blocks` from `loimoi.yml`, relative to the learning material folder; otherwise found upward
+  private buildingBlocksFolder(): string {
+    const path = this.settings["building-blocks"] as string | undefined;
+    if (path === undefined) return resolve("building-blocks", this.collectionFolder);
+    const folder = isAbsolute(path) ? path : join(this.learningMaterialFolder(), path);
+    if (!existsSync(folder)) throw new Error(`building-blocks in loimoi.yml: no folder ${folder}`);
+    return folder;
   }
 
   private recipeName(): string {

@@ -2,6 +2,7 @@ import { Action, Placeholders } from "./actions/action.ts";
 import { Archive } from "./actions/archive.ts";
 import { QuartoFile } from "./actions/quarto-file.ts";
 import { Basket } from "./basket.ts";
+import { CodeReplacement } from "./code-replacement.ts";
 import { existsSync } from "jsr:@std/fs@1";
 import { join } from "jsr:@std/path@1";
 import { readYaml, Yaml } from "./utilities.ts";
@@ -21,7 +22,12 @@ export class Recipe {
   }
 
   // Only the actions whose `when` matches the options
-  static read(file: string, options: Record<string, string>, folder: string): Recipe {
+  static read(
+    file: string,
+    options: Record<string, string>,
+    folder: string,
+    replacements: CodeReplacement[],
+  ): Recipe {
     if (!existsSync(file)) throw new Error(`Recipe not found: ${file}`);
     const yaml = readYaml(file);
     const chosen = choose((yaml.options ?? {}) as Record<string, Option>, options, file);
@@ -30,7 +36,7 @@ export class Recipe {
     const quartoFiles = ((yaml["quarto-files"] ?? []) as Yaml[]).filter(matches);
     const archives = ((yaml.archives ?? []) as Yaml[]).filter(matches);
     const actions = [
-      ...quartoFiles.map((entry) => new QuartoFile(entry)),
+      ...quartoFiles.map((entry) => new QuartoFile(entry, replacements)),
       ...archives.map((entry) => new Archive(entry)),
     ];
     return new Recipe(actions, folder);

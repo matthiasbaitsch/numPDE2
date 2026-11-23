@@ -1,4 +1,4 @@
-# Logical name → names tried, upward from the working directory
+# Logical name → names tried, upward from the collection folder
 names:
   building-blocks: [building-blocks, bausteine]
 

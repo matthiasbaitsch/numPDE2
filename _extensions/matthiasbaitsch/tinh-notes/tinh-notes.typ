@@ -8,6 +8,10 @@
 #show heading.where(level: 4): set heading(numbering: none)
 #show heading.where(level: 5): set heading(numbering: none)
 
+// Tabellen zentriert wie in HTML (Quarto setzt Markdown-Tabellen ohne Titel als bloßes #table), Zellen ohne
+// Ausrichtung (auto) bleiben linksbündig
+#show table: it => align(center, block({ set align(left); it }))
+
 // Befehle (Klassen per commands.lua, z. B. [Begriff]{.neuerbegriff}), Farben wie tinh-notes.css
 #let neuerbegriff(body) = text(fill: rgb("#b13434"), weight: "semibold", body)
 #let eng(body) = emph(body)

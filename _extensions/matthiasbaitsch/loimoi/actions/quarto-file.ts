@@ -2,9 +2,11 @@ import { ensureDirSync, existsSync } from "jsr:@std/fs@1";
 import { basename, dirname, join, relative } from "jsr:@std/path@1";
 import { unzipSync, zipSync } from "npm:fflate@0.8";
 import { Basket } from "../basket.ts";
+import { CodeReplacement } from "../code-replacement.ts";
 import { AttachSrc } from "../processing-steps/attach-src.ts";
 import { MergeSetupCells } from "../processing-steps/merge-setup-cells.ts";
 import { Pipeline } from "../processing-steps/pipeline.ts";
+import { ReplaceCode } from "../processing-steps/replace-code.ts";
 import { ReplacePlaceholders } from "../processing-steps/replace-placeholders.ts";
 import { QmdDocument } from "../qmd-document.ts";
 import { replacePlaceholders, studentFiles, Yaml } from "../utilities.ts";
@@ -17,9 +19,11 @@ export class QuartoFile extends Action {
   readonly format: string; // `qmd` or `ipynb`
   readonly zip: boolean; // the file zipped and deleted
   readonly link?: string; // label on the link pages, with placeholders
+  readonly replacements: CodeReplacement[];
 
-  constructor(settings: Yaml) {
+  constructor(settings: Yaml, replacements: CodeReplacement[]) {
     super(settings);
+    this.replacements = replacements;
     this.title = settings.title as string | undefined;
     this.subtitle = settings.subtitle as string | undefined;
     this.process = (settings.process ?? []) as string[];
@@ -40,6 +44,7 @@ export class QuartoFile extends Action {
       pipeline.addStep(
         step === "attach-src" ? new AttachSrc(basket.files("src/*", { absolute: true }), placeholders.appendix) : step,
       );
+      pipeline.addStep(new ReplaceCode(step, this.replacements));
     }
     const doc = pipeline.run(QmdDocument.read(...basket.files("*.qmd", { absolute: true })));
 
