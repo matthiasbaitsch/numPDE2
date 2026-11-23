@@ -1,0 +1,172 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Utilities
+using MMJMesh.Geometries
+using SparseArrays
+using DifferentialEquations
+using CairoMakie: Figure, Axis, scatterlines!, update_theme!
+include("src/fem.jl")
+include("src/heat.jl")
+update_theme!(colormap=:acton)
+```
+
+::: {#exr-programmierung}
+## Programmierung
+
+### Element-Speichermatrix
+
+Implementieren Sie die Funktion `heat_me` analog zu `heat_ke`.
+
+::: {.lm-solution}
+Code von `heat_me` in `src/heat.jl` im Anhang.
+:::
+
+### Globale Speichermatrix
+
+Erstellen Sie die Funktion `assemble_kmr` mit der die globalen Matrizen $\mathbf{K}$ und $\mathbf{M}$ sowie der Vektor $\mathbf{r}$ zusammengebaut werden.
+
+::: {.lm-solution}
+Code von `assemble_kmr` in `src/fem.jl` im Anhang.
+:::
+
+### Verifikation
+
+Verifizieren Sie Ihren Code mit dem auf Moodle bereitgestellten Testproblem in `08-verifikation.ipynb`.
+
+::: {.lm-solution}
+Verification of transient solution of 1D rod from the [NAFEMS](https://www.nafems.org) test suite, see section "1D Single Equation" on [wolfram.com](https://reference.wolfram.com/language/PDEModels/tutorial/HeatTransfer/HeatTransferVerificationTests.html).
+
+Helper function to plot solution of initial value problem
+
+```{julia}
+function splot(sol)
+    t = sol.t
+    y = stack(sol.u, dims=1)
+    p = Figure()
+    Axis(p[1, 1])
+    for i = 1:size(y, 2)
+        scatterlines!(t, y[:, i])
+    end
+    p
+end
+```
+
+Mesh
+
+```{julia}
+write("rod.geo", raw"""
+SetFactory("OpenCASCADE");
+
+// measurment point
+Point(1) = {0.02, 0.005, 0, 1.0};
+
+// rectangle
+Rectangle(1) = {0.0, 0, 0, 0.1, 0.01, 0};
+
+// connect point to surface (https://stackoverflow.com/questions/36338025/how-to-ensure-node-points-in-gmsh)
+Point{1} In Surface {1};
+
+// physical groups
+Physical Point("p") = {1};
+Physical Curve("bl") = {4};
+Physical Curve("br") = {2};
+Physical Surface("s") = {1};
+
+// mesh
+MeshSize{:} = 0.002;
+Mesh 2;
+Save "rod.msh";
+""");
+```
+
+```{julia}
+m = Mesh("rod.geo")
+mplot(m, edgesvisible=true) |> mconf()
+```
+
+Element functions
+
+```{julia}
+setdata!(group(m, :elements), :ke_func, heat_ke(35))
+setdata!(group(m, :elements), :me_func, heat_me(7200, 440.5))
+```
+
+Boundary conditions: We use Robin BCs in order to impose Dirichlet BCs using a large value for the heat transfer coefficient  als penalty parameter.
+
+```{julia}
+pen = 1e10
+setdata!(group(m, :bl), :ke_func, robin_ke(pen))
+setdata!(group(m, :bl), :re_func, robin_re(pen, 1))
+setdata!(group(m, :br), :ke_func, robin_ke(pen))
+```
+
+System matrices and vector
+
+```{julia}
+K, M, r = assemble_kmr(m)
+```
+
+Initial condition
+
+```{julia}
+t0 = zeros(nnodes(m));
+```
+
+Solve initial value problem, see
+
+- https://docs.sciml.ai/DiffEqDocs/latest/tutorials/faster_ode_example/
+- https://docs.sciml.ai/DiffEqDocs/latest/solvers/split_ode_solve/
+- https://docs.sciml.ai/DiffEqDocs/latest/tutorials/advanced_ode_example/
+
+Use recommended method
+
+```{julia}
+F(ΘHat, _, t) = -K * ΘHat + 100 * sin(pi * t / 40) * r
+JF(_, _, _) = -K
+FM = ODEFunction(F, mass_matrix=M, jac=JF);
+p = ODEProblem(FM, t0, [0.0, 32.0])
+@time s1 = solve(p, QNDF())
+splot(s1)
+```
+
+Euler's method (just to try it, not accurate), does not work for large pentalty factor
+
+```{julia}
+pen = 1e4
+setdata!(group(m, :bl), :ke_func, robin_ke(pen))
+setdata!(group(m, :bl), :re_func, robin_re(pen, 1))
+setdata!(group(m, :br), :ke_func, robin_ke(pen))
+K, M, r = assemble_kmr(m)
+
+luM = lu(M)
+F(ΘHat, _, t) = luM \ (-K * ΘHat + 100 * sin(pi * t / 40) * r)
+p = ODEProblem(F, t0, (0.0, 32.0))
+
+@time s3 = solve(p, Euler(), dt=0.01)
+splot(s3)
+```
+
+Plot results
+
+```{julia}
+mplot(m, s1.u[end]) |> mconf()
+```
+
+Compare to reference value: The relative error should be smaller than one permille.
+
+```{julia}
+tref = 36.6
+tact = s1.u[end][nodeindex(m, on(Point(0.02, 0.005)))]
+error = abs(tref - tact) / tref
+
+println("   Temperature: ", tact)
+println("Relative error: ", error)
+println("   Test passed: ", error < 1e-3)
+```
+:::
+:::

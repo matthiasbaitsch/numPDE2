@@ -1,10 +1,19 @@
 /* Stil für tinh-assignments */
 
-/* Abschnitte in Aufgaben (###) nicht größer als der Titel der Aufgabe */
+/* Abschnitte in Aufgaben (###) nicht größer als der Titel der Aufgabe, stahlblau damit sie nicht wichtiger
+   wirken als die Aufgabe */
 h3 {
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: normal;
+  color: steelblue;
   margin-top: 1.5rem;
+}
+
+/* Markdown-Tabellen (Bootstrap) nur so breit wie ihr Inhalt statt über die ganze Breite, zentriert */
+body .table {
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Niedrigere Tabellenzeilen: Markdown-Tabellen (Bootstrap) und gt-Tabellen */

@@ -12,7 +12,7 @@ $$
 
 Die Einzellast $F$ greift am linken Ende des Pfahls an, die Feder $S$ am rechten Ende. Vergleichen Sie mit der fortlaufenden Nummerierung.
 
-::: {.tinh-solution}
+::: {.lm-solution}
 Mit den Knotennummern der Elemente $\mathbf{I}^1 = [1, 4]^\top$, $\mathbf{I}^2 = [5, 2]^\top$, $\mathbf{I}^3 = [4, 5]^\top$ und $\mathbf{I}^4 = [3, 1]^\top$ werden die Einträge von $\mathbf{K}^e$ und $\mathbf{r}^e$ an den entsprechenden Stellen addiert. Das linke Ende ist Knoten 3, das rechte Knoten 2:
 
 $$

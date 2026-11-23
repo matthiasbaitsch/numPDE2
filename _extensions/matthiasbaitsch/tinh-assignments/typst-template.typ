@@ -17,9 +17,9 @@
   set text(font: font) if font != none
   set par(justify: true, leading: 0.65em)
   show heading: set block(below: 1em)
-  // Abschnitte in Aufgaben (###) nicht größer als der Titel der Aufgabe. Quarto verschiebt die Ebenen in Typst,
-  // ### kommt daher als Ebene 2 an
-  show heading.where(level: 2).or(heading.where(level: 3)): set text(size: fontsize)
+  // Abschnitte in Aufgaben (###) nicht größer als der Titel der Aufgabe, stahlblau damit sie nicht wichtiger
+  // wirken als die Aufgabe. Quarto verschiebt die Ebenen in Typst, ### kommt daher als Ebene 2 an
+  show heading.where(level: 2).or(heading.where(level: 3)): set text(size: fontsize, weight: "regular", fill: rgb("#4682b4"))
 
   if title != none {
     block(inset: (y: 0em), below: 3em)[
@@ -39,6 +39,10 @@
   inset: 4pt,
   stroke: none
 )
+
+// Tabellen zentriert wie in HTML (Quarto setzt Markdown-Tabellen ohne Titel als bloßes #table), Zellen ohne
+// Ausrichtung (auto) bleiben linksbündig
+#show table: it => align(center, block({ set align(left); it }))
 
 // gt-Tabellen kommen über Quartos CSS-Übersetzung mit fest 12pt (16px) an
 #show table: it => context {

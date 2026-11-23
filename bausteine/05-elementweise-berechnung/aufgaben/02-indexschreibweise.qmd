@@ -14,7 +14,7 @@ $$
 
 1. Welche Einträge von $(\mathbf{A}^e)^\top {} \mathbf{K}^e \mathbf{A}^e$ sind von null verschieden? Verwenden Sie die Knotennummern der Elemente aus der vorigen Aufgabe.
 
-::: {.tinh-solution}
+::: {.lm-solution}
 **Zu Punkt 1 (Indexschreibweise)**
 
 Mit $\mathbf{B} = \mathbf{K}^e \mathbf{A}^e$ ist $B_{kj} = \sum_{l=1}^{2} K^e_{kl} A^e_{lj}$. Wegen $\left((\mathbf{A}^e)^\top\right)_{ik} = A^e_{ki}$ folgt

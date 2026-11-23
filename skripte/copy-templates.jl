@@ -15,7 +15,7 @@ function workspace_name(path, _)
     end
     # e.g. bausteine/01-grundlagen/aufgaben/projekt -> aufgaben-grundlagen
     m = match(r"bausteine/\d\d-([\w-]+)/(\w+)/", path)
-    s = replace(basename(path), r"^projekt" => "")
+    s = replace(basename(path), r"^_?projekt" => "")
     return m[2] * "-" * m[1] * s * ".code-workspace"
 end
 

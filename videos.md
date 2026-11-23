@@ -2,7 +2,7 @@
 
 Playlist: https://www.youtube.com/playlist?list=PL6vWYvxvcmvbcSs1kfBbEWyKV1knp5Gxt
 
-44 Videos, insgesamt 9:59 h. Zuordnung zu den Bausteinen über die Nummern der handschriftlichen Notizen (`bausteine/*/folien/notizen/`), innerhalb eines Bausteins nach Nummer im Titel. „Pl.“ ist die Position in der Playlist.
+47 Videos, insgesamt 10:57 h. Zuordnung zu den Bausteinen über die Nummern der handschriftlichen Notizen (`bausteine/*/folien/notizen/`), innerhalb eines Bausteins nach Nummer im Titel. „Pl.“ ist die Position in der Playlist.
 
 ## Veranstaltung: Einführung
 
@@ -76,48 +76,65 @@ Keine Videos
 
 ## 07 Wärmeleitung: Grundlagen
 
-12 Videos, 3:02 h
+6 Videos, 1:20 h
 
 | Pl. | Titel | Deutsch | Dauer | Link |
 |---|---|---|---|---|
-| 32 | NP 2D 0.1 Functions R to R and Gradient | Funktionen ℝ² → ℝ und Gradient | 18:37 | https://youtu.be/7UcNDM48RTo |
-| 31 | NP 2D 0.2 Vector fields R2 to R2 and divergence | Vektorfelder und Divergenz | 12:22 | https://youtu.be/__bEpz5xZeQ |
-| 30 | NP 2D 0.3 Divergence of product | Divergenz eines Produkts | 5:52 | https://youtu.be/wdyC0KTKvyo |
-| 29 | NP 2D 0.4 Physical interpretation of Divergence | Physikalische Bedeutung der Divergenz | 19:01 | https://youtu.be/p1YZqbi_yE8 |
-| 27 | NP 2D 0.5 Divergence theorem | Divergenzsatz | 18:21 | https://youtu.be/tTj8xDBigcE |
-| 28 | NP 2D 0.6 Integration by parts in 2D | Partielle Integration in 2D | 6:12 | https://youtu.be/DU-Rdg8Cbxw |
-| 26 | NP 2D 01.1 Heat conduction: Boundary value problem | Wärmeleitung: Randwertproblem | 1:45 | https://youtu.be/WZYWZorHyUs |
-| 25 | NP 2D 01.2 Physical background | Physikalischer Hintergrund | 15:00 | https://youtu.be/mSgCrtDM7GE |
-| 33 | NP 2D 02 Weak formulation | Schwache Form | 35:14 | https://youtu.be/4iTxGZG0V3Q |
-| 34 | NP 2D 03 1 Global basis functions | Globale Basisfunktionen | 18:25 | https://youtu.be/YJRda6HRw1M |
-| 35 | NP 2D 03 2 Linear element functions on triangle | Lineare Formfunktionen auf Dreiecken | 11:54 | https://youtu.be/1pMoTC-d_Uo |
-| 36 | NP 2D 03 3 Element conductivity matrix | Elementleitfähigkeitsmatrix | 19:43 | https://youtu.be/SeWl2uEtlCU |
+| 25 | NP 2D 0.1 Functions R to R and Gradient | Funktionen ℝ² → ℝ und Gradient | 18:37 | https://youtu.be/7UcNDM48RTo |
+| 26 | NP 2D 0.2 Vector fields R2 to R2 and divergence | Vektorfelder und Divergenz | 12:22 | https://youtu.be/__bEpz5xZeQ |
+| 27 | NP 2D 0.3 Divergence of product | Divergenz eines Produkts | 5:52 | https://youtu.be/wdyC0KTKvyo |
+| 28 | NP 2D 0.4 Physical interpretation of Divergence | Physikalische Bedeutung der Divergenz | 19:01 | https://youtu.be/p1YZqbi_yE8 |
+| 29 | NP 2D 0.5 Divergence theorem | Divergenzsatz | 18:21 | https://youtu.be/tTj8xDBigcE |
+| 30 | NP 2D 0.6 Integration by parts in 2D | Partielle Integration in 2D | 6:12 | https://youtu.be/DU-Rdg8Cbxw |
 
-## 08 Wärmeleitung: Dirichlet-Randbedingungen
+## 08 Wärmeleitung: Mathematische Formulierung
+
+6 Videos, 1:50 h
+
+| Pl. | Titel | Deutsch | Dauer | Link |
+|---|---|---|---|---|
+| 31 | NP 2D 01.1 Heat conduction: Boundary value problem | Wärmeleitung: Randwertproblem | 1:45 | https://youtu.be/WZYWZorHyUs |
+| 32 | NP 2D 01.2 Physical background | Physikalischer Hintergrund | 15:00 | https://youtu.be/mSgCrtDM7GE |
+| 33 | NP 2D 01.3 Partial differential equation | Partielle Differentialgleichung | 33:20 | https://youtu.be/EtjoFXxYtw4 |
+| 34 | NP 2D 01.4 Boundary conditions | Randbedingungen | 13:34 | https://youtu.be/dEucr-LOQKg |
+| 35 | NP 2D 01.5 Formulation of boundary value problem | Formulierung des Randwertproblems | 11:13 | https://youtu.be/9JwCmkXZTcw |
+| 36 | NP 2D 02 Weak formulation | Schwache Form | 35:14 | https://youtu.be/4iTxGZG0V3Q |
+
+## 09 Wärmeleitung: Approximation mit finiten Elementen
+
+3 Videos, 50 min
+
+| Pl. | Titel | Deutsch | Dauer | Link |
+|---|---|---|---|---|
+| 37 | NP 2D 03 1 Global basis functions | Globale Basisfunktionen | 18:25 | https://youtu.be/YJRda6HRw1M |
+| 38 | NP 2D 03 2 Linear element functions on triangle | Lineare Formfunktionen auf Dreiecken | 11:54 | https://youtu.be/1pMoTC-d_Uo |
+| 39 | NP 2D 03 3 Element conductivity matrix | Elementleitfähigkeitsmatrix | 19:43 | https://youtu.be/SeWl2uEtlCU |
+
+## 10 Wärmeleitung: Dirichlet-Randbedingungen
 
 3 Videos, 58 min
 
 | Pl. | Titel | Deutsch | Dauer | Link |
 |---|---|---|---|---|
-| 37 | NP 2D 04 Dirichlet-Randbedingungen | Dirichlet-Randbedingungen | 17:22 | https://youtu.be/SKo37S8EkU0 |
-| 39 | NP 2D 05.1 Netzgenerierung | Netzgenerierung | 22:29 | https://youtu.be/1IRFlwe1B28 |
-| 38 | NP 2D 05.2 Komplexe Geometrie | Komplexe Geometrie | 18:45 | https://youtu.be/OZP2opanYh0 |
+| 40 | NP 2D 04 Dirichlet-Randbedingungen | Dirichlet-Randbedingungen | 17:22 | https://youtu.be/SKo37S8EkU0 |
+| 42 | NP 2D 05.1 Netzgenerierung | Netzgenerierung | 22:29 | https://youtu.be/1IRFlwe1B28 |
+| 41 | NP 2D 05.2 Komplexe Geometrie | Komplexe Geometrie | 18:45 | https://youtu.be/OZP2opanYh0 |
 
-## 09 Wärmeleitung: Robin-Randbedingungen
+## 11 Wärmeleitung: Robin-Randbedingungen
 
 1 Video, 27 min
 
 | Pl. | Titel | Deutsch | Dauer | Link |
 |---|---|---|---|---|
-| 40 | NP 2D 06 Robin-Randbedingungen | Robin-Randbedingungen | 27:02 | https://youtu.be/3wjQmjyDQa0 |
+| 43 | NP 2D 06 Robin-Randbedingungen | Robin-Randbedingungen | 27:02 | https://youtu.be/3wjQmjyDQa0 |
 
-## 10 Wärmeleitung: Instationäre Probleme
+## 12 Wärmeleitung: Instationäre Probleme
 
 1 Video, 21 min
 
 | Pl. | Titel | Deutsch | Dauer | Link |
 |---|---|---|---|---|
-| 41 | NP 2D 07.1 Wärmeleitung instationär | Wärmeleitung instationär | 21:30 | https://youtu.be/xWBZW5xCHZk |
+| 44 | NP 2D 07.1 Heat conduction transient | Wärmeleitung instationär | 21:30 | https://youtu.be/xWBZW5xCHZk |
 
 ## Noch kein Baustein: Elastizität (geplant, siehe todo.md)
 
@@ -125,14 +142,12 @@ Keine Videos
 
 | Pl. | Titel | Deutsch | Dauer | Link |
 |---|---|---|---|---|
-| 42 | NP 2D 08.1 Scheiben | Scheiben | 5:33 | https://youtu.be/f-QtYhCim2A |
-| 43 | NP 2D 08.2 Annahmen und Problemstellung | Annahmen und Problemstellung | 8:41 | https://youtu.be/ri3E2O-egg4 |
-| 44 | NP 2D 08.3 Verzerrungen | Verzerrungen | 13:36 | https://youtu.be/PlNJ2pIY-P4 |
+| 45 | NP 2D 08.1 Discs | Scheiben | 5:33 | https://youtu.be/f-QtYhCim2A |
+| 46 | NP 2D 08.2 Assumptions and Problem Statement | Annahmen und Problemstellung | 8:41 | https://youtu.be/ri3E2O-egg4 |
+| 47 | NP 2D 08.3 Distortions | Verzerrungen | 13:36 | https://youtu.be/PlNJ2pIY-P4 |
 
 ## Reihenfolge in der Playlist
 
-Weicht an drei Stellen von der Nummerierung ab:
+Weicht an einer Stelle von der Nummerierung ab:
 
-- Pl. 25/26: 2D 01.2 vor 01.1
-- Pl. 27–32: 2D 0.1–0.6 in der Reihenfolge 0.5, 0.6, 0.4, 0.3, 0.2, 0.1 und hinter 2D 01
-- Pl. 38/39: 2D 05.2 vor 05.1
+- Pl. 41/42: 2D 05.2 vor 05.1

@@ -22,3 +22,7 @@ bausteine/*/*/projekt*/*.msh
 
 # Local Claude Code settings
 .claude/
+
+# Linkseiten von loi-moi (enthalten die Hashes der Lösungen)
+/lernpfad/links.html
+/lernpfad/links-site.html

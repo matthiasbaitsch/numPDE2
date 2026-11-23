@@ -1,0 +1,112 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Utilities
+using MMJMesh.Geometries
+using SparseArrays
+using DifferentialEquations
+using CairoMakie: Figure, Axis, scatter!, lines, scatterlines, scatterlines!, update_theme!
+include("src/fem.jl")
+include("src/heat.jl")
+update_theme!(colormap=:acton)
+```
+
+::: {#exr-thermischer-ausgleich}
+## Thermischer Ausgleich
+
+Simulieren Sie für die unten dargestellte Situation den Temperaturverlauf über eine Stunde. Über den Rand findet keine Wärmeübertragung statt.
+
+![](bilder/te.svg)
+
+Tipp: Die Knotennummern für die beiden Teilgebiete erhalten Sie mit
+
+```{.julia}
+nl = [i for i = nodeindices(m) if coordinate(node(m, i), 1) < 0.1]
+nr = [i for i = nodeindices(m) if coordinate(node(m, i), 1) > 0.1]
+```
+
+Eine bessere Lösung ist in Arbeit.
+
+::: {.lm-solution}
+Netz
+
+```{julia}
+write("thermal-equilibrium.geo", raw"""
+SetFactory("OpenCASCADE");
+
+Rectangle(1) = {0.0, 0, 0, 0.1, 0.1, 0};
+Rectangle(2) = {0.1, 0, 0, 0.1, 0.1, 0};
+
+Coherence;
+
+Physical Curve("c1") = {2};
+Physical Surface("s1") = {1};
+Physical Surface("s2") = {2};
+
+MeshSize{:} = 0.005;
+
+Mesh 2;
+
+Save "thermal-equilibrium.msh";
+""");
+```
+
+```{julia}
+m = Mesh("thermal-equilibrium.geo")
+
+nl = [i for i = nodeindices(m) if coordinate(node(m, i), 1) < 0.1]
+nr = [i for i = nodeindices(m) if coordinate(node(m, i), 1) > 0.1]
+
+p = mplot(m, edgesvisible=true) |> mconf()
+scatter!(coordinates(m, nl), color=:hotpink)
+scatter!(coordinates(m, nr), color=:steelblue)
+p
+```
+
+Elementfunktionen
+
+```{julia}
+setdata!(group(m, :elements), :ke_func, heat_ke(401))
+setdata!(group(m, :elements), :me_func, heat_me(8960, 3850))
+```
+
+Anfangswert
+
+```{julia}
+t0 = zeros(nnodes(m))
+t0[nl] .= -10
+t0[nr] .= 10
+mplot(m, t0) |> mconf()
+```
+
+Anfangswertproblem definieren und lösen
+
+```{julia}
+K, M, r = assemble_kmr(m)
+F(T, _, _) = -K * T
+JF(_, _, _) = -K
+p = ODEProblem(ODEFunction(F, jac=JF, mass_matrix=M), t0, [0.0, 3600.0])
+@time s = solve(p, QNDF());
+```
+
+Ergebnisse darstellen
+
+```{julia}
+t = s.t
+y = stack(s.u, dims=1)
+i1 = nodeindex(m, on(Point(0.0, 0.0)))
+i2 = nodeindex(m, on(Point(0.2, 0.0)))
+p = scatterlines(t, y[:, i1])
+scatterlines!(t, y[:, i2])
+p
+```
+
+```{julia}
+mplot(m, s[end], edgesvisible=true) |> mconf()
+```
+:::
+:::

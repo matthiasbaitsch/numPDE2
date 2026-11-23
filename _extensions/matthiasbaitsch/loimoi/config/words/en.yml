@@ -1,0 +1,9 @@
+# Words used in recipes and steps, as placeholders, e.g. `${exercise-sheet}`
+exercise-sheet: Exercise sheet
+solutions-to-exercise-sheet: Solutions to exercise sheet
+exercises: exercises
+solution: solution
+preview: preview
+appendix: Appendix
+solution-label: Solution
+preview-label: Preview

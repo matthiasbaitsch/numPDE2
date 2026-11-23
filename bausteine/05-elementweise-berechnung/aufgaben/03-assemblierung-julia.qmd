@@ -1,34 +1,89 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using LinearAlgebra
+import CairoMakie
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Mathematics
+```
+
 ::: {#exr-assemblierung-julia}
 ## Assemblierung in Julia
 
-Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Kopieren Sie die Code-Blöcke in das Notebook und führen Sie sie aus.
+Laden Sie hierfür das [Notebook](${work-files}) herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Kopieren Sie die Code-Blöcke in das Notebook und führen Sie sie aus.
 
-1. Addition einer Untermatrix mit Indexvektor:
+### Untermatrix mit Indexvektor
 
-    ```{.julia}
-    I = [4, 1]
-    K = reshape(collect(1:16), 4, 4)  # veränderbar mit collect
-    Ke = [100 200; 300 400]
+Addition einer Untermatrix mit Indexvektor:
 
-    display(K)
-    display(Ke)
-    display(K[I, I])
+```{.julia}
+I = [4, 1]
+K = reshape(collect(1:16), 4, 4)  # veränderbar mit collect
+Ke = [100 200; 300 400]
 
-    K[I, I] += Ke
+display(K)
+display(Ke)
+display(K[I, I])
 
-    display(K)
-    ```
+K[I, I] += Ke
 
-1. Passen Sie die Matrix `Ae` so an, dass Sie für `K` dasselbe Ergebnis wie oben erhalten:
+display(K)
+```
 
-    ```{.julia}
-    K = reshape(1:16, 4, 4)
-    Ke = [100 200; 300 400]
-    Ae = [0 0 0 0; 0 0 0 0]
-    K += Ae' * Ke * Ae
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
 
-    display(K)
-    ```
+::: {.lm-solution}
+```{julia}
+I = [4, 1]
+K = reshape(collect(1:16), 4, 4)  # veränderbar mit collect
+Ke = [100 200; 300 400]
 
-    Wie addieren Sie die Elementsteifigkeitsmatrizen zur globalen Matrix hinzu?
+display(K)
+display(Ke)
+display(K[I, I])
+
+K[I, I] += Ke
+
+display(K)
+```
+:::
+
+### Assemblierungsmatrix
+
+Passen Sie die Matrix `Ae` so an, dass Sie für `K` dasselbe Ergebnis wie oben erhalten:
+
+```{.julia}
+K = reshape(1:16, 4, 4)
+Ke = [100 200; 300 400]
+Ae = [0 0 0 0; 0 0 0 0]
+K += Ae' * Ke * Ae
+
+display(K)
+```
+
+Wie addieren Sie die Elementsteifigkeitsmatrizen zur globalen Matrix hinzu?
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+K = reshape(1:16, 4, 4)
+Ke = [100 200; 300 400]
+Ae = [0 0 0 1; 1 0 0 0]
+K += Ae' * Ke * Ae
+
+display(K)
+```
+:::
 :::

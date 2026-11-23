@@ -1,0 +1,177 @@
+```{julia}
+#| label: setup
+#| include: false
+using CairoMakie
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
+::: {#exr-balken-auf-zwei-federn-julia}
+## Balken auf zwei Federn mit Julia
+
+Überprüfen Sie mit Julia, ob die Funktion
+
+$$
+  w(x) =
+  q \cdot \frac{12 \cdot EI \cdot l + k \cdot l^3 \cdot x - 2 k \cdot l \cdot x^3 + k \cdot x^4}
+  {24 \cdot EI \cdot k}
+$$
+
+eine Lösung des Balkenproblems aus der vorigen Aufgabe ist. Laden Sie hierfür das [Notebook](${work-files}) herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es.
+
+::: {.callout-tip title="Tipps für Julia"}
+```{.julia}
+x = parameter(0 .. l)       # Variable x auf dem Intervall [0, l]
+w = 1 + x^2                 # Funktion von x
+w', w'', w'''               # Ableitungen von w
+w(0.5)                      # Funktion auswerten
+fplot(w, w')                # Funktionen plotten
+integrate(w, 0 .. l)        # Funktion w von 0 bis l integrieren
+x ≈ y                       # Vergleich mit Rundungstoleranz (\approx)
+```
+:::
+
+### Systemparameter
+
+Definieren Sie Zahlenwerte für die Systemparameter, zum Beispiel $l = 3.7$, $EI = 2.2$, $k = 3.9$ und $q = 1.1$.
+
+::: {.lm-scaffold}
+```{julia}
+l = 3.7
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+l = 3.7
+EI = 2.2
+k = 3.9
+q = 1.1
+```
+:::
+
+### Funktion $w$
+
+Stellen Sie die Funktion $w$ in Julia auf und plotten Sie den Graphen. Ist der Verlauf plausibel?
+
+::: {.lm-scaffold}
+```{julia}
+x = parameter(0 .. l)
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+x = parameter(0 .. l)
+w = q * (12*EI*l + k*l^3*x - 2*k*l*x^3 + k*x^4) / (24*EI*k)
+
+fplot(w, zero(x))
+```
+
+Der Verlauf ist plausibel: Die Biegelinie ist symmetrisch, und an den Enden ist $w$ gleich der Federsenkung $w(0) = w(l) = \frac{ql}{2k}$, weil jede Feder die halbe Last trägt.
+
+```{julia}
+println(w(0))
+println(q * l / (2 * k))
+```
+:::
+
+### Bilinearform und Linearform
+
+Stellen Sie die Bilinearform $a$ und die Linearform $b$ des Variationsproblems als Julia-Funktionen auf.
+
+::: {.lm-scaffold}
+```{julia}
+# a(w, δw) =
+# b(δw) =
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+a(w, δw) = EI*integrate(w'' * δw'', 0 .. l) + k*w(0)*δw(0) + k*w(l)*δw(l)
+b(δw) = q * integrate(δw, 0 .. l)
+```
+:::
+
+### Variationsproblem auswerten
+
+Überprüfen Sie die Bedingung $a(w, \delta w) = b(\delta w)$ für verschiedene Testfunktionen, zum Beispiel $\delta w(x) = \sin x + x$. Was können Sie aus dem Ergebnis schließen?
+
+::: {.lm-scaffold}
+Testfunktionen
+
+```{julia}
+# ...
+```
+
+Bedingung prüfen
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Testfunktionen
+
+```{julia}
+δw1 = sin(x) + x
+δw2 = one(x)
+δw3 = x^3/4 - 2x
+δw4 = cos(2x) * exp(x / 3)
+
+fplot(δw1, δw2, δw3, δw4)
+```
+
+Bedingung prüfen
+
+```{julia}
+println(a(w, δw1) ≈ b(δw1))
+println(a(w, δw2) ≈ b(δw2))
+println(a(w, δw3) ≈ b(δw3))
+println(a(w, δw4) ≈ b(δw4))
+```
+
+Die Bedingung ist für alle untersuchten Testfunktionen erfüllt. Das spricht dafür, dass $w$ die Lösung ist, beweist es aber nicht: Dafür müsste die Bedingung für *alle* Testfunktionen gelten, und wir können nur endlich viele ausprobieren.
+:::
+
+### Randwertproblem
+
+Prüfen Sie, ob $w$ das Randwertproblem löst.
+
+::: {.lm-scaffold}
+Differentialgleichung
+
+```{julia}
+# fplot
+```
+
+Randbedingungen
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Differentialgleichung
+
+```{julia}
+fplot(EI * w'''' - q)
+```
+
+Randbedingungen
+
+```{julia}
+println(-EI * w'''(0) ≈ k * w(0))
+println(-EI * w'''(l) ≈ -k * w(l))
+println(w''(0) ≈ 0)
+println(w''(l) ≈ 0)
+```
+
+Differentialgleichung und Randbedingungen sind erfüllt, $w$ löst also das Randwertproblem.
+:::
+:::

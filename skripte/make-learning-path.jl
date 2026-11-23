@@ -291,7 +291,6 @@ function make_learning_path(source::String, target::String)
 
     components = [
         (make_slides, building_blocks_folder, "folien"),
-        (make_assignments, building_blocks_folder, "aufgaben"),
         (make_course, joinpath(learning_path_folder, "veranstaltung"), "veranstaltung"),
     ]
 

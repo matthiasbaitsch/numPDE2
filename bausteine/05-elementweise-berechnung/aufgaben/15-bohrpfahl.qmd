@@ -1,7 +1,87 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using LinearAlgebra
+import CairoMakie
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Mathematics
+```
+
 ## Anwendung
 
 ::: {#exr-bohrpfahl}
 ## Bohrpfahl elementweise
 
 Kopieren Sie die Funktion `pile_fem` aus Ihrem Notebook zum vorigen Aufgabenblatt. Schreiben Sie eine Funktion `pile_fem_elementwise(Ne)`, die die Näherungslösung $u_h$ mithilfe von `assemble_kr` berechnet. Überprüfen Sie für einige Werte von $N_e$, dass Sie dieselbe Näherungslösung erhalten wie mit `pile_fem`.
+
+::: {.lm-scaffold}
+Funktion vom vorigen Aufgabenblatt
+
+```{julia}
+# ...
+```
+
+Elementweise Berechnung
+
+```{julia}
+# ...
+```
+
+Vergleich
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Funktion vom vorigen Aufgabenblatt
+
+```{julia}
+function pile_fem(Ne)
+    a(u, δu) = integrate(EA * u' * δu' + C * u * δu, 0 .. l) + S * u(l) * δu(l)
+    b(δu) = integrate(n * δu, 0 .. l) + F * δu(0)
+    phis = hatfunctions(range(0, l, Ne + 1))
+    K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+    r = [b(phi_i) for phi_i = phis]
+    uHat = K \ r
+    uh = uHat ⋅ phis
+    return uh
+end
+```
+
+Elementweise Berechnung
+
+```{julia}
+include("src/fem.jl")
+include("src/pile.jl")
+
+function pile_fem_elementwise(Ne)
+    m = Mesh(0 .. l, Ne)
+    setdata!(group(m, :elements), :ke_func, pile_ke(EA, C))
+    setdata!(group(m, :elements), :re_func, pile_re(n))
+    setdata!(node(m, nnodes(m)), :ke_func, spring(S))
+    setdata!(node(m, 1), :re_func, force(F))
+    K, r = assemble_kr(m)
+    uHat = K \ r
+    uh = uHat ⋅ hatfunctions(range(0, l, Ne + 1))
+    return uh
+end
+```
+
+Vergleich
+
+```{julia}
+for Ne = [2, 8, 32]
+    xs = range(0, l, Ne + 1)
+    uh_global = pile_fem(Ne)
+    uh_elementwise = pile_fem_elementwise(Ne)
+    println("Ne = ", Ne, ": größte Differenz an den Knoten ",
+        maximum(abs.(uh_global.(xs) - uh_elementwise.(xs))))
+end
+```
+:::
 :::

@@ -1,0 +1,31 @@
+::: {#exr-element-speichermatrix}
+## Herleitung der Element-Speichermatrix
+
+1. Skizzieren Sie die Graphen der Funktionen $\hat{N}_i, \; i = 1, 2, 3$ über dem Einheitsdreieck $\hat\Omega$
+
+1. Stellen Sie die Element-Speichermatrix $\mathbf{M}^e$ auf
+
+::: {.lm-solution}
+Element-Speichermatrix mit symbolischer Integration:
+
+```{julia}
+using Symbolics
+using SymbolicNumericIntegration
+
+# Kurzschreibweise für symbolische Integration
+integrates(f, d) = integrate(f, d, symbolic=true, detailed=false)
+
+# Symbolische Variablen
+@syms Ae xi1 xi2
+
+# Elementfunktionen auf Referenzdreieck
+Nhat = [xi1, xi2, 1 - xi1 - xi2]
+
+# Element-Bilinearform für Massenmatrix
+am(Nhati, NHatj) = integrates(integrates(Nhati * NHatj, (xi2, 0, 1 - xi1)), (xi1, 0, 1))
+
+# Massenmatrix ausrechnen
+Me = 2 * Ae * [am(Nhati, Nhatj) for Nhati = Nhat, Nhatj = Nhat]
+```
+:::
+:::

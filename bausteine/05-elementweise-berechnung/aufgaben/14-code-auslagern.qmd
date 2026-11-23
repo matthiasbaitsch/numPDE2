@@ -3,4 +3,8 @@
 ## Code in Dateien auslagern
 
 Verschieben Sie die Funktionen für den Bohrpfahl in eine Datei `pile.jl` und die Funktion für das Gleichungssystem in eine Datei `fem.jl`. Stellen Sie sicher, dass Ihr Notebook nach wie vor ausgeführt werden kann.
+
+::: {.lm-solution}
+Die Funktionen für den Bohrpfahl stehen in `src/pile.jl`, die Funktion für das Gleichungssystem in `src/fem.jl` (im Anhang).
+:::
 :::

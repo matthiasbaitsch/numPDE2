@@ -27,7 +27,7 @@ Aufgaben:
 
 Tipp: Schauen Sie sich nochmal die Lagrange-Polynome an. Diese Aufgabe erfordert keinerlei Rechnungen, Skizze reicht!
 
-::: {.tinh-solution}
+::: {.lm-solution}
 ![](bilder/quadratische-basisfunktionen-loesung-1.png){width="60%" fig-align="center"}
 
 ![](bilder/quadratische-basisfunktionen-loesung-2.png){width="60%" fig-align="center"}

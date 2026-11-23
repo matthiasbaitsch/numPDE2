@@ -1,17 +1,65 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using LinearAlgebra
+import CairoMakie
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Mathematics
+```
 
 ::: {#exr-funktion-gleichungssystem}
 ## Funktion für das Gleichungssystem
 
-1. Funktion mit zwei Rückgabewerten
+### Funktion mit zwei Rückgabewerten
 
-    ```{.julia}
-    function test(x)
-        return x, x^2
-    end
+```{.julia}
+function test(x)
+    return x, x^2
+end
 
-    y1, y2 = test(2)
-    println("y1 = ", y1, ", y2 = ", y2)
-    ```
+y1, y2 = test(2)
+println("y1 = ", y1, ", y2 = ", y2)
+```
 
-1. Erstellen Sie die Funktion `assemble_kr(m)`, die für ein Netz `m` die globale Steifigkeitsmatrix $\mathbf{K}$ und den globalen Lastvektor $\mathbf{r}$ zurückgibt. Die Funktionen für Elemente und Knoten sind im Netz unter den Namen `:ke_func` und `:re_func` gespeichert; Elemente und Knoten ohne gespeicherte Funktion tragen nichts bei. Überprüfen Sie, dass Sie für den Bohrpfahl mit $N_e = 4$ Elementen dasselbe $\hat{\mathbf{u}}$ erhalten wie mit der globalen Integration.
+```{julia}
+#| include: true
+function test(x)
+    return x, x^2
+end
+
+y1, y2 = test(2)
+println("y1 = ", y1, ", y2 = ", y2)
+```
+
+### Gleichungssystem für den Bohrpfahl
+
+Erstellen Sie die Funktion `assemble_kr(m)`, die für ein Netz `m` die globale Steifigkeitsmatrix $\mathbf{K}$ und den globalen Lastvektor $\mathbf{r}$ zurückgibt. Die Funktionen für Elemente und Knoten sind im Netz unter den Namen `:ke_func` und `:re_func` gespeichert; Elemente und Knoten ohne gespeicherte Funktion tragen nichts bei. Überprüfen Sie, dass Sie für den Bohrpfahl mit $N_e = 4$ Elementen dasselbe $\hat{\mathbf{u}}$ erhalten wie mit der globalen Integration.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Code von `assemble_kr` in `src/fem.jl` im Anhang.
+
+```{julia}
+include("src/pile.jl")
+include("src/fem.jl")
+
+m = Mesh(0 .. l, 4)
+setdata!(group(m, :elements), :ke_func, pile_ke(EA, C))
+setdata!(group(m, :elements), :re_func, pile_re(n))
+setdata!(node(m, nnodes(m)), :ke_func, spring(S))
+setdata!(node(m, 1), :re_func, force(F))
+
+K, r = assemble_kr(m)
+uHat = K \ r
+uHat
+```
+:::
 :::

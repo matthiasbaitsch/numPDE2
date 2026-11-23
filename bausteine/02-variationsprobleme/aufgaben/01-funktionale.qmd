@@ -1,3 +1,12 @@
+```{julia}
+#| label: setup
+#| include: false
+using CairoMakie
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
 ::: {#exr-funktionale}
 ## Bilinearformen und Skalarprodukte
 
@@ -21,10 +30,190 @@ Beantworten Sie für jedes Funktional die folgenden Fragen:
 - Ist $a$ positiv definit?
 - Ist $a$ ein Skalarprodukt?
 
-Julia hilft Ihnen dabei, Gegenbeispiele zu finden. Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es.
+Julia hilft Ihnen dabei, Gegenbeispiele zu finden. Laden Sie hierfür das [Notebook](${work-files}) herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Im Notebook sind einige Testfunktionen definiert.
 
-1. Im Notebook sind einige Testfunktionen definiert, und für das Funktional (a) sind die Eigenschaften als Beispiel schon mit diesen Testfunktionen geprüft. Interpretieren Sie das Ergebnis und gehen Sie für die Funktionale (b) bis (f) genauso vor.
+::: {.lm-scaffold}
+Funktionen zum Testen
+:::
 
-1. Was können Sie aus der Prüfung mit einzelnen Testfunktionen schließen, und was nicht?
+```{julia}
+l = 1.5                   # Irgendeine Länge
+x = parameter(0 .. l)     # Parameter
+u1 = sin(3*x)             # Sinusfunktion
+u2 = x                    # Lineare Funktion
+u3 = constant(x, 1.0)     # Konstante Funktion
 
+fplot(u1, u2, u3)
+```
+
+### Beispiel: Funktional (a)
+
+Für das Funktional (a) sind die Eigenschaften im Notebook als Beispiel schon mit den Testfunktionen geprüft. Interpretieren Sie das Ergebnis.
+
+```{julia}
+a(u, v) = integrate(u' * v', 0 .. l)
+
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+println("l2: ", a(u1, u2 + u3) ≈ a(u1, u2) + a(u1, u3))
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
+println(" s: ", a(u1, u2) ≈ a(u2, u1))
+println("pd: ", a(u3, u3) > 0)
+```
+
+::: {.lm-scaffold}
+→ ?
+:::
+
+::: {.lm-solution}
+→ Symmetrische Bilinearform, aber nicht positiv definit: Für die konstante Funktion $u_3 \neq 0$ ist $a(u_3, u_3) = 0$, weil $u_3' = 0$.
+:::
+
+### Funktionale (b) bis (f)
+
+Gehen Sie für die Funktionale (b) bis (f) genauso vor.
+
+::: {.lm-scaffold}
+Funktional (b)
+
+```{julia}
+# ...
+```
+
+→ ?
+
+Funktional (c)
+
+```{julia}
+# ...
+```
+
+→ ?
+
+Funktional (d)
+
+```{julia}
+# ...
+```
+
+→ ?
+
+Funktional (e)
+
+```{julia}
+# ...
+```
+
+→ ?
+
+Funktional (f)
+
+```{julia}
+# ...
+```
+
+→ ?
+:::
+
+::: {.lm-solution}
+Funktional (b)
+
+```{julia}
+a(u, v) = integrate(u + v, 0 .. l)
+
+println(a(u1 + u2, u3), " ", a(u1, u3) + a(u2, u3))
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+```
+
+→ Keine Bilinearform
+
+Funktional (c)
+
+```{julia}
+a(u, v) = 42
+
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
+```
+
+→ Keine Bilinearform
+
+Funktional (d)
+
+```{julia}
+a(u, v) = u(0) * v(l)
+
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+println("l2: ", a(u1, u2 + u3) ≈ a(u1, u2) + a(u1, u3))
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
+println(" s: ", a(u3, u2) ≈ a(u2, u3))
+println("pd: ", a(u2, u2) > 0)
+```
+
+→ Bilinearform, aber nicht symmetrisch ($a(u_3, u_2) = l$, $a(u_2, u_3) = 0$) und nicht positiv definit ($a(u_2, u_2) = 0$ für $u_2 \neq 0$)
+
+Funktional (e)
+
+```{julia}
+a(u, v) = integrate(u * v, 0 .. l) + u(0) * v(l) - u(l) * v(0)
+
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+println("l2: ", a(u1, u2 + u3) ≈ a(u1, u2) + a(u1, u3))
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
+println(" s: ", a(u3, u2) ≈ a(u2, u3))
+println("pd: ", a(u1, u1) > 0, " ", a(u2, u2) > 0, " ", a(u3, u3) > 0)
+```
+
+→ Positiv definit, aber nicht symmetrisch: Für $u = v$ heben sich die Randterme auf, $a(v, v) = \int_0^l v^2 \, \mathrm{d}x > 0$ für $v \neq 0$. Für $u \neq v$ heben sie sich im Allgemeinen nicht auf, z.B. $a(u_3, u_2) = \frac{l^2}{2} + l$, aber $a(u_2, u_3) = \frac{l^2}{2} - l$.
+
+Funktional (f)
+
+```{julia}
+a(u, v) = integrate(u' * v', 0 .. l) + u(0) * v(0)
+
+println("l1: ", a(u1 + u2, u3) ≈ a(u1, u3) + a(u2, u3))
+println("l2: ", a(u1, u2 + u3) ≈ a(u1, u2) + a(u1, u3))
+println("l3: ", a(3 * u1, 4*u2) ≈ 12*a(u1, u2))
+println(" s: ", a(u1, u2) ≈ a(u2, u1))
+println("pd: ", a(u3, u3) > 0)
+```
+
+→ Skalarprodukt: Anders als bei (a) ist auch für Konstanten $a(v, v) > 0$. $a(v, v) = 0$ gilt nur, wenn $v' = 0$ (also $v$ konstant) und $v(0) = 0$ ist, also nur für $v = 0$.
+:::
+
+### Zusammenfassung
+
+Fassen Sie Ihre Ergebnisse in einer Tabelle zusammen.
+
+::: {.lm-scaffold}
+| | bilinear | symmetrisch | positiv definit | Skalarprodukt |
+|---|:-:|:-:|:-:|:-:|
+| (a) | ? | ? | ? | ? |
+| (b) | ? | ? | ? | ? |
+| (c) | ? | ? | ? | ? |
+| (d) | ? | ? | ? | ? |
+| (e) | ? | ? | ? | ? |
+| (f) | ? | ? | ? | ? |
+:::
+
+::: {.lm-solution}
+| | bilinear | symmetrisch | positiv definit | Skalarprodukt |
+|---|:-:|:-:|:-:|:-:|
+| (a) | ja | ja | nein | nein |
+| (b) | nein | – | – | nein |
+| (c) | nein | – | – | nein |
+| (d) | ja | nein | nein | nein |
+| (e) | ja | nein | ja | nein |
+| (f) | ja | ja | ja | ja |
+:::
+
+### Was zeigt die Überprüfung?
+
+Was können Sie aus der Prüfung mit einzelnen Testfunktionen schließen, und was nicht?
+
+::: {.lm-scaffold}
+→ ?
+:::
+
+::: {.lm-solution}
+Man kann Gegenbeispiele finden, aber um eine Eigenschaft nachzuweisen muss man mathematisch argumentieren.
+:::
 :::

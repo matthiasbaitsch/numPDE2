@@ -1,35 +1,16 @@
+```{julia}
+#| label: setup
+#| include: false
+using CairoMakie
+using LinearAlgebra
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
 ::: {#exr-bohrpfahl}
 ## Bohrpfahl
 
-Wir lösen das Bohrpfahlproblem mit der Finite-Elemente-Methode und untersuchen, wie sich die Näherungslösung verhält, wenn die Anzahl der Elemente erhöht wird. Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Die Systemparameter, die exakte Lösung $u$, die Normalkraft $N = EA \cdot u'$ sowie die Bilinearform $a$ und die Linearform $b$ der schwachen Form sind dort bereits vorgegeben.
-
-1. Näherungslösung: Berechnen Sie die Näherungslösung $u_h$ für $N_e = 4$ Elemente. Stellen Sie hierzu die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ auf und lösen Sie das lineare Gleichungssystem $\mathbf{K} \hat{\mathbf{u}} = \mathbf{r}$. Plotten Sie darüber hinaus die Näherung für die Normalkraft $N_h$ sowie den Fehler $e = u - u_h$.
-
-1. Steifigkeitsmatrix: Plotten Sie die Basisfunktionen und lassen Sie sich $\mathbf{K}$ ausgeben. Begründen Sie anhand der Basisfunktionen und der Bilinearform $a$,
-
-    - warum $\mathbf{K}$ symmetrisch ist,
-
-    - warum fast alle Einträge von $\mathbf{K}$ null sind, welche Einträge von null verschieden sind und wie viele das bei $N_e = 1000$ Elementen sind,
-    
-    - in welchem Eintrag von $\mathbf{K}$ die Feder $S$ und in welchem Eintrag von $\mathbf{r}$ die Kraft $F$ steckt.
-
-1. Galerkin-Orthogonalität: Berechnen Sie für alle Basisfunktionen $\varphi_i$ den Wert $a(u - u_h, \varphi_i)$. Was fällt Ihnen auf? Wie sieht es bei einer Testfunktion aus, die keine Linearkombination der Basisfunktionen ist, zum Beispiel $\delta u(x) = \sin x$? Erklären Sie Ihre Beobachtung.
-
-    Tipp: Welche Gleichungen erfüllen die exakte Lösung $u$ und die Näherungslösung $u_h$?
-
-1. Funktion: Schreiben Sie eine Funktion `pile_fem(Ne)`, die für eine Anzahl von Elementen `Ne` die Näherungslösung $u_h$ zurückgibt, damit Sie Ihren Code für die folgenden Punkte nicht kopieren müssen. Überprüfen Sie, dass Sie für $N_e = 4$ dasselbe Ergebnis wie oben erhalten.
-
-1. Fehler und Normalkraft: Berechnen Sie die Näherungslösungen für $N_e = 2, 4, 8, \dots, 2^6$ Elemente einmal und verwenden Sie sie für diesen und den nächsten Punkt. Plotten Sie die Fehlerfunktion $e = u - u_h$ sowie in einem weiteren Plot die Normalkraft $N_h$ zusammen mit der exakten Lösung $N$. Wie erklären Sie sich den Verlauf der Normalkraft?
-
-1. Konvergenz: Berechnen und plotten Sie den prozentualen Fehler
-
-    $$
-        100 \cdot \frac{\lVert u - u_h \rVert_a}{\lVert u \rVert_a}
-        \quad \text{mit} \quad
-        \lVert v \rVert_a = \sqrt{a(v, v)}
-    $$
-
-    über der Elementgröße $h = l / N_e$, auch in doppelt-logarithmischer Darstellung. Bestimmen Sie wie in der Aufgabe zur doppelt-logarithmischen Darstellung aus den Verhältnissen aufeinanderfolgender Fehler die Steigung. Mit welcher Ordnung konvergiert die Näherung?
+Wir lösen das Bohrpfahlproblem mit der Finite-Elemente-Methode und untersuchen, wie sich die Näherungslösung verhält, wenn die Anzahl der Elemente erhöht wird. Laden Sie hierfür das [Notebook](${work-files}) herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Die Systemparameter, die exakte Lösung $u$, die Normalkraft $N = EA \cdot u'$ sowie die Bilinearform $a$ und die Linearform $b$ der schwachen Form sind dort bereits vorgegeben.
 
 ::: {.callout-tip title="Tipps für Julia"}
 ```{.julia}
@@ -49,18 +30,176 @@ fplot!(Nh, connect_jumps=true)      # Sprünge verbinden, besser lesbar
 ```
 :::
 
-::: {.tinh-solution}
-Der Code zu allen Punkten steht im Lösungs-Notebook.
+::: {.lm-scaffold}
+Problemparameter
+:::
 
-**Zu Punkt 2 (Steifigkeitsmatrix)**
+```{julia}
+# Basiswerte
+E = 35e9
+d = 0.8
+l = 20
+F = 2e6
+ρ = 2500
+g = 9.81
+S = 120e6
+c = 1.75e7
+
+# Abgeleitete Werte
+C = c * π * d
+A = π * d^2 / 4
+EA = E * A
+n = ρ * g * A;
+```
+
+::: {.lm-scaffold}
+Exakte Lösung
+:::
+
+```{julia}
+x = parameter(0 .. l)
+λ = sqrt(C / EA)
+D = EA * λ * sinh(λ * l) + S * cosh(λ * l)
+u = n/C*(1 - S*cosh(λ*x)/D) + F/(EA*λ*D)*(EA*λ*cosh(λ*(l - x)) + S*sinh(λ*(l - x)))
+N = EA * u'
+
+fig = Figure()
+fplot!(Axis(fig[1, 1], title="Verschiebung u"), u, zero(x))
+fplot!(Axis(fig[2, 1], title="Normalkraft N"), N, zero(x))
+fig
+```
+
+::: {.lm-scaffold}
+Schwache Form
+:::
+
+```{julia}
+a(u, δu) = integrate(EA * u' * δu' + C * u * δu, 0 .. l) + S * u(l) * δu(l)
+b(δu) = integrate(n * δu, 0 .. l) + F * δu(0)
+```
+
+### Näherungslösung
+
+Berechnen Sie die Näherungslösung $u_h$ für $N_e = 4$ Elemente. Stellen Sie hierzu die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ auf und lösen Sie das lineare Gleichungssystem $\mathbf{K} \hat{\mathbf{u}} = \mathbf{r}$. Plotten Sie darüber hinaus die Näherung für die Normalkraft $N_h$ sowie den Fehler $e = u - u_h$.
+
+::: {.lm-scaffold}
+Berechnen
+
+```{julia}
+# Ne = 4
+# phis = ...
+# K = ...
+# r = ...
+# uHat = ...
+# uh = ...
+# fplot(...)
+```
+
+Normalkraft
+
+```{julia}
+# ...
+```
+
+Fehler
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Berechnen
+
+```{julia}
+Ne = 4
+phis = hatfunctions(range(0 .. l, Ne + 1))
+K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+r = [b(phi_i) for phi_i = phis]
+uHat = K \ r
+uh = uHat ⋅ phis
+fplot(uh, u)
+```
+
+Normalkraft
+
+```{julia}
+Nh = EA * uh'
+fplot(Nh, N)
+```
+
+Fehler
+
+```{julia}
+fplot(0 * x, u - uh)
+```
+:::
+
+### Steifigkeitsmatrix
+
+Plotten Sie die Basisfunktionen und lassen Sie sich $\mathbf{K}$ ausgeben. Begründen Sie anhand der Basisfunktionen und der Bilinearform $a$,
+
+- warum $\mathbf{K}$ symmetrisch ist,
+
+- warum fast alle Einträge von $\mathbf{K}$ null sind, welche Einträge von null verschieden sind und wie viele das bei $N_e = 1000$ Elementen sind,
+
+- in welchem Eintrag von $\mathbf{K}$ die Feder $S$ und in welchem Eintrag von $\mathbf{r}$ die Kraft $F$ steckt.
+
+::: {.lm-scaffold}
+```{julia}
+fplot(phis...)
+```
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+fplot(phis...)
+```
+
+```{julia}
+display(K)
+```
 
 - $\mathbf{K}$ ist symmetrisch, weil die Bilinearform symmetrisch ist: $K_{ij} = a(\varphi_j, \varphi_i) = a(\varphi_i, \varphi_j) = K_{ji}$.
 
 - Die Basisfunktionen $\varphi_i$ und $\varphi_j$ sind nur dann gleichzeitig von null verschieden, wenn $|i - j| \leq 1$ gilt. Für alle anderen Paare ist der Integrand der Bilinearform überall null, damit auch $K_{ij}$. Von null verschieden sind nur die Hauptdiagonale und die beiden Nebendiagonalen. Bei $N_e = 1000$ Elementen gibt es $N = 1001$ Basisfunktionen, von null verschieden sind dann $1001 + 2 \cdot 1000 = 3001$ der $1001^2 \approx 10^6$ Einträge.
 
 - Nur die letzte Basisfunktion ist bei $x = l$ von null verschieden, die Feder steckt deshalb nur in $K_{NN}$. Entsprechend ist nur die erste Basisfunktion bei $x = 0$ von null verschieden, die Kraft $F$ steckt nur in $r_1$.
+:::
 
-**Zu Punkt 3 (Galerkin-Orthogonalität)**
+### Galerkin-Orthogonalität
+
+Berechnen Sie für alle Basisfunktionen $\varphi_i$ den Wert $a(u - u_h, \varphi_i)$. Was fällt Ihnen auf? Wie sieht es bei einer Testfunktion aus, die keine Linearkombination der Basisfunktionen ist, zum Beispiel $\delta u(x) = \sin x$? Erklären Sie Ihre Beobachtung.
+
+Tipp: Welche Gleichungen erfüllen die exakte Lösung $u$ und die Näherungslösung $u_h$?
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+
+Testfunktion, die keine Linearkombination der Basisfunktionen ist
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+[a(u - uh, phi_i) for phi_i = phis]
+```
+
+Testfunktion, die keine Linearkombination der Basisfunktionen ist
+
+```{julia}
+δu = sin(x)
+a(u - uh, δu)
+```
 
 Die Werte $a(u - u_h, \varphi_i)$ sind für alle Basisfunktionen null (bis auf Rundungsfehler), $a(u - u_h, \sin x)$ dagegen nicht. Warum ist das so?
 
@@ -71,14 +210,162 @@ $$
 $$
 
 Zieht man beide Gleichungen voneinander ab, folgt wegen der Linearität von $a$ im ersten Argument $a(u - u_h, \varphi_i) = 0$ und damit $a(u - u_h, v_h) = 0$ für jede Linearkombination $v_h$ der Basisfunktionen: Der Fehler ist bezüglich $a$ orthogonal zu allen Funktionen, mit denen approximiert wird (Galerkin-Orthogonalität). Für $\sin x$ gilt das nicht, weil $u_h$ die schwache Form dafür nicht erfüllt.
+:::
 
-**Zu Punkt 5 (Fehler und Normalkraft)**
+### Funktion
+
+Schreiben Sie eine Funktion `pile_fem(Ne)`, die für eine Anzahl von Elementen `Ne` die Näherungslösung $u_h$ zurückgibt, damit Sie Ihren Code für die folgenden Teile nicht kopieren müssen. Überprüfen Sie, dass Sie für $N_e = 4$ dasselbe Ergebnis wie oben erhalten.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+function pile_fem(Ne)
+    phis = hatfunctions(range(0 .. l, Ne + 1))
+    K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+    r = [b(phi_i) for phi_i = phis]
+    uHat = K \ r
+    uh = uHat ⋅ phis
+    return uh
+end
+
+uh = pile_fem(4)
+fplot(uh, u)
+```
+:::
+
+### Fehler und Normalkraft
+
+Berechnen Sie die Näherungslösungen für $N_e = 2, 4, 8, \dots, 2^6$ Elemente einmal und verwenden Sie sie für diesen und den nächsten Teil. Plotten Sie die Fehlerfunktion $e = u - u_h$ sowie in einem weiteren Plot die Normalkraft $N_h$ zusammen mit der exakten Lösung $N$. Wie erklären Sie sich den Verlauf der Normalkraft?
+
+::: {.lm-scaffold}
+Näherungslösungen einmal berechnen
+
+```{julia}
+# ...
+```
+
+Fehlerfunktion
+
+```{julia}
+# ...
+```
+
+Normalkraft
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Näherungslösungen einmal berechnen
+
+```{julia}
+Nes = 2 .^ (1:6)
+uhs = pile_fem.(Nes);
+```
+
+Fehlerfunktion
+
+```{julia}
+fig = Figure()
+Axis(fig[1, 1])
+for uh = uhs
+    fplot!(u - uh)
+end
+fig
+```
+
+Normalkraft
+
+```{julia}
+fig = Figure()
+Axis(fig[1, 1])
+fplot!(N)
+for uh = uhs
+    Nh = EA * uh'
+    fplot!(Nh, connect_jumps=true)
+end
+fig
+```
 
 Die Näherungslösung $u_h$ ist abschnittsweise linear, die Normalkraft $N_h = EA \cdot u_h'$ deshalb elementweise konstant. Sie springt an den Knoten und nähert $N$ treppenförmig an. Mit mehr Elementen werden die Stufen kleiner.
+:::
 
-**Zu Punkt 6 (Konvergenz)**
+### Konvergenz
+
+Berechnen und plotten Sie den prozentualen Fehler
+
+$$
+    100 \cdot \frac{\lVert u - u_h \rVert_a}{\lVert u \rVert_a}
+    \quad \text{mit} \quad
+    \lVert v \rVert_a = \sqrt{a(v, v)}
+$$
+
+über der Elementgröße $h = l / N_e$, auch in doppelt-logarithmischer Darstellung. Bestimmen Sie wie in der Aufgabe zur doppelt-logarithmischen Darstellung aus den Verhältnissen aufeinanderfolgender Fehler die Steigung. Mit welcher Ordnung konvergiert die Näherung?
+
+::: {.lm-scaffold}
+Fehler in der Energienorm berechnen
+
+```{julia}
+# ...
+```
+
+Fehler plotten
+
+```{julia}
+# ...
+```
+
+Fehler in loglog-Skala plotten
+
+```{julia}
+# ...
+```
+
+Steigung im loglog-Plot
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Fehler in der Energienorm berechnen
+
+```{julia}
+energynorm(v) = sqrt(a(v, v))
+
+hs = l ./ Nes
+es = [100 * energynorm(u - uh) / energynorm(u) for uh = uhs]
+```
+
+Fehler plotten
+
+```{julia}
+scatterlines(hs, es)
+```
+
+Fehler in loglog-Skala plotten
+
+```{julia}
+fig = Figure()
+Axis(fig[1, 1], xscale=log2, yscale=log10, title="Fehler in Prozent")
+scatterlines!(hs, es)
+fig
+```
+
+Steigung im loglog-Plot
+
+```{julia}
+log2.(es[1:(end-1)] ./ es[2:end])
+```
 
 Der Fehler in der Energienorm halbiert sich mit der Elementgröße, die Verhältnisse aufeinanderfolgender Fehler sind also etwa 2 und die Steigung $\log_2(e_k / e_{k+1})$ etwa 1. Die Näherung konvergiert mit der Ordnung 1.
 :::
-
 :::

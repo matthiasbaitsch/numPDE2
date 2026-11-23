@@ -1,18 +1,121 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using LinearAlgebra
+import CairoMakie
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Mathematics
+```
+
 ::: {#exr-gleichungssystem-julia}
 ## Gleichungssystem in Julia
 
 Auf dem vorigen Aufgabenblatt haben Sie die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ für den Bohrpfahl durch Integration der Basisfunktionen über das ganze Gebiet aufgestellt. Jetzt berechnen Sie sie elementweise. Die Systemparameter und die Berechnung von $\hat{\mathbf{u}}$ für $N_e = 4$ Elemente durch globale Integration sind im Notebook bereits vorgegeben.
 
-1. Berechnen Sie für $N_e = 4$ Elemente gleicher Länge $h$ die Elementsteifigkeitsmatrix $\mathbf{K}^e$ und den Elementlastvektor $\mathbf{r}^e$ aus der Aufgabe "Elementsteifigkeitsmatrix und Elementlastvektor". Legen Sie $\mathbf{K}$ und $\mathbf{r}$ mit Nullen an und addieren Sie in einer Schleife über die Elemente $\mathbf{K}^e$ und $\mathbf{r}^e$ an den Stellen der Knotennummern. Bei fortlaufender Nummerierung hat Element $e$ die Knoten $e$ und $e + 1$. Berücksichtigen Sie anschließend Feder und Einzellast.
+::: {.lm-scaffold}
+Systemparameter vom vorigen Aufgabenblatt
+:::
 
-1. Lösen Sie das lineare Gleichungssystem und plotten Sie die Näherungslösung.
+```{julia}
+# Basiswerte
+E = 35e9
+d = 0.8
+l = 20
+F = 2e6
+ρ = 2500
+g = 9.81
+S = 120e6
+c = 1.75e7
 
-1. Vergleichen Sie $\hat{\mathbf{u}}$ mit dem Ergebnis der globalen Integration. Was stellen Sie fest? Erklären Sie Ihre Beobachtung.
+# Abgeleitete Werte
+C = c * π * d
+A = π * d^2 / 4
+EA = E * A
+n = ρ * g * A;
+```
 
-::: {.tinh-solution}
-Der Code zu allen Punkten steht im Lösungs-Notebook.
+::: {.lm-scaffold}
+Globale Integration vom vorigen Aufgabenblatt
+:::
 
-**Zu Punkt 3**
+```{julia}
+a(u, δu) = integrate(EA * u' * δu' + C * u * δu, 0 .. l) + S * u(l) * δu(l)
+b(δu) = integrate(n * δu, 0 .. l) + F * δu(0)
+
+Ne = 4
+phis = hatfunctions(range(0, l, Ne + 1))
+K_global = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+r_global = [b(phi_i) for phi_i = phis]
+uHat_global = K_global \ r_global;
+```
+
+### Elementweise Berechnung
+
+Berechnen Sie für $N_e = 4$ Elemente gleicher Länge $h$ die Elementsteifigkeitsmatrix $\mathbf{K}^e$ und den Elementlastvektor $\mathbf{r}^e$ aus der Aufgabe "Elementsteifigkeitsmatrix und Elementlastvektor". Legen Sie $\mathbf{K}$ und $\mathbf{r}$ mit Nullen an und addieren Sie in einer Schleife über die Elemente $\mathbf{K}^e$ und $\mathbf{r}^e$ an den Stellen der Knotennummern. Bei fortlaufender Nummerierung hat Element $e$ die Knoten $e$ und $e + 1$. Berücksichtigen Sie anschließend Feder und Einzellast.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+N = Ne + 1
+h = l / Ne
+
+Ke = EA / h * [1 -1; -1 1] + C * h / 6 * [2 1; 1 2]
+re = n * h / 2 * [1, 1]
+
+K = zeros(N, N)
+r = zeros(N)
+
+for e = 1:Ne
+    Ie = [e, e + 1]
+    K[Ie, Ie] += Ke
+    r[Ie] += re
+end
+
+r[1] += F
+K[end, end] += S;
+```
+:::
+
+### Näherungslösung
+
+Lösen Sie das lineare Gleichungssystem und plotten Sie die Näherungslösung.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+uHat = K \ r
+uh = uHat ⋅ phis
+fplot(uh)
+```
+:::
+
+### Vergleich
+
+Vergleichen Sie $\hat{\mathbf{u}}$ mit dem Ergebnis der globalen Integration. Was stellen Sie fest? Erklären Sie Ihre Beobachtung.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+[uHat uHat_global]
+```
 
 $\hat{\mathbf{u}}$ stimmt bis auf Rundungsfehler überein, weil schon $\mathbf{K}$ und $\mathbf{r}$ dieselben sind. Die elementweise Berechnung ist nur eine andere Organisation derselben Integrale: Das Integral über das Gebiet ist die Summe der Integrale über die Elemente, und auf jedem Element sind nur die beiden Basisfunktionen zu den Knoten des Elements von null verschieden. Die Elementsteifigkeitsmatrix enthält genau diese Beiträge, die Assemblierung addiert sie an die Stellen der zugehörigen Knotennummern. Wie bei der globalen Integration kommt die Feder im letzten Diagonaleintrag von $\mathbf{K}$ hinzu und die Einzellast im ersten Eintrag von $\mathbf{r}$.
 :::

@@ -1,0 +1,29 @@
+/* Scaffold and solution marked, unmarked code cells as given: a line on the left, labelled in the language of the page */
+
+.lm-solution,
+.lm-scaffold,
+.cell:not(.lm-sheet .cell, .lm-scaffold .cell, .lm-solution .cell) {
+  border-left: 3px solid var(--lm-color);
+  padding-left: 0.8em;
+  margin-bottom: 1rem;
+}
+
+.lm-solution { --lm-color: #4a8c4a; }
+.lm-scaffold { --lm-color: #107895; }
+.cell:not(.lm-sheet .cell, .lm-scaffold .cell, .lm-solution .cell) { --lm-color: #888888; }
+
+.lm-solution::before,
+.lm-scaffold::before,
+.cell:not(.lm-sheet .cell, .lm-scaffold .cell, .lm-solution .cell)::before {
+  display: block;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--lm-color);
+}
+
+.lm-solution::before { content: "Solution"; }
+.lm-scaffold::before { content: "Scaffold"; }
+.cell:not(.lm-sheet .cell, .lm-scaffold .cell, .lm-solution .cell)::before { content: "Given"; }
+:lang(de) .lm-solution::before { content: "Lösung"; }
+:lang(de) .lm-scaffold::before { content: "Gerüst"; }
+:lang(de) .cell:not(.lm-sheet .cell, .lm-scaffold .cell, .lm-solution .cell)::before { content: "Vorgegeben"; }

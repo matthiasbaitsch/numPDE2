@@ -3,7 +3,7 @@
 
 Konvergenzuntersuchungen werden häufig doppelt-logarithmisch dargestellt, wie in der vorigen Aufgabe und im Abschnitt "Zur Interpretation von loglog-Plots" im Notebook.
 
-**Auf dem Papier lösen**
+### Auf dem Papier lösen
 
 1. Zeigen Sie, dass der Graph der Funktion $y = C \cdot x^n$ mit $C > 0$ in doppelt-logarithmischer Darstellung eine Gerade ist. Welche Steigung hat sie, und welchen Wert hat sie bei $x = 1$?
 
@@ -11,15 +11,7 @@ Konvergenzuntersuchungen werden häufig doppelt-logarithmisch dargestellt, wie i
 
 1. Lesen Sie aus dem Plot des Fehlers über der Elementgröße $h$ in der vorigen Aufgabe die Steigung ab. Um welchen Faktor wird der Fehler kleiner, wenn Sie $h$ halbieren?
 
-**Mit Julia lösen**
-
-1. Überprüfen Sie Ihre Antwort im Notebook: Berechnen Sie für aufeinanderfolgende Netze das Verhältnis $e_k / e_{k+1}$ der Fehler und daraus die Steigung $\log_2(e_k / e_{k+1})$. Ab welcher Elementanzahl stimmt Ihre Antwort?
-
-    Tipp: `es[1:end-1] ./ es[2:end]` teilt jeden Eintrag des Vektors `es` durch den folgenden.
-
-::: {.tinh-solution}
-Die Lösung zum Abschnitt "Mit Julia lösen" steht im Lösungs-Notebook.
-
+::: {.lm-solution}
 **Zu Punkt 1**
 
 ![](bilder/doppelt-logarithmisch-loesung.png){width="60%" fig-align="center"}
@@ -27,5 +19,31 @@ Die Lösung zum Abschnitt "Mit Julia lösen" steht im Lösungs-Notebook.
 **Zu Punkt 2**
 
 Für kleine $h$ ist die Steigung 2, der Fehler verhält sich also wie $C \cdot h^2$. Halbiert man $h$, wird der Fehler etwa um den Faktor $2^2 = 4$ kleiner. Bei sehr groben Netzen (wenige Elemente) gilt das noch nicht.
+:::
+
+### Mit Julia lösen
+
+Überprüfen Sie Ihre Antwort im Notebook: Berechnen Sie für aufeinanderfolgende Netze das Verhältnis $e_k / e_{k+1}$ der Fehler und daraus die Steigung $\log_2(e_k / e_{k+1})$. Ab welcher Elementanzahl stimmt Ihre Antwort?
+
+Tipp: `es[1:end-1] ./ es[2:end]` teilt jeden Eintrag des Vektors `es` durch den folgenden.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Verhältnis aufeinanderfolgender Fehler (Halbierung von $h$)
+
+```{julia}
+es[1:(end-1)] ./ es[2:end]
+```
+
+Steigung im loglog-Plot
+
+```{julia}
+log2.(es[1:(end-1)] ./ es[2:end])
+```
 :::
 :::

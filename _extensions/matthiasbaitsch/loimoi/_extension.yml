@@ -1,0 +1,10 @@
+title: loi-moi
+author: Matthias Baitsch
+version: 0.0.1
+quarto-required: ">=1.10.0"
+# Quarto requires an extension to contribute something; loi-moi runs as pre-render script
+contributes:
+  metadata:
+    loimoi: true
+  filters:
+    - loimoi-markers.lua
