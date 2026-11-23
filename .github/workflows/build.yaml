@@ -51,6 +51,13 @@ jobs:
         with:
           path: '__output'
 
+      # Link page of loi-moi with the published URLs, for check-links
+      - name: Upload link page
+        uses: actions/upload-artifact@v7
+        with:
+          name: links-site
+          path: lernpfad/links-site.html
+
   deploy:
     needs: render
     environment:
@@ -62,3 +69,26 @@ jobs:
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v5
+
+  # make check-links on the published pages. The log is public: lychee without --verbose lists only broken links,
+  # so the URLs of the solutions (with hash) stay out of it
+  check-links:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out
+      uses: actions/checkout@v7
+
+    - name: Download link page
+      uses: actions/download-artifact@v8
+      with:
+        name: links-site
+        path: lernpfad
+
+    - name: Install lychee
+      run: |
+        curl -sSL https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/lychee-x86_64-unknown-linux-gnu.tar.gz \
+          | sudo tar -xz -C /usr/local/bin --strip-components=1 lychee-x86_64-unknown-linux-gnu/lychee
+
+    - name: Check links
+      run: make check-links
