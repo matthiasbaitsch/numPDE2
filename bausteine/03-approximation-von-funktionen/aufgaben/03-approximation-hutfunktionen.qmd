@@ -1,3 +1,12 @@
+```{julia}
+#| label: setup
+#| include: false
+using CairoMakie
+using LinearAlgebra
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
 ::: {#exr-approximation-hutfunktionen}
 ## Approximation mit Hutfunktionen
 
@@ -7,44 +16,7 @@ $$
     f: [0, 4\pi] \to \mathbb{R} \quad \text{mit} \quad f(x) = \cos x \cdot \left(1 - \frac{1}{4\pi}x\right)
 $$
 
-soll mithilfe abschnittsweise linearer Basisfunktionen approximiert werden. Laden Sie hierfür das [Notebook](${notebook}){download="${slug}-aufgaben.zip"} herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es.
-
-Am Ende der Aufgabe finden Sie Tipps für Julia, weitere Funktionen von `MMJMesh` in der [Dokumentation](https://matthiasbaitsch.github.io/mmjmesh/guide/).
-
-1. Funktionswerte: Ändern Sie den Code im Notebook
-
-    ```{.julia}
-    x = [1, 3, 7]
-    y = 0 * x
-    p = fplot(f)
-    scatter!(x, y, color=:tomato)
-    p
-    ```
-
-    so ab, dass die Tomaten auf dem Graphen von $f$ liegen.
-
-1. Approximation: Erzeugen Sie in Julia die Approximation
-
-    $$
-        f_a(x) = \sum_{i=1}^n f(x_i) \cdot \varphi_i(x)
-    $$
-
-    wobei $x_i$ die Stelle des $i$-ten Knotens ist, als Julia-Variable `fa`. Plotten Sie $f$ und $f_a$ in einem Koordinatensystem. Plotten Sie darüber hinaus die Fehlerfunktion $e = f - f_a$.
-
-1. Norm: Erstellen Sie eine Julia-Funktion `norm2(u)`, die
-
-    $$
-        \lVert u \rVert_2 = \sqrt{\int_0^{4\pi} \!\!\! u^2(x) \, \mathrm{d}x}
-    $$
-
-    berechnet. Ermitteln Sie damit die Norm $\lVert e \rVert_2$ des Fehlers $e$.
-
-1. Konvergenz: Es soll untersucht werden, wie sich der Fehler verhält, wenn Sie die Anzahl der Elemente (und damit der Basisfunktionen) erhöhen. Erstellen Sie dafür eine Funktion `approximation_error(Ne)`, die den Approximationsfehler für `Ne` Elemente berechnet. Berechnen Sie den Fehler für $N_e = 4, 8, \dots, 2^{10}$. Plotten Sie den Fehler über
-
-    - die Anzahl der Elemente $N_e$ sowie
-    - die Elementgröße $h = 4\pi / N_e$.
-
-    Stellen Sie beide Ergebnisse zusätzlich noch in einer [doppelt-logarithmischen Skala](https://docs.makie.org/stable/reference/blocks/axis#xscale) dar.
+soll mithilfe abschnittsweise linearer Basisfunktionen approximiert werden. Laden Sie hierfür das [Notebook](${work-files}) herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es.
 
 ::: {.callout-tip title="Tipps für Julia"}
 ```{.julia}
@@ -56,10 +28,190 @@ integrate(u, 0 .. 4π)         # Funktion u von 0 bis 4π integrieren
 scatterlines(xs, ys)          # Verlauf mit Punkten und Linien plotten
 ```
 
-Wie man doppelt-logarithmische Plots liest, zeigt der Abschnitt "Zur Interpretation von loglog-Plots" am Ende des Notebooks.
+Weitere Funktionen von `MMJMesh` in der [Dokumentation](https://matthiasbaitsch.github.io/mmjmesh/guide/). Wie man doppelt-logarithmische Plots liest, zeigt der Abschnitt "Zur Interpretation von loglog-Plots" am Ende des Notebooks.
 :::
 
-::: {.tinh-solution}
-Lösung im Lösungs-Notebook
+```{julia}
+x = parameter(0 .. 4π)
+u = cos(x)
+v = 1 - x / 4π
+f = u * v
+
+fplot(u, v, f)
+```
+
+### Funktionswerte
+
+Ändern Sie den Code im Notebook
+
+```{.julia}
+x = [1, 3, 7]
+y = 0 * x
+p = fplot(f)
+scatter!(x, y, color=:tomato)
+p
+```
+
+so ab, dass die Tomaten auf dem Graphen von $f$ liegen.
+
+::: {.lm-scaffold}
+```{julia}
+x = [1, 3, 7]
+y = 0 * x
+p = fplot(f)
+scatter!(x, y, color = :tomato)
+p
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+x = [1, 3, 7]
+y = f.(x)
+p = fplot(f)
+scatter!(x, y, color = :tomato)
+p
+```
+:::
+
+### Approximation
+
+Erzeugen Sie in Julia die Approximation
+
+$$
+    f_a(x) = \sum_{i=1}^n f(x_i) \cdot \varphi_i(x)
+$$
+
+wobei $x_i$ die Stelle des $i$-ten Knotens ist, als Julia-Variable `fa`. Plotten Sie $f$ und $f_a$ in einem Koordinatensystem. Plotten Sie darüber hinaus die Fehlerfunktion $e = f - f_a$.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Funktion
+
+```{julia}
+nodes = range(0, 4π, 6)
+phis = hatfunctions(nodes)
+uHat = f.(nodes)
+fa = uHat ⋅ phis
+fplot(fa, f)
+```
+
+Fehler
+
+```{julia}
+e = f - fa
+fplot(e)
+```
+:::
+
+### Norm
+
+Erstellen Sie eine Julia-Funktion `norm2(u)`, die
+
+$$
+    \lVert u \rVert_2 = \sqrt{\int_0^{4\pi} \!\!\! u^2(x) \, \mathrm{d}x}
+$$
+
+berechnet. Ermitteln Sie damit die Norm $\lVert e \rVert_2$ des Fehlers $e$.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+norm2(u) = sqrt(integrate(u * u, domain(u)))
+
+norm2(e)
+```
+:::
+
+### Konvergenz
+
+Es soll untersucht werden, wie sich der Fehler verhält, wenn Sie die Anzahl der Elemente (und damit der Basisfunktionen) erhöhen. Erstellen Sie dafür eine Funktion `approximation_error(Ne)`, die den Approximationsfehler für `Ne` Elemente berechnet. Berechnen Sie den Fehler für $N_e = 4, 8, \dots, 2^{10}$. Plotten Sie den Fehler über
+
+- die Anzahl der Elemente $N_e$ sowie
+- die Elementgröße $h = 4\pi / N_e$.
+
+Stellen Sie beide Ergebnisse zusätzlich noch in einer [doppelt-logarithmischen Skala](https://docs.makie.org/stable/reference/blocks/axis#xscale) dar.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Funktion, um den Approximationsfehler zu berechnen
+
+```{julia}
+function approximation_error(Ne)
+	nodes = range(0, 4π, Ne + 1)
+	phis = hatfunctions(nodes)
+	fa = f.(nodes) ⋅ phis
+	return norm2(f - fa)
+end
+
+approximation_error(4)
+```
+
+Approximationsfehler für $4, 8, \dots, 2^{10}$ Elemente
+
+```{julia}
+Nes = 2 .^ (2:10)
+hs = 4π ./ Nes
+es = approximation_error.(Nes)
+```
+
+Fehler über Anzahl der Elemente
+
+```{julia}
+scatterlines(Nes, es)
+```
+
+Fehler über Elementgröße
+
+```{julia}
+scatterlines(hs, es)
+```
+
+Mit loglog-Skala
+
+```{julia}
+fig = Figure()
+Axis(fig[1, 1], xscale = log2, yscale = log10)
+scatterlines!(Nes, es)
+fig
+```
+
+```{julia}
+fig = Figure()
+Axis(fig[1, 1], xscale = log2, yscale = log10)
+scatterlines!(hs, es)
+fig
+```
+:::
+
+::: {.lm-scaffold}
+### Zur Interpretation von loglog-Plots
+
+```{julia}
+mks = monomials(1:4, 0.0001 .. 1)
+fplot(mks...)
+```
+
+```{julia}
+fig = Figure()
+Axis(fig[1, 1], xscale = log10, yscale = log10)
+fplot!(mks...)
+fig
+```
 :::
 :::

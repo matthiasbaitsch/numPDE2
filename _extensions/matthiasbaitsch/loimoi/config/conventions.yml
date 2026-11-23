@@ -1,0 +1,19 @@
+# Logical name → names tried, upward from the working directory
+names:
+  building-blocks: [building-blocks, bausteine]
+
+# Collection folder → language of the words in recipes and steps (words/<language>.yml); default en
+collection-languages:
+  exercises: en
+  aufgaben: de
+
+# Collection folder → recipe
+collection-recipes:
+  exercises: exercises
+  aufgaben: exercises
+
+# Recipe → collection folder → ingredient folder
+ingredient-folders:
+  exercises:
+    exercises: exercises
+    aufgaben: aufgaben

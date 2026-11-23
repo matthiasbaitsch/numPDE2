@@ -3,12 +3,15 @@
 
 Für die Berechnung von Balkentragwerken mit Finiten Elementen werden Basisfunktionen benötigt, deren Ableitungen stetig sind. Grundlage hierfür sind die so genannten Hermite-Polynome
 
+::: {.lm-sheet}
 ```{julia}
+#| echo: false
 include(joinpath(dirname(Base.active_project()), "_setup.jl"))
 fig = Figure(size = (500, 200))
 fplot!(Axis(fig[1, 1]), hermitefunctions([0, 6])...)
 fig
 ```
+:::
 
 deren Funktionswert oder deren Ableitung an den Enden entweder den Wert null oder eins hat (siehe @fish_first_2007, S. 260).
 
@@ -22,7 +25,7 @@ Aufgaben:
 
 1. Welche physikalische Interpretation besitzen dann die Koeffizienten $\hat{w}_i$ in der Linearkombination $w_h(x) = \sum \hat w_i \cdot \varphi_i(x)$?
 
-::: {.tinh-solution}
+::: {.lm-solution}
 **Zu Punkt 1**
 
 Der Balken würde brechen.

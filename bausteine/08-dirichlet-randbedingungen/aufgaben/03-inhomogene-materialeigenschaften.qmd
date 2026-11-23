@@ -1,3 +1,18 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using MMJMesh
+using MMJMesh.Meshes
+using MMJMesh.Plots
+using LinearAlgebra
+using SparseArrays
+include("src/fem.jl")
+include("src/heat.jl")
+import CairoMakie
+CairoMakie.update_theme!(colormap=:acton)
+```
+
 ::: {#exr-inhomogene-materialeigenschaften}
 ## Inhomogene Materialeigenschaften
 
@@ -7,4 +22,52 @@ Berechnen Sie die Temperaturverteilung für das unten dargestellte Wärmeleitung
 
 Für die Generierung des Netzes schauen Sie sich bitte [dieses Beispiel](https://matthiasbaitsch.github.io/mmjmesh/guide/mesh.html#collections-of-entities-groups) an.
 
+::: {.lm-solution}
+Netz
+
+```{julia}
+write("multi-lambda.geo", raw"""
+SetFactory("OpenCASCADE");
+
+Rectangle(1) = {0, 0, 0, 1, 1, 0};
+Rectangle(2) = {0.3, 0.0, 0, 0.15, 1, 0};
+Coherence;
+
+Physical Surface("S1") = {3, 4};
+Physical Surface("S2") = {2};
+Physical Curve("ΓD") = {2, 4, 6, 8, 9, 10};
+
+MeshSize{:} = 0.025;
+Mesh 2;
+Save "multi-lambda.msh";
+""");
+```
+
+```{julia}
+m = Mesh("multi-lambda.geo")
+mplot(m, edgesvisible=true) |> mconf()
+```
+
+Problem definieren
+
+```{julia}
+setdata!(group(m, :S1), :ke_func, heat_ke(1))
+setdata!(group(m, :S2), :ke_func, heat_ke(20))
+setdata!(group(m, :elements), :re_func, heat_re(250))
+```
+
+Gleichungssystem aufstellen und lösen
+
+```{julia}
+K, r = assemble_kr(m)
+apply_dirichlet_bcs!(K, r, m.groups[:ΓD0]);
+θHat =  K \ r;
+```
+
+Temperaturverteilung
+
+```{julia}
+mplot(m, θHat) |> mconf()
+```
+:::
 :::

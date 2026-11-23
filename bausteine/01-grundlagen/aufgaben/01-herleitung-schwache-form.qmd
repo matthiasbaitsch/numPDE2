@@ -3,7 +3,7 @@
 
 Schreiben Sie die Herleitung der schwachen Form für den Bohrpfahl so auf, dass Sie für sich selber jeden Schritt nachvollziehen können.
 
-::: {.tinh-solution}
+::: {.lm-solution}
 Kann man nur selber lösen.
 :::
 :::

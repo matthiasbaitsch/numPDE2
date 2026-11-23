@@ -1,0 +1,32 @@
+project:
+  type: default
+  output-dir: ../../__output/lernpfad/aufgaben
+  pre-render: _extensions/matthiasbaitsch/loimoi/pre-render.ts
+  render:
+    - c/**/*.qmd
+
+lang: de
+engine: julia
+
+execute:
+  daemon: 3600
+  freeze: auto
+
+fig-align: center
+
+author:
+  - Matthias Baitsch
+
+crossref:
+  exr-title: "Aufgabe"
+  exr-prefix: "Aufgabe"
+
+bibliography: ../../bausteine/bibliographie.bib
+csl: ../../bausteine/style.csl
+
+format:
+  tinh-assignments-html: default
+  tinh-assignments-typst:
+    logo:
+      path: medium
+      width: 5cm

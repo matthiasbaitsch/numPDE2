@@ -3,8 +3,9 @@ render: render-aufgaben render-folien render-veranstaltung
 prepare-render:
 	cd skripte && julia -t1 --project make-learning-path.jl || exit 1
 
-render-aufgaben: prepare-render
-	quarto render lernpfad/aufgaben/c
+# Own project, loi-moi prepares c/ from bausteine/*/aufgaben as pre-render
+render-aufgaben:
+	quarto render lernpfad/aufgaben
 
 render-folien: prepare-render
 	quarto render lernpfad/folien/c
@@ -12,9 +13,10 @@ render-folien: prepare-render
 render-veranstaltung: prepare-render
 	quarto render lernpfad/veranstaltung/c
 
-# Update extension tinh (_extensions/) and brand of Hochschule Bochum (_brand/)
+# Update extensions tinh and loi-moi (_extensions/) and brand of Hochschule Bochum (_brand/)
 update-extension:
 	quarto update matthiasbaitsch/quarto-tinh --no-prompt
+	quarto update matthiasbaitsch/quarto-loi-moi --no-prompt
 	quarto use brand matthiasbaitsch/hsbo-brand --force
 
 # Copy Project.toml, Manifest.toml, instantiate.jl and workspace file from bausteine/00-templates to all

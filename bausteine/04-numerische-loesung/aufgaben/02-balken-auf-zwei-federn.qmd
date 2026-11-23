@@ -1,3 +1,12 @@
+```{julia}
+#| label: setup
+#| include: false
+using CairoMakie
+using LinearAlgebra
+using MMJMesh.Plots
+using MMJMesh.Mathematics
+```
+
 ::: {#exr-balken-auf-zwei-federn}
 ## Balken auf zwei Federn
 
@@ -8,14 +17,6 @@ $$
 $$
 
 eine FE-Lösung. Verwenden Sie ein IPE 300 Profil und rechnen Sie in den SI-Basiseinheiten Newton und Meter. Für den Balken darf die Verschiebungsfunktion keinen Knick haben, verwenden Sie daher die Hermite-Basisfunktionen und $N_e = 8$ Elemente.
-
-1. Näherungslösung: Plotten Sie die Durchbiegung $w_h$ sowie das Biegemoment $M_h = -EI \cdot w_h''$ und die Querkraft $V_h = M_h'$.
-
-1. Differentialgleichung: Erfüllt die Näherungslösung die Differentialgleichung?
-
-1. Randbedingungen: Wie gut erfüllt die Näherungslösung die Randbedingungen für Querkraft und Biegemoment an den Enden? Vergleichen Sie außerdem das Biegemoment in Feldmitte mit dem Wert $q l^2 / 8$ des Einfeldträgers. Wie erklären Sie die Abweichungen?
-
-1. Zusätzlicher Knoten: Mit `midnode=true` erhält jedes Element einen zusätzlichen Knoten in der Mitte und damit eine weitere Basisfunktion, die Näherung ist dann abschnittsweise ein Polynom vierten Grades. Plotten Sie die Basisfunktionen für $N_e = 2$ Elemente, berechnen Sie damit die Näherungslösung und prüfen Sie erneut Differentialgleichung und Randbedingungen. Was stellen Sie fest, und warum?
 
 ::: {.callout-tip title="Tipps für Julia"}
 ```{.julia}
@@ -28,16 +29,155 @@ fplot(phis...)                                # Basisfunktionen plotten
 Die Basisfunktionen sind knotenweise sortiert: `phis[1]` hat im ersten Knoten den Wert 1, `phis[2]` dort die Steigung 1, `phis[3]` hat im zweiten Knoten den Wert 1 und so weiter. Entsprechend sind die Koeffizienten in $\hat{\mathbf{w}}$ abwechselnd Durchbiegungen und Verdrehungen in den Knoten.
 :::
 
-::: {.tinh-solution}
-Der Code zu allen Punkten steht im Lösungs-Notebook.
+### Näherungslösung
 
-**Zu Punkt 2 und 3 (Differentialgleichung und Randbedingungen)**
+Plotten Sie die Durchbiegung $w_h$ sowie das Biegemoment $M_h = -EI \cdot w_h''$ und die Querkraft $V_h = M_h'$.
 
-Die Näherungslösung $w_h$ ist abschnittsweise kubisch, ihre vierte Ableitung ist null. Die Differentialgleichung $EI \cdot w'''' = q$ ist daher nicht einmal näherungsweise erfüllt. Auch die Randbedingungen für Querkraft und Biegemoment an den Enden gelten nur näherungsweise: Die Finite-Elemente-Methode erfüllt die schwache Form nur für die Basisfunktionen, nicht für alle Testfunktionen. Mit mehr Elementen werden die Abweichungen kleiner.
+::: {.lm-scaffold}
+Schwache Form
 
-**Zu Punkt 4 (Zusätzlicher Knoten)**
+```{julia}
+# ...
+```
+
+Berechnen
+
+```{julia}
+# ...
+```
+
+Lösung plotten
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Schwache Form
+
+```{julia}
+# Systemparameter in N und m
+EI = 2.1e11 * 8.356e-5
+l = 8
+q = 50e3
+k = 1e7
+
+a(w, δw) = EI * integrate(w'' * δw'', 0 .. l) + k * (w(0) * δw(0) + w(l) * δw(l))
+b(δw) = q * integrate(δw, 0 .. l)
+```
+
+Berechnen
+
+```{julia}
+Ne = 8
+phis = hermitefunctions(range(0 .. l, Ne + 1))
+K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+r = [b(phi_i) for phi_i = phis]
+wHat = K \ r
+wh = wHat ⋅ phis
+Mh = -EI * wh''
+Vh = Mh'
+```
+
+Lösung plotten
+
+```{julia}
+fig = Figure()
+fplot!(Axis(fig[1, 1], title="Durchbiegung"), wh, zero(wh))
+fplot!(Axis(fig[2, 1], title="Biegemoment und Querkraft"), Mh, Vh, zero(wh))
+fig
+```
+:::
+
+### Differentialgleichung
+
+Erfüllt die Näherungslösung die Differentialgleichung?
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+fplot(EI * wh'''' - q)
+```
+
+Die Näherungslösung $w_h$ ist abschnittsweise kubisch, ihre vierte Ableitung ist null. Die Differentialgleichung $EI \cdot w'''' = q$ ist daher nicht einmal näherungsweise erfüllt.
+:::
+
+### Randbedingungen
+
+Wie gut erfüllt die Näherungslösung die Randbedingungen für Querkraft und Biegemoment an den Enden? Vergleichen Sie außerdem das Biegemoment in Feldmitte mit dem Wert $q l^2 / 8$ des Einfeldträgers. Wie erklären Sie die Abweichungen?
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+println("Vh(0) = ", Vh(0), ", soll ", q * l / 2)
+println("Vh(l) = ", Vh(l), ", soll ", -q * l / 2)
+println("Mh(0) = ", Mh(0), ", soll 0")
+println("Mh(l) = ", Mh(l), ", soll 0")
+println("Mh(l/2) = ", Mh(l / 2), ", Einfeldträger ", q * l^2 / 8)
+```
+
+Die Randbedingungen für Querkraft und Biegemoment an den Enden gelten nur näherungsweise: Die Finite-Elemente-Methode erfüllt die schwache Form nur für die Basisfunktionen, nicht für alle Testfunktionen. Mit mehr Elementen werden die Abweichungen kleiner.
+:::
+
+### Zusätzlicher Knoten
+
+Mit `midnode=true` erhält jedes Element einen zusätzlichen Knoten in der Mitte und damit eine weitere Basisfunktion, die Näherung ist dann abschnittsweise ein Polynom vierten Grades. Plotten Sie die Basisfunktionen für $N_e = 2$ Elemente, berechnen Sie damit die Näherungslösung und prüfen Sie erneut Differentialgleichung und Randbedingungen. Was stellen Sie fest, und warum?
+
+::: {.lm-scaffold}
+Basisfunktionen
+
+```{julia}
+# ...
+```
+
+Näherungslösung und Prüfung
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Basisfunktionen
+
+```{julia}
+Ne = 2
+phis = hermitefunctions(range(0 .. l, Ne + 1), midnode=true)
+fplot(phis...)
+```
+
+Näherungslösung und Prüfung
+
+```{julia}
+K = [a(phi_j, phi_i) for phi_i = phis, phi_j = phis]
+r = [b(phi_i) for phi_i = phis]
+wHat = K \ r
+wh = wHat ⋅ phis
+Mh = -EI * wh''
+Vh = Mh'
+
+println("Vh(0) = ", Vh(0), ", soll ", q * l / 2)
+println("Vh(l) = ", Vh(l), ", soll ", -q * l / 2)
+println("Mh(0) = ", Mh(0), ", soll 0")
+println("Mh(l) = ", Mh(l), ", soll 0")
+println("Mh(l/2) = ", Mh(l / 2), ", Einfeldträger ", q * l^2 / 8)
+
+fplot(EI * wh'''' - q)
+ylims!(-1e-5, 1e-5)
+current_figure()
+```
 
 Differentialgleichung und Randbedingungen sind jetzt bis auf Rundungsfehler erfüllt. Bei konstanter Last ist die exakte Lösung ein Polynom vierten Grades, sie lässt sich mit den Basisfunktionen also exakt darstellen. Die Finite-Elemente-Methode findet sie dann auch.
 :::
-
 :::

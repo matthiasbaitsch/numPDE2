@@ -1,6 +1,62 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using LinearAlgebra
+import CairoMakie
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Mathematics
+```
 
 ::: {#exr-gleichungssystem-netz-julia}
 ## Gleichungssystem mit Netz
 
 Berechnen Sie $\mathbf{K}$ und $\mathbf{r}$ für den Bohrpfahl wie in der Aufgabe "Gleichungssystem in Julia", jetzt aber mit einem Netz. Erzeugen Sie ein Netz mit $N_e = 4$ Elementen und legen Sie $\mathbf{K}$ und $\mathbf{r}$ mit Nullen an. Addieren Sie in einer Schleife über die Elemente des Netzes die Elementsteifigkeitsmatrizen und die Elementlastvektoren mithilfe von `pile_ke` und `pile_re`. Berücksichtigen Sie anschließend Feder und Einzellast, lösen Sie das lineare Gleichungssystem und vergleichen Sie $\hat{\mathbf{u}}$ mit dem Ergebnis der globalen Integration.
+
+::: {.lm-scaffold}
+Elementweise Berechnung mit Netz
+
+```{julia}
+# ...
+```
+
+Vergleich mit der globalen Integration
+
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Elementweise Berechnung mit Netz
+
+```{julia}
+include("src/pile.jl")
+
+Ne = 4
+m = Mesh(0 .. l, Ne)
+ke_func = pile_ke(EA, C)
+re_func = pile_re(n)
+
+K = zeros(nnodes(m), nnodes(m))
+r = zeros(nnodes(m))
+for e = elements(m)
+    I = nodeindices(e)
+    K[I, I] += ke_func(e)
+    r[I] += re_func(e)
+end
+
+K[end, end] += S
+r[1] += F;
+```
+
+Lösung
+
+```{julia}
+uHat = K \ r
+uHat
+```
+:::
 :::

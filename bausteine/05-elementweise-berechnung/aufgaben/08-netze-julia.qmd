@@ -1,3 +1,15 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using LinearAlgebra
+import CairoMakie
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Mathematics
+```
+
 ## Abstraktion
 
 ::: {#exr-netze-julia}
@@ -5,28 +17,73 @@
 
 In der vorigen Aufgabe stehen die Elementlänge und die Knotennummern der Elemente fest im Code. Ein FE-Netz stellt diese Informationen für beliebige Netze bereit. Kopieren Sie die Code-Blöcke in Ihr Notebook und führen Sie sie aus.
 
-1. FE-Netz: Was macht dieser Code?
+### FE-Netz
 
-    ```{.julia}
-    m = Mesh(0 .. 20, 25)
-    mplot(m) |> mconf()
-    ```
+Was macht dieser Code?
 
-1. Ein Element des FE-Netzes
+```{.julia}
+m = Mesh(0 .. 20, 25)
+mplot(m) |> mconf()
+```
 
-    ```{.julia}
-    e22 = element(m, 22)
-    println(e22)
-    println(length(e22))
-    ```
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
 
-1. Schleife über die Elemente des FE-Netzes
+::: {.lm-solution}
+```{julia}
+m = Mesh(0 .. 20, 25)
+mplot(m) |> mconf()
+```
+:::
 
-    ```{.julia}
-    m = Mesh(0 .. 20, 4)
-    for e = elements(m)
-        println(e)
-        println(nodeindices(e))
-    end
-    ```
+### Ein Element des FE-Netzes
+
+```{.julia}
+e22 = element(m, 22)
+println(e22)
+println(length(e22))
+```
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+e22 = element(m, 22)
+println(e22)
+println(length(e22))
+```
+:::
+
+### Schleife über die Elemente des FE-Netzes
+
+```{.julia}
+m = Mesh(0 .. 20, 4)
+for e = elements(m)
+    println(e)
+    println(nodeindices(e))
+end
+```
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+m = Mesh(0 .. 20, 4)
+for e = elements(m)
+    println(e)
+    println(nodeindices(e))
+end
+```
+:::
 :::
