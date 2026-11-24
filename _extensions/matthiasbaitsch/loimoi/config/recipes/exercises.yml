@@ -4,25 +4,26 @@ options:
     default: notebook
 
 quarto-files:
-  - name: "${nn-name}-${exercises}"
+  - name: "${file-name}"
     title: "${exercise-sheet} ${n}"
     subtitle: "${full-title}"
     process: [exercise-sheet]
     link: "${exercise-sheet}"
 
-  - name: "${nn-name}-${exercises}-${solution}-${hash}"
+  - name: "${file-name}-${solution}-${hash}"
     title: "${solutions-to-exercise-sheet} ${n}"
+    subtitle: "${full-title}"
     process: [exercise-solution, attach-src, show-markers]
     link: "${solution-label}"
 
-  - name: "${nn-name}-${exercises}-${preview}-${hash}" 
+  - name: "${file-name}-${preview}-${hash}" 
     title: "${exercise-sheet} ${n}"
     subtitle: "${full-title}"
     process: [attach-src, show-markers]
     link: "${preview-label}"
 
   - when: { work-files: notebook }
-    name: "${nn-name}-${exercises}"
+    name: "${file-name}"
     title: "${exercise-sheet} ${n}"
     process: [exercise-scaffold]
     format: ipynb
@@ -30,13 +31,13 @@ quarto-files:
     provides: work-files
 
   - when: { work-files: folder }
-    name: "${nn-name}-${exercises}/${name}-${exercises}"
+    name: "${file-name}/${name}-${exercises}"
     title: "${exercise-sheet} ${n}"
     process: [exercise-scaffold]
 
 archives:
   - when: { work-files: folder }
-    name: "${nn-name}-${exercises}"
+    name: "${file-name}"
     provides: work-files
     add:
       - /_templates/exercises/_quarto.yml

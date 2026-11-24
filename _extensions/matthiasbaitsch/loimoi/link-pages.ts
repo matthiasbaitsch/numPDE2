@@ -1,7 +1,7 @@
 import { existsSync } from "jsr:@std/fs@1";
 import { join, relative } from "jsr:@std/path@1";
 import { QuartoFile } from "./actions/quarto-file.ts";
-import { CollectionConfiguration } from "./collection-configuration.ts";
+import { Collection } from "./collection.ts";
 import { replacePlaceholders } from "./utilities.ts";
 
 interface LinkedFile {
@@ -16,7 +16,7 @@ interface ProductLinks {
 
 interface CollectionLinks {
   name: string;
-  site?: string;
+  site: string;
   products: ProductLinks[];
 }
 
@@ -82,29 +82,26 @@ ${sections.join("\n\n")}
 
   private collection(name: string): CollectionLinks {
     const collectionFolder = join(this.learningMaterialFolder, name);
-    const configuration = new CollectionConfiguration(collectionFolder);
-    const linked = configuration.recipe().actions.filter((action): action is QuartoFile =>
+    const collection = new Collection(collectionFolder);
+    const linked = collection.recipe().actions.filter((action): action is QuartoFile =>
       action instanceof QuartoFile && action.link !== undefined
     );
     // `c/` as rendered by Quarto
-    const renderedFolder = join(configuration.renderFolder(), relative(collectionFolder, configuration.outputFolder()));
-    const words = configuration.words();
-    const site = configuration.site();
-    const products = configuration.productConfigurations().map((product) => {
-      const values = { ...words, ...product.placeholders(site) };
+    const renderedFolder = join(collection.renderFolder(), relative(collectionFolder, collection.outputFolder()));
+    const products = collection.configuration.products.map((product) => {
+      const values = collection.placeholders(product);
       const files = linked.map((action) => ({
         label: replacePlaceholders(action.link as string, values),
         file: join(renderedFolder, values["nn-name"], action.file(values).replace(/\.qmd$/, ".html")),
       }));
       return { title: `${String(product.number).padStart(2, "0")} ${product.fullTitle}`, files };
     });
-    return { name, site, products };
+    return { name, site: collection.configuration.site, products };
   }
 }
 
 // `site` stands for the folder `__output/`
 function siteUrl(collection: CollectionLinks, file: string): string {
-  if (collection.site === undefined) throw new Error(`No site for collection ${collection.name}`);
   const parts = file.split("/__output/");
   if (parts.length !== 2) throw new Error(`No folder __output in ${file}`);
   return `${collection.site}/${parts[1]}`;

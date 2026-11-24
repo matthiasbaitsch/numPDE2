@@ -1,0 +1,11 @@
+# Settings allowed in loimoi.yml; without a value: default computed by Settings
+output: c
+first-number: 1
+file-name: "${nn-name}-${exercises}"
+product-naming: path
+options: {}
+lang:
+site:
+building-blocks:
+recipe:
+products:

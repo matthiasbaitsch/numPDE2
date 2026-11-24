@@ -1,5 +1,3 @@
-import { createHash } from "node:crypto";
-import { Placeholders } from "./actions/action.ts";
 import { BuildingBlockTree } from "./building-block-tree.ts";
 import { slug, Yaml } from "./utilities.ts";
 
@@ -30,21 +28,5 @@ export class ProductConfiguration {
     const titles = [this.groupTitle, this.title].filter((part) => part !== undefined);
     this.fullTitle = titles.join(": ");
     this.name = name ?? (productNaming === "titles" ? slug(...titles) : basket.name());
-  }
-
-  // Without `group-title` and `site` if they are missing, so `${site}` stays visible in the output
-  placeholders(site?: string): Placeholders {
-    const nnName = `${String(this.number).padStart(2, "0")}-${this.name}`;
-    const values: Placeholders = {
-      "n": String(this.number),
-      "name": this.name,
-      "nn-name": nnName,
-      "hash": createHash("sha1").update(`87362-${nnName}`).digest("hex").slice(0, 8),
-      "product-title": this.title,
-      "full-title": this.fullTitle,
-    };
-    if (this.groupTitle !== undefined) values["group-title"] = this.groupTitle;
-    if (site !== undefined) values["site"] = site;
-    return values;
   }
 }

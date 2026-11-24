@@ -1,4 +1,5 @@
 import { Basket } from "../basket.ts";
+import { ProductFolder } from "../product-folder.ts";
 import { Yaml } from "../utilities.ts";
 
 export type Placeholders = Record<string, string>;
@@ -15,5 +16,5 @@ export abstract class Action {
   // The file this action writes, relative to the folder
   abstract file(placeholders: Placeholders): string;
 
-  abstract run(basket: Basket, placeholders: Placeholders, folder: string): void;
+  abstract run(basket: Basket, placeholders: Placeholders, folder: ProductFolder): void;
 }

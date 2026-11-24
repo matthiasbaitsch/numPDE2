@@ -3,6 +3,7 @@ import { Archive } from "./actions/archive.ts";
 import { QuartoFile } from "./actions/quarto-file.ts";
 import { Basket } from "./basket.ts";
 import { CodeReplacement } from "./code-replacement.ts";
+import { ProductFolder } from "./product-folder.ts";
 import { existsSync } from "jsr:@std/fs@1";
 import { join } from "jsr:@std/path@1";
 import { readYaml, Yaml } from "./utilities.ts";
@@ -44,8 +45,8 @@ export class Recipe {
 
   // In the folder of the product; the placeholders from `provides` are known before the first action runs
   run(basket: Basket, placeholders: Placeholders): void {
-    const folder = join(this.folder, placeholders["nn-name"]);
-    Deno.mkdirSync(folder);
+    const folder = new ProductFolder(join(this.folder, placeholders["nn-name"]));
+    Deno.mkdirSync(folder.folder);
     const values = { ...placeholders };
     for (const action of this.actions) {
       if (action.provides !== undefined) values[action.provides] = action.file(values);
