@@ -23,12 +23,23 @@ check-links:
 # ~/.config/moodle/token (not in the repo), sent by POST. jq unescapes the JSON, links to Moodle itself are skipped
 MOODLE = https://moodle.hs-bochum.de/webservice/rest/server.php
 MOODLE_COURSE = 11681
+MOODLE_CONTENTS = curl -s "$(MOODLE)?moodlewsrestformat=json&wsfunction=core_course_get_contents&courseid=$(MOODLE_COURSE)" \
+	--data-urlencode "wstoken=$$(tr -d '[:space:]' < ~/.config/moodle/token)"
+
+# Each broken link with section, activity and the link to edit the activity
+MOODLE_REPORT = "\(.errors) broken of \(.unique) links", (.error_map[][] | . as $$error \
+	| "\n\(.status.code // .status.text) \(.url)", ($$contents[0][] | .name as $$section | .modules[] \
+	| select(any(.. | strings; contains($$error.url))) \
+	| "  \($$section) → \(.name)\n  https://moodle.hs-bochum.de/course/modedit.php?update=\(.id)"))
 
 check-moodle-links:
-	curl -s "$(MOODLE)?moodlewsrestformat=json&wsfunction=core_course_get_contents&courseid=$(MOODLE_COURSE)" \
-		--data-urlencode "wstoken=$$(tr -d '[:space:]' < ~/.config/moodle/token)" \
-		| jq -r '.. | strings' \
-		| lychee --no-progress --exclude 'moodle\.hs-bochum\.de' -
+	@contents=$$(mktemp); result=$$(mktemp); \
+	$(MOODLE_CONTENTS) > $$contents; \
+	jq -r '.. | strings' $$contents | lychee --no-progress --format json --exclude 'moodle\.hs-bochum\.de' - > $$result; \
+	status=$$?; \
+	jq -r --slurpfile contents $$contents '$(MOODLE_REPORT)' $$result; \
+	rm $$contents $$result; \
+	exit $$status
 
 # Update extensions tinh and loi-moi (_extensions/) and brand of Hochschule Bochum (_brand/)
 update-extension:

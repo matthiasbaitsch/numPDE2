@@ -1,0 +1,106 @@
+```{julia}
+#| label: setup
+#| include: false
+using Revise
+using LinearAlgebra
+import CairoMakie
+using MMJMesh
+using MMJMesh.Plots
+using MMJMesh.Meshes
+using MMJMesh.Mathematics
+```
+
+::: {#exr-gleichungssystem-netz-julia}
+## Gleichungssystem mit Netz
+
+Berechnen Sie $\mathbf{K}$ und $\mathbf{r}$ für den Bohrpfahl wie in der Aufgabe "Gleichungssystem in Julia", jetzt aber mit einem Netz, in dem die Beiträge der Netzobjekte als Funktionen gespeichert sind.
+
+### Funktionen für Elemente und Knoten
+
+Programmieren Sie die Funktionen `kefunc_pile(e)` und `refunc_pile(e)`, die für ein Element `e` die Elementsteifigkeitsmatrix $\mathbf{K}^e$ bzw. den Elementlastvektor $\mathbf{r}^e$ aus der Aufgabe "Elementsteifigkeitsmatrix und Elementlastvektor" berechnen, sowie `kefunc_spring(n)` und `refunc_force(n)`, die für einen Knoten `n` die Federsteifigkeit bzw. die Einzellast als Vektor mit einem Eintrag zurückgeben. Die Funktionen verwenden die Systemparameter. Testen Sie die Funktionen an einem Element und einem Knoten eines Netzes.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+function kefunc_pile(e)
+    h = length(e)
+    return EA / h * [1 -1; -1 1] + C * h / 6 * [2 1; 1 2]
+end
+
+function refunc_pile(e)
+    h = length(e)
+    return n * h / 2 * [1, 1]
+end
+
+function kefunc_spring(n)
+    return [S]
+end
+
+function refunc_force(n)
+    return [F]
+end
+
+m = Mesh(0 .. l, 4)
+e2 = element(m, 2)
+n3 = node(m, 3)
+println("K2 = ", kefunc_pile(e2))
+println("r2 = ", refunc_pile(e2))
+println("S = ", kefunc_spring(n3))
+println("F = ", refunc_force(n3))
+```
+:::
+
+### Näherungslösung
+
+Erzeugen Sie ein Netz mit $N_e = 4$ Elementen und speichern Sie die Funktionen unter den Namen `:kefunc` und `:refunc`: die Funktionen für den Pfahl bei allen Elementen, die Feder beim letzten und die Einzellast beim ersten Knoten. Legen Sie $\mathbf{K}$ und $\mathbf{r}$ mit Nullen an und addieren Sie in einer Schleife über alle Netzobjekte die Beiträge der gespeicherten Funktionen. Lösen Sie das lineare Gleichungssystem und vergleichen Sie $\hat{\mathbf{u}}$ mit dem Ergebnis der globalen Integration.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+Ne = 4
+N = Ne + 1
+m = Mesh(0 .. l, Ne)
+
+setdata!(group(m, :elements), :kefunc, kefunc_pile)
+setdata!(group(m, :elements), :refunc, refunc_pile)
+setdata!(node(m, N), :kefunc, kefunc_spring)
+setdata!(node(m, 1), :refunc, refunc_force)
+
+K = zeros(N, N)
+r = zeros(N)
+
+for e = entities(m)
+    Ie = nodeindices(e)
+    if hasdata(e, :kefunc)
+        kefunc = data(e, :kefunc)
+        K[Ie, Ie] += kefunc(e)
+    end
+    if hasdata(e, :refunc)
+        refunc = data(e, :refunc)
+        r[Ie] += refunc(e)
+    end
+end
+
+uHat = K \ r
+[uHat uHat_global]
+```
+:::
+
+### Bewertung
+
+Was an Ihrem Code hängt jetzt noch vom Bohrpfahl ab, was nicht mehr? Was fehlt, damit Sie ihn für andere Probleme wiederverwenden können?
+
+::: {.lm-solution}
+Die Schleife über die Netzobjekte weiß nichts mehr über das konkrete Problem: Welche Beiträge wo anfallen, steht allein im Netz. Das Ergebnis ist wieder dasselbe. Wiederverwendbar ist der Code aber noch nicht: Die Funktionen für Elemente und Knoten greifen direkt auf die Systemparameter zu, und die Assemblierung steht als Code im Notebook statt in einer Funktion.
+:::
+:::
