@@ -68,13 +68,13 @@ mplot(m, edgesvisible=true) |> mconf()
 Problem definieren
 
 ```{julia}
-setdata!(group(m, :s1), :ke_func, heat_ke(0.7))
-setdata!(group(m, :s2), :ke_func, heat_ke(0.24))
-setdata!(group(m, :s3), :ke_func, heat_ke(0.87))
-setdata!(group(m, :wi), :ke_func, robin_ke(hi))
-setdata!(group(m, :wi), :re_func, robin_re(hi, ti))
-setdata!(group(m, :wa), :ke_func, robin_ke(ha))
-setdata!(group(m, :wa), :re_func, robin_re(ha, ta))
+setdata!(group(m, :s1), :kefunc, heat_ke(0.7))
+setdata!(group(m, :s2), :kefunc, heat_ke(0.24))
+setdata!(group(m, :s3), :kefunc, heat_ke(0.87))
+setdata!(group(m, :wi), :kefunc, robin_ke(hi))
+setdata!(group(m, :wi), :refunc, robin_re(hi, ti))
+setdata!(group(m, :wa), :kefunc, robin_ke(ha))
+setdata!(group(m, :wa), :refunc, robin_re(ha, ta))
 ```
 
 Gleichungssystem aufstellen und lösen

@@ -10,8 +10,8 @@ using MMJMesh.Meshes
 using MMJMesh.Mathematics
 ```
 
-::: {#exr-funktion-gleichungssystem}
-## Funktion für das Gleichungssystem
+::: {#exr-funktion-fuer-die-assemblierung}
+## Funktion für die Assemblierung
 
 ### Funktion mit zwei Rückgabewerten
 
@@ -36,7 +36,7 @@ println("y1 = ", y1, ", y2 = ", y2)
 
 ### Gleichungssystem für den Bohrpfahl
 
-Erstellen Sie die Funktion `assemble_kr(m)`, die für ein Netz `m` die globale Steifigkeitsmatrix $\mathbf{K}$ und den globalen Lastvektor $\mathbf{r}$ zurückgibt. Die Funktionen für Elemente und Knoten sind im Netz unter den Namen `:ke_func` und `:re_func` gespeichert; Elemente und Knoten ohne gespeicherte Funktion tragen nichts bei. Überprüfen Sie, dass Sie für den Bohrpfahl mit $N_e = 4$ Elementen dasselbe $\hat{\mathbf{u}}$ erhalten wie mit der globalen Integration.
+Erstellen Sie aus der Schleife in der Aufgabe "Assemblierung mit Netz" die Funktion `assemble_kr(m)`, die für ein Netz `m` die globale Steifigkeitsmatrix $\mathbf{K}$ und den globalen Lastvektor $\mathbf{r}$ zurückgibt. Die Funktionen für Elemente und Knoten sind im Netz unter den Namen `:kefunc` und `:refunc` gespeichert; Elemente und Knoten ohne gespeicherte Funktion tragen nichts bei. Speichern Sie die Funktionen aus der vorigen Aufgabe im Netz und überprüfen Sie, dass Sie für den Bohrpfahl mit $N_e = 4$ Elementen dasselbe $\hat{\mathbf{u}}$ erhalten wie mit der globalen Integration. Plotten Sie die Näherungslösung.
 
 ::: {.lm-scaffold}
 ```{julia}
@@ -52,14 +52,23 @@ include("src/pile.jl")
 include("src/fem.jl")
 
 m = Mesh(0 .. l, 4)
-setdata!(group(m, :elements), :ke_func, pile_ke(EA, C))
-setdata!(group(m, :elements), :re_func, pile_re(n))
-setdata!(node(m, nnodes(m)), :ke_func, spring(S))
-setdata!(node(m, 1), :re_func, force(F))
+setdata!(group(m, :elements), :kefunc, pile_ke(EA, C))
+setdata!(group(m, :elements), :refunc, pile_re(n))
+setdata!(node(m, nnodes(m)), :kefunc, spring(S))
+setdata!(node(m, 1), :refunc, force(F))
 
 K, r = assemble_kr(m)
 uHat = K \ r
-uHat
+display([uHat uHat_global])
+mplot(m, uHat)
 ```
+:::
+
+### Bewertung
+
+Welche Teile Ihres Codes lassen sich jetzt für andere Netze oder Probleme wiederverwenden?
+
+::: {.lm-solution}
+Alles steht in Funktionen, die beliebig wiederverwendet werden können: `pile_ke`, `pile_re`, `spring` und `force` formulieren das Problem Bohrpfahl für beliebige Parameter und Netze, `assemble_kr` stellt das Gleichungssystem für beliebige Netze und Probleme auf.
 :::
 :::

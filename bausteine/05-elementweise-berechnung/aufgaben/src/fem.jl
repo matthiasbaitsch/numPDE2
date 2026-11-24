@@ -8,12 +8,12 @@ function assemble_kr(m)
 
     for e = entities(m)
         I = nodeindices(e)
-        if hasdata(e, :ke_func)
-            kef = data(e, :ke_func)
+        if hasdata(e, :kefunc)
+            kef = data(e, :kefunc)
             K[I, I] += kef(e)
         end
-        if hasdata(e, :re_func)
-            ref = data(e, :re_func)
+        if hasdata(e, :refunc)
+            ref = data(e, :refunc)
             r[I] += ref(e)
         end
     end

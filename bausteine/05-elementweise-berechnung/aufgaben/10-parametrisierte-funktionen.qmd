@@ -10,45 +10,33 @@ using MMJMesh.Meshes
 using MMJMesh.Mathematics
 ```
 
-::: {#exr-elementfunktionen-julia}
-## Elementfunktionen in Julia
+::: {#exr-parametrisierte-funktionen}
+## Parametrisierte Funktionen
 
-### Parametrisierte Funktion
+### Parametrisierte Funktionen
 
-Was macht dieser Code?
+In der Mathematik ist eine Funktionenfolge eine Vorschrift, die einer natürlichen Zahl eine Funktion zuweist, zum Beispiel
+
+$$
+f_k(x) = \cos(k x).
+$$
+
+In Julia lässt sich das mit einer Funktion umsetzen, die eine Funktion zurückgibt, sozusagen einer parametrisierten Funktion. Was macht dieser Code?
 
 ```{.julia}
-function bsin(b)
+function cosk(k)
     function f(x)
-        return b * sin(x)
+        return cos(k * x)
     end
     return f
 end
 
-f1 = bsin(1)
-f2 = bsin(5)
-
-println("f1(π/2) = ", f1(π / 2), ", f2(π/2) = ", f2(π / 2))
-```
-
-```{julia}
-#| include: true
-function bsin(b)
-    function f(x)
-        return b * sin(x)
-    end
-    return f
+p = CairoMakie.lines(0 .. 2π, cos)
+for k = 2:4
+    CairoMakie.lines!(0 .. 2π, cosk(k))
 end
-
-f1 = bsin(1)
-f2 = bsin(5)
-
-println("f1(π/2) = ", f1(π / 2), ", f2(π/2) = ", f2(π / 2))
+p
 ```
-
-### Elementsteifigkeitsmatrix und Elementlastvektor
-
-Programmieren Sie nach diesem Muster die Funktionen `pile_ke(EA, C)` und `pile_re(n)`. Sie geben jeweils eine Funktion zurück, die für ein Element `e` die Elementsteifigkeitsmatrix $\mathbf{K}^e$ bzw. den Elementlastvektor $\mathbf{r}^e$ aus der Aufgabe "Elementsteifigkeitsmatrix und Elementlastvektor" berechnet. Testen Sie die Funktionen an einem Element eines Netzes.
 
 ::: {.lm-scaffold}
 ```{julia}
@@ -57,19 +45,51 @@ Programmieren Sie nach diesem Muster die Funktionen `pile_ke(EA, C)` und `pile_r
 :::
 
 ::: {.lm-solution}
-Code von `pile_ke` und `pile_re` in `src/pile.jl` im Anhang.
+```{julia}
+function cosk(k)
+    function f(x)
+        return cos(k * x)
+    end
+    return f
+end
+
+p = CairoMakie.lines(0 .. 2π, cos)
+for k = 2:4
+    CairoMakie.lines!(0 .. 2π, cosk(k))
+end
+p
+```
+:::
+
+### Funktionen für den Bohrpfahl
+
+Programmieren Sie nach diesem Muster die Funktionen `pile_ke(EA, C)`, `pile_re(n)`, `spring(S)` und `force(F)`. Sie geben jeweils eine Funktion zurück, die wie die Funktionen aus der Aufgabe "Assemblierung mit Netz" für ein Element bzw. einen Knoten den Beitrag zu $\mathbf{K}$ bzw. $\mathbf{r}$ berechnet, jetzt aber mit den übergebenen Parametern statt mit den Systemparametern. Testen Sie die Funktionen an einem Element und einem Knoten eines Netzes.
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+Code der Funktionen in `src/pile.jl` im Anhang.
 
 ```{julia}
 include("src/pile.jl")
 
 m = Mesh(0 .. 20, 23)
 e8 = element(m, 8)
+n4 = node(m, 4)
 
-ke_func = pile_ke(3.2, 8.9)
-re_func = pile_re(1.8)
+kefunc = pile_ke(3.2, 8.9)
+refunc = pile_re(1.8)
+s1 = spring(121.4)
+f1 = force(18.2)
 
-display(ke_func(e8))
-display(re_func(e8))
+display(kefunc(e8))
+display(refunc(e8))
+display(s1(n4))
+display(f1(n4))
 ```
 :::
 :::

@@ -25,7 +25,7 @@ end
 
 function nf(m)
     e1 = element(m, 1)
-    ke = data(e1, :ke_func)(e1)
+    ke = data(e1, :kefunc)(e1)
     return Int(size(ke, 1) / nnodes(e1))
 end
 
@@ -37,8 +37,8 @@ function assemble_kr(m)
 
     for e = entities(m)
         I = dofs(nodeindices(e), Nf)
-        hasdata(e, :ke_func) && (K[I, I] += data(e, :ke_func)(e))
-        hasdata(e, :re_func) && (r[I] += data(e, :re_func)(e))
+        hasdata(e, :kefunc) && (K[I, I] += data(e, :kefunc)(e))
+        hasdata(e, :refunc) && (r[I] += data(e, :refunc)(e))
     end
 
     return sparse(K), r
@@ -53,9 +53,9 @@ function assemble_kmr(m)
 
     for e = entities(m)
         I = dofs(nodeindices(e), Nf)
-        hasdata(e, :ke_func) && (K[I, I] += data(e, :ke_func)(e))
+        hasdata(e, :kefunc) && (K[I, I] += data(e, :kefunc)(e))
         hasdata(e, :me_func) && (M[I, I] += data(e, :me_func)(e))
-        hasdata(e, :re_func) && (r[I] += data(e, :re_func)(e))
+        hasdata(e, :refunc) && (r[I] += data(e, :refunc)(e))
     end
 
     return sparse(K), sparse(M), r

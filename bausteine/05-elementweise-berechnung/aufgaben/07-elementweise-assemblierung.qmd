@@ -10,8 +10,8 @@ using MMJMesh.Meshes
 using MMJMesh.Mathematics
 ```
 
-::: {#exr-gleichungssystem-julia}
-## Gleichungssystem in Julia
+::: {#exr-elementweise-assemblierung}
+## Elementweise Assemblierung
 
 Auf dem vorigen Aufgabenblatt haben Sie die Steifigkeitsmatrix $\mathbf{K}$ und den Lastvektor $\mathbf{r}$ für den Bohrpfahl durch Integration der Basisfunktionen über das ganze Gebiet aufgestellt. Jetzt berechnen Sie sie elementweise. Die Systemparameter und die Berechnung von $\hat{\mathbf{u}}$ für $N_e = 4$ Elemente durch globale Integration sind im Notebook bereits vorgegeben.
 
@@ -118,5 +118,13 @@ Vergleichen Sie $\hat{\mathbf{u}}$ mit dem Ergebnis der globalen Integration. Wa
 ```
 
 $\hat{\mathbf{u}}$ stimmt bis auf Rundungsfehler überein, weil schon $\mathbf{K}$ und $\mathbf{r}$ dieselben sind. Die elementweise Berechnung ist nur eine andere Organisation derselben Integrale: Das Integral über das Gebiet ist die Summe der Integrale über die Elemente, und auf jedem Element sind nur die beiden Basisfunktionen zu den Knoten des Elements von null verschieden. Die Elementsteifigkeitsmatrix enthält genau diese Beiträge, die Assemblierung addiert sie an die Stellen der zugehörigen Knotennummern. Wie bei der globalen Integration kommt die Feder im letzten Diagonaleintrag von $\mathbf{K}$ hinzu und die Einzellast im ersten Eintrag von $\mathbf{r}$.
+:::
+
+### Bewertung
+
+Für welche Netze funktioniert Ihr Code? Was müssten Sie ändern, um ihn für ein anderes Netz oder ein anderes Problem zu verwenden?
+
+::: {.lm-solution}
+Der Code funktioniert nur für ein uniformes Netz mit fortlaufender Nummerierung: $\mathbf{K}^e$ und $\mathbf{r}^e$ werden einmal für die Elementlänge $h$ berechnet, und die Knotennummern $e$ und $e + 1$ der Elemente stehen fest im Code. Ebenso stehen Feder und Einzellast an festen Stellen. Für ein anderes Netz oder ein anderes Problem muss der Code an all diesen Stellen geändert werden, er ist also nicht wiederverwendbar.
 :::
 :::

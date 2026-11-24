@@ -10,10 +10,10 @@ using MMJMesh.Meshes
 using MMJMesh.Mathematics
 ```
 
-::: {#exr-gleichungssystem-netz-julia}
-## Gleichungssystem mit Netz
+::: {#exr-assemblierung-mit-netz}
+## Assemblierung mit Netz
 
-Berechnen Sie $\mathbf{K}$ und $\mathbf{r}$ für den Bohrpfahl wie in der Aufgabe "Gleichungssystem in Julia", jetzt aber mit einem Netz, in dem die Beiträge der Netzobjekte als Funktionen gespeichert sind.
+Berechnen Sie $\mathbf{K}$ und $\mathbf{r}$ für den Bohrpfahl wie in der Aufgabe "Elementweise Assemblierung", jetzt aber mit einem Netz, in dem die Beiträge der Netzobjekte als Funktionen gespeichert sind.
 
 ### Funktionen für Elemente und Knoten
 

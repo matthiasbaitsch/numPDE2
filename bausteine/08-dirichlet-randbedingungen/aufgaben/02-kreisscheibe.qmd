@@ -70,8 +70,8 @@ p = (
 Problem definieren
 
 ```{julia}
-setdata!(group(m, :elements), :ke_func, heat_ke(p.λ))
-setdata!(group(m, :elements), :re_func, heat_re(p.w))
+setdata!(group(m, :elements), :kefunc, heat_ke(p.λ))
+setdata!(group(m, :elements), :refunc, heat_re(p.w))
 ```
 
 Gleichungssystem aufstellen

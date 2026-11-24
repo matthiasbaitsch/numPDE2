@@ -12,60 +12,39 @@ using MMJMesh.Mathematics
 
 ## Abstraktion
 
-::: {#exr-netze-julia}
-## Netze in Julia
+::: {#exr-fe-netze-und-daten}
+## FE-Netze und Daten
 
-In der vorigen Aufgabe stehen die Elementlänge und die Knotennummern der Elemente fest im Code. Ein FE-Netz stellt diese Informationen für beliebige Netze bereit. Kopieren Sie die Code-Blöcke in Ihr Notebook und führen Sie sie aus.
+In der vorigen Aufgabe stehen die Elementlänge, die Knotennummern der Elemente sowie Feder und Einzellast fest im Code. Ein FE-Netz stellt diese Informationen für beliebige Netze bereit und kann zusätzlich Daten für seine Netzobjekte speichern. Kopieren Sie die Code-Blöcke in Ihr Notebook und führen Sie sie aus.
 
 ### FE-Netz
 
 Was macht dieser Code?
 
 ```{.julia}
-m = Mesh(0 .. 20, 25)
-mplot(m) |> mconf()
-```
-
-::: {.lm-scaffold}
-```{julia}
-# ...
-```
-:::
-
-::: {.lm-solution}
-```{julia}
-m = Mesh(0 .. 20, 25)
-mplot(m) |> mconf()
-```
-:::
-
-### Ein Element des FE-Netzes
-
-```{.julia}
-e22 = element(m, 22)
-println(e22)
-println(length(e22))
-```
-
-::: {.lm-scaffold}
-```{julia}
-# ...
-```
-:::
-
-::: {.lm-solution}
-```{julia}
-e22 = element(m, 22)
-println(e22)
-println(length(e22))
-```
-:::
-
-### Schleife über die Elemente des FE-Netzes
-
-```{.julia}
 m = Mesh(0 .. 20, 4)
-for e = elements(m)
+mplot(m) |> mconf()
+```
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+m = Mesh(0 .. 20, 4)
+mplot(m) |> mconf()
+```
+:::
+
+### Schleife über die Netzobjekte
+
+Welche Netzobjekte hat das Netz und welche Knotennummern gehören zu ihnen?
+
+```{.julia}
+for e = entities(m)
     println(e)
     println(nodeindices(e))
 end
@@ -79,11 +58,94 @@ end
 
 ::: {.lm-solution}
 ```{julia}
-m = Mesh(0 .. 20, 4)
-for e = elements(m)
+for e = entities(m)
     println(e)
     println(nodeindices(e))
 end
 ```
+:::
+
+### Ein Element
+
+```{.julia}
+e3 = element(m, 3)
+length(e3)
+```
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+e3 = element(m, 3)
+length(e3)
+```
+:::
+
+### Daten im Netz
+
+Daten für alle Elemente speichern, abfragen und prüfen, ob sie vorhanden sind:
+
+```{.julia}
+setdata!(group(m, :elements), :test, 99)
+println(data(element(m, 3), :test))
+
+e2 = element(m, 2)
+println(hasdata(e2, :test))
+println(hasdata(e2, :hallo))
+```
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+setdata!(group(m, :elements), :test, 99)
+println(data(element(m, 3), :test))
+
+e2 = element(m, 2)
+println(hasdata(e2, :test))
+println(hasdata(e2, :hallo))
+```
+:::
+
+### Funktionen im Netz
+
+Funktionen sind in Julia Objekte erster Klasse (siehe zum Beispiel den Artikel auf [Wikipedia](https://en.wikipedia.org/wiki/First-class_function)): Sie können Variablen zugewiesen und damit auch im Netz gespeichert werden.
+
+```{.julia}
+f = sin
+println(f(π / 4))
+
+setdata!(group(m, :elements), :do_it, f)
+ef = data(element(m, 4), :do_it)
+println(ef(π / 4))
+```
+
+Wie können Sie diese Idee für die Assemblierung des linearen Gleichungssystems nutzen?
+
+::: {.lm-scaffold}
+```{julia}
+# ...
+```
+:::
+
+::: {.lm-solution}
+```{julia}
+f = sin
+println(f(π / 4))
+
+setdata!(group(m, :elements), :do_it, f)
+ef = data(element(m, 4), :do_it)
+println(ef(π / 4))
+```
+
+Im Netz werden für die Elemente Funktionen gespeichert, die die Elementsteifigkeitsmatrix und den Elementlastvektor berechnen, für die Knoten Funktionen für Feder und Einzellast. Die Assemblierung läuft über alle Netzobjekte, fragt mit `hasdata` ab, ob eine Funktion gespeichert ist, ruft sie gegebenenfalls auf und addiert das Ergebnis an den Stellen der zugehörigen Knotennummern zu $\mathbf{K}$ bzw. $\mathbf{r}$. Welche Beiträge wo anfallen, steht damit allein im Netz.
 :::
 :::

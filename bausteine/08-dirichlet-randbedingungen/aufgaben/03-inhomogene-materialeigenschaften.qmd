@@ -51,9 +51,9 @@ mplot(m, edgesvisible=true) |> mconf()
 Problem definieren
 
 ```{julia}
-setdata!(group(m, :S1), :ke_func, heat_ke(1))
-setdata!(group(m, :S2), :ke_func, heat_ke(20))
-setdata!(group(m, :elements), :re_func, heat_re(250))
+setdata!(group(m, :S1), :kefunc, heat_ke(1))
+setdata!(group(m, :S2), :kefunc, heat_ke(20))
+setdata!(group(m, :elements), :refunc, heat_re(250))
 ```
 
 Gleichungssystem aufstellen und lösen

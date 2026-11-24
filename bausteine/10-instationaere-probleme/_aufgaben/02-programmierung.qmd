@@ -92,7 +92,7 @@ mplot(m, edgesvisible=true) |> mconf()
 Element functions
 
 ```{julia}
-setdata!(group(m, :elements), :ke_func, heat_ke(35))
+setdata!(group(m, :elements), :kefunc, heat_ke(35))
 setdata!(group(m, :elements), :me_func, heat_me(7200, 440.5))
 ```
 
@@ -100,9 +100,9 @@ Boundary conditions: We use Robin BCs in order to impose Dirichlet BCs using a l
 
 ```{julia}
 pen = 1e10
-setdata!(group(m, :bl), :ke_func, robin_ke(pen))
-setdata!(group(m, :bl), :re_func, robin_re(pen, 1))
-setdata!(group(m, :br), :ke_func, robin_ke(pen))
+setdata!(group(m, :bl), :kefunc, robin_ke(pen))
+setdata!(group(m, :bl), :refunc, robin_re(pen, 1))
+setdata!(group(m, :br), :kefunc, robin_ke(pen))
 ```
 
 System matrices and vector
@@ -138,9 +138,9 @@ Euler's method (just to try it, not accurate), does not work for large pentalty 
 
 ```{julia}
 pen = 1e4
-setdata!(group(m, :bl), :ke_func, robin_ke(pen))
-setdata!(group(m, :bl), :re_func, robin_re(pen, 1))
-setdata!(group(m, :br), :ke_func, robin_ke(pen))
+setdata!(group(m, :bl), :kefunc, robin_ke(pen))
+setdata!(group(m, :bl), :refunc, robin_re(pen, 1))
+setdata!(group(m, :br), :kefunc, robin_ke(pen))
 K, M, r = assemble_kmr(m)
 
 luM = lu(M)

@@ -10,8 +10,8 @@ using MMJMesh.Meshes
 using MMJMesh.Mathematics
 ```
 
-::: {#exr-assemblierung-julia}
-## Assemblierung in Julia
+::: {#exr-untermatrizen-addieren}
+## Untermatrizen addieren
 
 Laden Sie hierfür das [Notebook](${work-files}) herunter, entpacken Sie es in den Ordner `projekt-aufgaben` und öffnen Sie es. Kopieren Sie die Code-Blöcke in das Notebook und führen Sie sie aus.
 

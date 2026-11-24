@@ -133,16 +133,16 @@ p
 Materialparameter und Randbedingungen
 
 ```{julia}
-setdata!(group(m, :s1), :ke_func, heat_ke(1.0))
+setdata!(group(m, :s1), :kefunc, heat_ke(1.0))
 setdata!(group(m, :s1), :me_func, heat_me(1800, 1000))
-setdata!(group(m, :s2), :ke_func, heat_ke(0.04))
+setdata!(group(m, :s2), :kefunc, heat_ke(0.04))
 setdata!(group(m, :s2), :me_func, heat_me(50, 900))
-setdata!(group(m, :s3), :ke_func, heat_ke(2.3))
+setdata!(group(m, :s3), :kefunc, heat_ke(2.3))
 setdata!(group(m, :s3), :me_func, heat_me(2400, 1000))
-setdata!(group(m, :wa), :ke_func, robin_ke(25))
-setdata!(group(m, :wa), :re_func, robin_re(25, -5))
-setdata!(group(m, :wi), :ke_func, robin_ke(7.5))
-setdata!(group(m, :wi), :re_func, robin_re(7.5, 20))
+setdata!(group(m, :wa), :kefunc, robin_ke(25))
+setdata!(group(m, :wa), :refunc, robin_re(25, -5))
+setdata!(group(m, :wi), :kefunc, robin_ke(7.5))
+setdata!(group(m, :wi), :refunc, robin_re(7.5, 20))
 ```
 
 Systemmatrizen und -vektor

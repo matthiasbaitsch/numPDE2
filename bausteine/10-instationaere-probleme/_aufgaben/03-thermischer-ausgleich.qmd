@@ -70,7 +70,7 @@ p
 Elementfunktionen
 
 ```{julia}
-setdata!(group(m, :elements), :ke_func, heat_ke(401))
+setdata!(group(m, :elements), :kefunc, heat_ke(401))
 setdata!(group(m, :elements), :me_func, heat_me(8960, 3850))
 ```
 
