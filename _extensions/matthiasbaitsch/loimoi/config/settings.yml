@@ -1,8 +1,10 @@
 # Settings allowed in loimoi.yml; without a value: default computed by Settings
 output: c
 first-number: 1
-file-name: "${nn-name}-${exercises}"
-product-naming: path
+folder-name: "${nn}-${name}"
+base-name: "${folder-name}"
+name: "${block-path}"
+link-format: html
 options: {}
 lang:
 site:

@@ -18,21 +18,6 @@ export function isSetup(node: QmdNode): boolean {
   return node instanceof QmdCodeCell && node.options.label === "setup";
 }
 
-const markers = ["lm-sheet", "lm-scaffold", "lm-solution"];
-
-// Errors: an exercise inside another div, a marker or a setup cell inside a marker
-export function checkStructure(nodes: QmdNode[], inDiv = false, inMarker = false): void {
-  for (const node of nodes) {
-    if (isSetup(node) && inMarker) throw new Error("Setup cell inside a marker, it applies to all documents");
-    if (node instanceof QmdDiv) {
-      if (isExercise(node) && inDiv) throw new Error(`Exercise inside another div: ${node.id}`);
-      const marker = markers.find((name) => node.classes.includes(name));
-      if (marker !== undefined && inMarker) throw new Error(`Marker .${marker} inside another marker: ${node.open}`);
-      checkStructure(node.children, true, inMarker || marker !== undefined);
-    }
-  }
-}
-
 export function withChildren(div: QmdDiv, children: QmdNode[]): QmdDiv {
   return new QmdDiv(div.open, div.close, div.id, div.classes, children);
 }

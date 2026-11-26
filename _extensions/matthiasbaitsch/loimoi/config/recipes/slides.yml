@@ -1,0 +1,4 @@
+quarto-files:
+  - name: "${base-name}"
+    title: "${full-title}"
+    link: "${slides-label}"

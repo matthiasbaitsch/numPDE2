@@ -1,20 +1,10 @@
 import { QmdDocument } from "../qmd-document.ts";
 import { QmdCodeCell, QmdNode, QmdText } from "../qmd-node.ts";
-import {
-  blankLines,
-  checkStructure,
-  hasClass,
-  headings,
-  isExecutable,
-  isExercise,
-  tidy,
-  withChildren,
-} from "./exercise.ts";
+import { blankLines, hasClass, headings, isExecutable, isExercise, tidy, withChildren } from "./exercise.ts";
 import { ProcessingStep } from "./processing-step.ts";
 
 export class ExerciseSolution implements ProcessingStep {
   run(doc: QmdDocument): QmdDocument {
-    checkStructure(doc.nodes);
     return new QmdDocument(doc.header, tidy(solution(doc.nodes)));
   }
 }
@@ -43,5 +33,5 @@ function hidden(cell: QmdCodeCell): QmdCodeCell {
   if ("include" in cell.options) return cell;
   const [fence, ...rest] = cell.lines;
   const lines = [fence, "#| include: false", ...rest];
-  return new QmdCodeCell(lines, cell.language, cell.executable, { ...cell.options, include: false });
+  return new QmdCodeCell(lines, cell.language, cell.executable);
 }

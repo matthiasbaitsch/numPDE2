@@ -1,1 +1,1 @@
-product-naming: titles
+name: "${title-slug}"

@@ -14,7 +14,7 @@ export interface StepContext {
 
 // Steps that can be added by their name in `process`
 const steps: Record<string, (context: StepContext) => ProcessingStep> = {
-  "attach-src": (context) => new AttachSrc(context.srcFiles, context.appendix),
+  "attach-src": (context) => new AttachSrc(context.appendix, context.srcFiles),
   "exercise-sheet": () => new ExerciseSheet(),
   "exercise-scaffold": () => new ExerciseScaffold(),
   "exercise-solution": () => new ExerciseSolution(),

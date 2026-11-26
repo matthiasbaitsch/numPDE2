@@ -1,7 +1,7 @@
 import { existsSync } from "jsr:@std/fs@1";
 import { basename, dirname, join } from "jsr:@std/path@1";
 import { BuildingBlockTree } from "./building-block-tree.ts";
-import { ProductConfiguration, ProductNaming } from "./product-configuration.ts";
+import { ProductConfiguration } from "./product-configuration.ts";
 import { conventions, gitHubPages, mergeYamlAlongPath, readYaml, resolve, Yaml } from "./utilities.ts";
 
 const settingsFile = new URL("./config/settings.yml", import.meta.url).pathname;
@@ -9,7 +9,9 @@ const settingsFile = new URL("./config/settings.yml", import.meta.url).pathname;
 // The configuration of a collection: `loimoi.yml` merged along the path, every default filled in; all checks here
 export class CollectionConfiguration {
   readonly output: string;
-  readonly fileName: string;
+  readonly folderName: string;
+  readonly baseName: string;
+  readonly linkFormat: string;
   readonly options: Record<string, string>;
   readonly lang: string;
   readonly site: string;
@@ -30,12 +32,13 @@ export class CollectionConfiguration {
     const yaml = { ...defaults, ...own };
 
     this.output = yaml.output as string;
-    this.fileName = yaml["file-name"] as string;
+    this.folderName = yaml["folder-name"] as string;
+    this.baseName = yaml["base-name"] as string;
     this.options = yaml.options as Record<string, string>;
 
-    const productNaming = yaml["product-naming"] as ProductNaming;
-    if (productNaming !== "path" && productNaming !== "titles") {
-      throw new Error(`product-naming must be path or titles, not ${productNaming}`);
+    this.linkFormat = yaml["link-format"] as string;
+    if (this.linkFormat !== "html" && this.linkFormat !== "pdf") {
+      throw new Error(`link-format must be html or pdf, not ${this.linkFormat}`);
     }
 
     const languages = (rules["collection-languages"] ?? {}) as Record<string, string>;
@@ -73,7 +76,7 @@ export class CollectionConfiguration {
     }
     const firstNumber = yaml["first-number"] as number;
     this.products = entries.map((entry, i) =>
-      new ProductConfiguration(entry, firstNumber + i, this.tree, productNaming)
+      new ProductConfiguration(entry, firstNumber + i, this.tree, yaml.name as string)
     );
   }
 }

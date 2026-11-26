@@ -22,7 +22,7 @@ export class ReplaceCode implements ProcessingStep {
           ? line
           : replacements.reduce((result, r) => r.apply(result), line)
       );
-      return [new QmdCodeCell(lines, node.language, node.executable, node.options)];
+      return [new QmdCodeCell(lines, node.language, node.executable)];
     });
   }
 }

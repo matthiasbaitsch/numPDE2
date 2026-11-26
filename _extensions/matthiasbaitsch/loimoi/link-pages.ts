@@ -2,7 +2,7 @@ import { existsSync } from "jsr:@std/fs@1";
 import { join, relative } from "jsr:@std/path@1";
 import { QuartoFile } from "./actions/quarto-file.ts";
 import { Collection } from "./collection.ts";
-import { replacePlaceholders } from "./utilities.ts";
+import { conventions, replacePlaceholders } from "./utilities.ts";
 
 interface LinkedFile {
   label: string;
@@ -71,11 +71,15 @@ ${sections.join("\n\n")}
 `;
   }
 
-  // Collections: the folders with a `_quarto.yml`, in name order
+  // Collections: the folders with a `_quarto.yml` and either a recipe in `conventions.yml` or a `loimoi.yml` of their
+  // own, in name order; other Quarto projects (e.g. a book made without loi-moi) are skipped
   private collections(): CollectionLinks[] {
+    const recipes = (conventions()["collection-recipes"] ?? {}) as Record<string, string>;
+    const has = (name: string, file: string) => existsSync(join(this.learningMaterialFolder, name, file));
     const names = [...Deno.readDirSync(this.learningMaterialFolder)]
-      .filter((entry) => entry.isDirectory && existsSync(join(this.learningMaterialFolder, entry.name, "_quarto.yml")))
+      .filter((entry) => entry.isDirectory && has(entry.name, "_quarto.yml"))
       .map((entry) => entry.name)
+      .filter((name) => name in recipes || has(name, "loimoi.yml"))
       .sort();
     return names.map((name) => this.collection(name));
   }
@@ -92,7 +96,7 @@ ${sections.join("\n\n")}
       const values = collection.placeholders(product);
       const files = linked.map((action) => ({
         label: replacePlaceholders(action.link as string, values),
-        file: join(renderedFolder, values["nn-name"], action.file(values).replace(/\.qmd$/, ".html")),
+        file: join(renderedFolder, values["folder-name"], action.file(values).replace(/\.qmd$/, `.${collection.configuration.linkFormat}`)),
       }));
       return { title: `${String(product.number).padStart(2, "0")} ${product.fullTitle}`, files };
     });

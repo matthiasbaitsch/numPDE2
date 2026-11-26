@@ -1,7 +1,5 @@
 import { BuildingBlockTree } from "./building-block-tree.ts";
-import { slug, Yaml } from "./utilities.ts";
-
-export type ProductNaming = "path" | "titles";
+import { replacePlaceholders, slug, Yaml } from "./utilities.ts";
 
 export class ProductConfiguration {
   readonly number: number;
@@ -10,10 +8,11 @@ export class ProductConfiguration {
   readonly groupTitle?: string;
   readonly fullTitle: string;
   readonly ingredients: string[];
+  readonly blockPlaceholders: Record<string, string>;
 
   // `entry`: an entry of `products` in `loimoi.yml`; name and titles not given come from the first building block,
-  // the name from its path or, with `productNaming` `titles`, from the titles
-  constructor(entry: Yaml, number: number, tree: BuildingBlockTree, productNaming: ProductNaming) {
+  // the name from `nameTemplate` with the placeholders of the building block
+  constructor(entry: Yaml, number: number, tree: BuildingBlockTree, nameTemplate: string) {
     this.number = number;
     this.ingredients = entry.ingredients as string[];
     const basket = tree.ingredients(this.ingredients);
@@ -27,6 +26,11 @@ export class ProductConfiguration {
     this.groupTitle = (entry["group-title"] as string | undefined) ?? basket.groupTitle();
     const titles = [this.groupTitle, this.title].filter((part) => part !== undefined);
     this.fullTitle = titles.join(": ");
-    this.name = name ?? (productNaming === "titles" ? slug(...titles) : basket.name());
+    this.blockPlaceholders = {
+      "block-path": basket.name(),
+      "block-folder": basket.name({ full: false }),
+      "title-slug": slug(...titles),
+    };
+    this.name = name ?? replacePlaceholders(nameTemplate, this.blockPlaceholders);
   }
 }

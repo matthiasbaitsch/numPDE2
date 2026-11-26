@@ -36,24 +36,24 @@ export class Collection {
     return readYaml(file) as Record<string, string>;
   }
 
-  // The words and the values of the product; without `group-title` if the product has none; `file-name` contains
-  // placeholders itself
+  // The words and the values of the product; without `group-title` if the product has none; `folder-name` and
+  // `base-name` contain placeholders themselves, `base-name` also `folder-name`
   placeholders(product: ProductConfiguration): Placeholders {
     const nn = String(product.number).padStart(2, "0");
-    const nnName = `${nn}-${product.name}`;
     const values: Placeholders = {
       ...this.words(),
+      ...product.blockPlaceholders,
       "n": String(product.number),
       "nn": nn,
       "name": product.name,
-      "nn-name": nnName,
-      "hash": createHash("sha1").update(`87362-${nnName}`).digest("hex").slice(0, 8),
+      "hash": createHash("sha1").update(`87362-${nn}-${product.name}`).digest("hex").slice(0, 8),
       "product-title": product.title,
       "full-title": product.fullTitle,
       "site": this.configuration.site,
     };
     if (product.groupTitle !== undefined) values["group-title"] = product.groupTitle;
-    return { ...values, "file-name": replacePlaceholders(this.configuration.fileName, values) };
+    const withFolder = { ...values, "folder-name": replacePlaceholders(this.configuration.folderName, values) };
+    return { ...withFolder, "base-name": replacePlaceholders(this.configuration.baseName, withFolder) };
   }
 
   private learningMaterialFolder(): string {

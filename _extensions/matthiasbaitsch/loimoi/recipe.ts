@@ -45,7 +45,7 @@ export class Recipe {
 
   // In the folder of the product; the placeholders from `provides` are known before the first action runs
   run(basket: Basket, placeholders: Placeholders): void {
-    const folder = new ProductFolder(join(this.folder, placeholders["nn-name"]));
+    const folder = new ProductFolder(join(this.folder, placeholders["folder-name"]));
     Deno.mkdirSync(folder.folder);
     const values = { ...placeholders };
     for (const action of this.actions) {
