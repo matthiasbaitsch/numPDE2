@@ -26,11 +26,12 @@ MOODLE_COURSE = 11681
 MOODLE_CONTENTS = curl -s "$(MOODLE)?moodlewsrestformat=json&wsfunction=core_course_get_contents&courseid=$(MOODLE_COURSE)" \
 	--data-urlencode "wstoken=$$(tr -d '[:space:]' < ~/.config/moodle/token)"
 
-# Each broken link with section, activity and the link to edit the activity
-MOODLE_REPORT = "\(.errors) broken of \(.unique) links", (.error_map[][] | . as $$error \
-	| "\n\(.status.code // .status.text) \(.url)", ($$contents[0][] | .name as $$section | .modules[] \
+# Each broken link with section, activity and the link to edit the activity, then the summary
+MOODLE_REPORT = (.error_map[][] | . as $$error \
+	| "\(.status.code // .status.text) \(.url)", ($$contents[0][] | .name as $$section | .modules[] \
 	| select(any(.. | strings; contains($$error.url))) \
-	| "  \($$section) → \(.name)\n  https://moodle.hs-bochum.de/course/modedit.php?update=\(.id)"))
+	| "  \($$section) → \(.name)\n  https://moodle.hs-bochum.de/course/modedit.php?update=\(.id)\n")), \
+	"\(.errors) broken of \(.unique) links"
 
 check-moodle-links:
 	@contents=$$(mktemp); result=$$(mktemp); \
